@@ -11,6 +11,9 @@
     <button nz-button *ngIf="!xrayVisible && !readonly" (click)="showXray()" nzType="primary">Расчертить</button>
   </span>
   <span class="action">
+    <button nz-button *ngIf="!xrayVisible && !readonly" (click)="goToLink('https://wildfor.life/sites/default/files/species/hero/penguins_learn_page.jpg')" nzType="primary">Расчертить автоматически</button>
+  </span>
+  <span class="action">
     <a [href]="media.contentURI" download target="_blank" nz-button nzType="primary"><i class="anticon anticon-download"></i> Скачать</a>
   </span>
 </div>

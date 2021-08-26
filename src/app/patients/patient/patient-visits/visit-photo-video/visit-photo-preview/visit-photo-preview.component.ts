@@ -30,6 +30,10 @@ export class VisitPhotoPreviewComponent extends VisitMediaPreviewComponent imple
     this.xrayVisible = true;
   }
 
+  public goToLink(url: string) {
+    window.open(url, '_blank');
+  }
+
   saveXray(file: XrayPhoto) {
     if (file !== undefined) {
       this.changedMedias.splice(0, 1, file.file);
