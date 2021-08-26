@@ -1,0 +1,27 @@
+@import "variables";
+@import "mixins";
+
+.sl-infinity-table();
+
+.representative {
+  ::ng-deep .ant-table {
+    background: #ffffff;
+  }
+}
+
+th, td {
+  .representative__action {
+    cursor: pointer;
+  }
+}
+
+:host ::ng-deep {
+  td {
+    .arepresentative__action {
+      font-size: 16px;
+    }
+    .representative__action {
+      width: 120px;
+    }
+  }
+}

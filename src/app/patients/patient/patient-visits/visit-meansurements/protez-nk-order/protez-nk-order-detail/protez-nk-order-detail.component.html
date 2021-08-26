@@ -1,0 +1,91 @@
+<form [formGroup]="form" slScrollToFirstInvalid [slForm]="form" slScrollContainer=".ant-modal-wrap">
+  <nz-card [nzTitle]="title" [nzExtra]="extra">
+    <ng-template #title>
+      <div nz-row [nzType]="'flex'" [nzGutter]="8" class="form__title">
+        <div nz-col class="form__title__icon">
+          <i class="anticon anticon-schedule"></i>
+        </div>
+        <div nz-col class="form__title__text">Изготовление протеза № {{device.number}}</div>
+        <i class="anticon anticon-close form__close close" (click)="closeForm()"></i>
+      </div>
+    </ng-template>
+    <ng-template #extra>
+      <div>Дата приема: {{ visitsManager.selected.dateTime | date : 'dd.MM.yyyy' }}</div>
+      <div>Принял: {{ visitsManager.selected.doctor?.name  || '-' }}</div>
+    </ng-template>
+    <nz-spin [nzSpinning]="isBusy">
+      <sl-order-progress
+        *ngIf="!!schema"
+        [currentStep]="getCurrentStep()"
+        [schema]="schema"
+        [manufacturing]="manufacturingProgress"
+        [is3DModel]="false"
+      ></sl-order-progress>
+    </nz-spin>
+  </nz-card>
+  <nz-spin [nzSpinning]="isBusy">
+    <nz-card nzTitle="Вариант изготовления" [style.width]="'100%'" [style.marginBottom]="'20px'">
+      <sl-protez-nk-info [formControl]="infoControl"></sl-protez-nk-info>
+    </nz-card>
+    <nz-card nzTitle="Размеры" [style.width]="'100%'" [style.marginBottom]="'20px'">
+      <div class="prothesis-nk-order-detail__row">
+        <div class="prothesis-nk-order-detail__col">
+          <div>Размер стопы</div>
+          <nz-form-control>
+            <nz-input-number formControlName="footSize" disabled></nz-input-number>
+          </nz-form-control>
+        </div>
+        <div class="prothesis-nk-order-detail__col">
+          <div>Рост, см.</div>
+          <nz-form-control>
+            <nz-input-number formControlName="growth" disabled></nz-input-number>
+          </nz-form-control>
+        </div>
+        <div class="prothesis-nk-order-detail__col">
+          <div>Вес, кг.</div>
+          <nz-form-control>
+            <nz-input-number formControlName="weight" disabled></nz-input-number>
+          </nz-form-control>
+        </div>
+        <div class="prothesis-nk-order-detail__col">
+          <div>Сторона ампутации</div>
+          <nz-radio-group formControlName="amputationSide" disabled>
+            <label nz-radio-button [nzValue]="'l'"><span>Левая</span></label>
+            <label nz-radio-button [nzValue]="'lr'"><span>Левая и Правая</span></label>
+            <label nz-radio-button [nzValue]="'r'"><span>Правая</span></label>
+          </nz-radio-group>
+        </div>
+      </div>
+    </nz-card>
+    <nz-card *ngIf="!!schema" nzTitle="Исполнитель" [style.width]="'100%'" [style.marginBottom]="'20px'">
+      <sl-order-manufacturing
+        [formControl]="manufacturingData"
+        [schema]="schema"
+        [is3DModelReady]="true"
+        (deviceControlledEvent)="deviceControlledEventHandler($event)"
+      ></sl-order-manufacturing>
+    </nz-card>
+    <nz-card *ngIf="issueVisible">
+      <sl-order-issue
+        [formControl]="issueControl"
+        (deviceIssuedEvent)="deviceIssuedEventHandler($event)"
+      ></sl-order-issue>
+    </nz-card>
+    <nz-card>
+      <div nz-row nzType="flex" style.width="100%">
+        <div nz-col [nzSpan]="6">
+          <button type="button" nz-button target="_blank" (click)="openPrintOrder()"  nzType="primary">
+            <i class="anticon anticon-printer"></i>
+          </button>
+        </div>
+        <div nz-col [nzSpan]="18">
+          <div nz-row nzType="flex" nzJustify="end" class="form__actions">
+            <span class="save-message" *ngIf="isImported">Нельзя сохранить импортированный бланк</span>
+            <button style="margin-right: 10px;" [nzSize]="'large'" nzType="primary" nz-button (click)="save()" [disabled]="isImported">Сохранить</button>
+            <button type="button" [nzSize]="'large'" nzType="default" nz-button (click)="closeForm()">Отмена</button>
+          </div>
+        </div>
+      </div>
+    </nz-card>
+  </nz-spin>
+</form>

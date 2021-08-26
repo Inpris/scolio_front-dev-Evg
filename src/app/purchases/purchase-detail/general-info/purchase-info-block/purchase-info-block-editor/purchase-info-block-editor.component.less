@@ -1,0 +1,124 @@
+@import "variables";
+
+.purchase-info-block-editor {
+  color: @black;
+
+  .hide {
+    display: none;
+  }
+  
+  &__extra-button{
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: @blue-5;
+    cursor: pointer;
+    outline: none;
+  }
+
+  &__subtitle{
+    background: @cyan-8;
+    padding: 5px 26px;
+    color: @white;
+    margin-bottom: 20px;
+    margin-top: 5px;
+  }
+
+  &__form-block{
+    padding-bottom: 15px;
+
+    &--separated{
+      margin-bottom: 15px;
+      border-bottom: 1px solid @gray-2;
+    }
+
+    &__row{
+
+      &--highlited{
+        .ant-form-item{
+          label{
+            color: @red-4;
+          }
+        }
+
+        .ant-form-item, .ant-form-item-control{
+          color: @red-4 !important;
+        }
+      }
+
+      &__item{
+        textarea {
+          padding-bottom: 18px;
+        }
+
+        sl-time-picker {
+          width: 100%;
+        }
+
+        /deep/ .ant-form-item{
+          margin-bottom: 7px;
+
+          label{
+            padding-top: 0px;
+            padding-bottom: 0px;
+          }
+        }
+
+        &--input-wa{
+          /deep/ .ant-input-group-addon{
+            padding: 3px 5px;
+            background: transparent;
+          }
+
+          &--button{
+            background:  transparent;
+            border: 0;
+            cursor: pointer;
+            outline: none;
+          }
+        }
+      }
+
+      &__checkbox{
+        /deep/ .ant-form-item{
+          margin-bottom: 12px;
+
+          label{
+            padding-bottom: 0px;
+          }
+
+          .ant-checkbox-wrapper{
+            text-align: left;
+            width: 100%;
+
+            span{
+              float: right;
+              margin-top: 1.5px;
+            }
+          }
+        }
+      }
+
+      &__controls{
+        padding-top: 26px;
+
+        &--button-view{
+          padding: 0 15px !important; 
+          float: right;
+        }
+      }
+    }
+  }
+
+  &__bottom-controls{
+    float: right;
+    padding-right: 24px;
+    padding-top: 15px;
+  }
+}
+
+:host ::ng-deep {
+  .ant-calendar-picker, .ant-input-number{
+    width: 100%;
+  }
+}

@@ -1,0 +1,32 @@
+<div nz-row 
+    class="user-filter" 
+    [nzType]="'flex'" 
+    [nzJustify]="'start'"
+    [nzAlign]="'middle'"
+  >
+    <div class="user-filter__title">
+      Фильтр:
+    </div>
+    <div class="user-filter__btn-apply">
+      <nz-select
+        [(ngModel)]="selectedUserId"
+        [nzPlaceHolder]="'Выбрать ответственного'"
+        (nzOpenChange)="applayFilter($event)"
+        nzShowSearch
+        nzAllowClear
+      >
+        <nz-option 
+          *ngFor="let user of users" 
+          [nzLabel]="user.abbreviatedName"
+          [nzValue]="user.id"
+        >
+        </nz-option>
+      </nz-select>
+    </div>
+    <div class="user-filter__btn-reset">
+      <div (click)="resetFilter()">
+        <i class="anticon anticon-reload"></i> 
+        <span>Сбросить</span>
+      </div>
+    </div>
+  </div>   

@@ -1,0 +1,189 @@
+<div>
+  <h2>РоботEC</h2>
+  <div>
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div>
+        <nz-form-control class="date-from-to-filter-container">
+          <label class="date-from-to-filter-label">Дата выдачи:</label>
+          <sl-range-picker [(ngModel)]="filterMap.dateFromTo" (ngModelChange)="search($event)" nzFormat="DD.MM.YYYY"></sl-range-picker>
+        </nz-form-control>
+      </div>
+      <div nz-col>
+        <button *slIfHasAccess="[ROLES_USERS.ADMIN];"
+                class="ant-btn ant-btn-primary"
+                (click)="showReport(technics)">
+          <span>Отчет по техникам</span>
+        </button>
+        <button *slIfHasAccess="[ROLES_USERS.ADMIN];"
+                class="ant-btn ant-btn-primary"
+                (click)="showReport(doctors)">
+          <span>Отчет по докторам</span>
+        </button>
+        <button *slIfHasAccess="[ROLES_USERS.ADMIN];"
+                class="ant-btn ant-btn-primary"
+                (click)="showReport(all)">
+          <span>Выгрузить отчет</span>
+        </button>
+        <label></label>
+        <button [disabled]="pending" (click)="resetFilter()" class="ant-btn ant-btn-primary">
+          <i class="anticon anticon-reload"></i>
+          <span>Сбросить все фильтры</span>
+        </button>
+      </div>
+    </div>
+  <nz-spin [nzSpinning]="pending">
+    <sl-robot-statistic *ngIf="statistic"
+      [statistic]="statistic"
+      [limits]="limits"
+      [selectedStage]="filterMap.selectedGeneralStatus"
+      (stageSelected)="onStatusChange($event)"></sl-robot-statistic>
+    <nz-tabset [nzSelectedIndex]="filterMap.currentTab" (nzSelectedIndexChange)="onTabChange($event)">
+      <nz-tab nzTitle="Корсет"></nz-tab>
+      <nz-tab nzTitle="СВОШ"></nz-tab>
+      <nz-tab nzTitle="Аппарат"></nz-tab>
+      <nz-tab nzTitle="Тутор"></nz-tab>
+      <nz-tab nzTitle="Протез НК"></nz-tab>
+    </nz-tabset>
+  </nz-spin>
+</div>
+<div class="table-info">
+  <div class="table-info__total">Всего: {{pagination?.totalCount || 0}}</div>
+</div>
+<nz-table #nzTable [nzData]="data" [nzShowPagination]="false" [nzLoading]="pending" [nzPageSize]="data?.length" class="sl-list">
+  <thead>
+  <tr>
+    <th nzShowExpand></th>
+    <th nzShowSort [(nzSort)]="sortMap.sortBy === 'patientFio' && sortMap.sortType" (nzSortChange)="sort('patientFio',$event)">
+      <sl-table-filter-text [placeholder]="'Поиск по ФИО'" [label]="'ФИО'" qaaLocator="qaaSearchFio"
+        [(ngModel)]="filterMap.patientFio" (filterChange)="search($event)"></sl-table-filter-text>
+    </th>
+    <th nzShowSort [(nzSort)]="sortMap.sortBy === 'visitDate' && sortMap.sortType" (nzSortChange)="sort('visitDate',$event)">
+      <sl-table-filter-date [(ngModel)]="filterMap.visitDate" isPickerUp="true" [label]="'Дата посещения'" qaaLocator="qaaSearchVisitDate"
+        (filterChange)="search($event)"></sl-table-filter-date>
+    </th>
+    <th nzShowSort [(nzSort)]="sortMap.sortBy === 'dateOfIssue' && sortMap.sortType" (nzSortChange)="sort('dateOfIssue',$event)"> Дата выдачи</th>
+    <th nzShowSort [(nzSort)]="sortMap.sortBy === 'dateSendingToBranch' && sortMap.sortType" (nzSortChange)="sort('dateSendingToBranch',$event)">
+      <sl-table-filter-date [(ngModel)]="filterMap.dateSendingToBranch" isPickerUp="true" [label]="'Дата отправки в филиал'" qaaLocator="qaaSearchDateSendingToBranch"
+        (filterChange)="search($event)"></sl-table-filter-date>
+    </th>
+    <th nzShowSort [(nzSort)]="sortMap.sortBy === 'branchName' && sortMap.sortType" (nzSortChange)="sort('branchName',$event)">
+      <sl-table-filter-text [placeholder]="'Введите название филиала'" [label]="'Филиал'" qaaLocator="qaaSearchBranch"
+        [(ngModel)]="filterMap.branchName" (filterChange)="search($event)"></sl-table-filter-text>
+    </th>
+    <th nzShowSort [(nzSort)]="sortMap.sortBy === 'acceptedBy' && sortMap.sortType" (nzSortChange)="sort('acceptedBy',$event)">
+      <sl-table-filter-text [placeholder]="'Поиск по ФИО'" [label]="'Принял'" qaaLocator="qaaSearchAcceptedBy"
+        [(ngModel)]="filterMap.acceptedBy" (filterChange)="search($event)"></sl-table-filter-text>
+    </th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-template ngFor let-data [ngForOf]="nzTable.data">
+    <tr [attr.qaaLocator]="data.patientFio">
+      <td nzShowExpand (nzExpandChange)="expandChange(data, $event)" [(nzExpand)]="data.expand"
+          qaaLocator="qaaExpandInformation"></td>
+      <td qaaLocator="qaaPatientFio">
+        <a target="_blank" [routerLink]="['/patients/', data.patientId]" *slIfHasAccess="patientLinkAccessOnRoles; fallBack patientFioLabel">{{data.patientFio}}</a>
+        <ng-template #patientFioLabel>
+          <label>{{data.patientFio}}</label>
+        </ng-template>
+      </td>
+      <td qaaLocator="qaaPatientVisitDate">{{ data.visitDate | date: 'dd.MM.yyyy' }}</td>
+      <td qaaLocator="qaaDateOfIssue">{{ data.dateOfIssue | date: 'dd.MM.yyyy' }}</td>
+      <td qaaLocator="qaaDateSendingToBranch">{{ data.dateSendingToBranch | date: 'dd.MM.yyyy' }}</td>
+      <td qaaLocator="qaaBranchName">{{ data.branchName }}</td>
+      <td qaaLocator="qaaAcceptedBy">{{ data.acceptedBy }}</td>
+      <td>
+        <nz-popover>
+          <i nz-popover class="anticon anticon-clock-circle order-term" [ngClass]="data.productionTime"></i>
+          <ng-template #nzTemplate>
+            <ng-container [ngSwitch]="data.productionTime">
+              <span *ngSwitchCase="orderTerm.STANDARD">Стандарт</span>
+              <span *ngSwitchCase="orderTerm.ONEDAY">Однодневка</span>
+              <span *ngSwitchCase="orderTerm.TWODAYS">Двухдневка</span>
+              <span *ngSwitchCase="orderTerm.THREEDAYS">Трехдневка</span>
+              <span *ngSwitchDefault>Стандарт</span>
+            </ng-container>
+          </ng-template>
+        </nz-popover>
+      </td>
+    </tr>
+    <tr [nzExpand]="data.expand">
+      <td></td>
+      <td colspan="100">
+        <nz-spin [nzSpinning]="data.updating || data.loading">
+          <div *ngIf="!data.loading">
+          <ng-container
+            *ngTemplateOutlet="data.is3DModelReady ? manufacturingBlock : modelBlock; context: { $implicit: data }"></ng-container>
+          </div>
+        </nz-spin>
+      </td>
+    </tr>
+  </ng-template>
+  <tr class="infinity-container" *ngIf="data && pagination.page <= pagination.pageCount - 1">
+    <td colspan="100">
+      <sl-infinity-scroll #infinityScroll [rootContainer]="scrollContainer"
+        (loadCallback)="getData(true)"></sl-infinity-scroll>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+<ng-template #modelBlock let-data>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col class="model-executors">Изготовление 3D модели</div>
+    <div nz-col>
+      <button nz-button type="button" nzType="dashed" nzSize="small"
+        (click)="openOrderBlankDetail(modeling, data)">Бланк заказа № {{data.number}}
+      </button>
+    </div>
+  </div>
+  <sl-order-model #modeling [users]="users" [ngModel]="data" (deviceReadyEvent)="deviceReadyEventHandler()"></sl-order-model>
+  <div nz-row nzType="flex" nzJustify="end" [nzGutter]="8" class="device__actions">
+    <div nz-col>
+      <button nz-button nzType="danger" [disabled]="modeling.form.pristine"
+        (click)="resetChanges(data, modeling)">Сбросить
+      </button>
+    </div>
+    <div nz-col>
+      <button nz-button nzType="primary" [disabled]="modeling.form.pristine" (click)="saveChanges(data, modeling)">
+        Сохранить
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #manufacturingBlock let-data>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col class="model-executors">
+      <div *ngIf="has3Dmodel(data)">
+        <b>3D Модель изготовил{{data.model3DExecutor2 && 'и'}}:</b>
+        {{data.model3DExecutor1?.name}}{{data.model3DExecutor2 ? ', ' + data.model3DExecutor2?.name : ''}}
+      </div>
+    </div>
+    <div nz-col>
+      <button nz-button type="button" nzType="dashed" nzSize="small"
+        (click)="openOrderBlankDetail(manufacturing, data)">Бланк заказа № {{data.number}}
+      </button>
+    </div>
+  </div>
+  <sl-order-manufacturing [users]="users" [ngModel]="data" [schema]="schema"
+    *ngIf="!loadPending"
+    [is3DModelReady]="data.is3DModelReady"
+    #manufacturing
+    [disableComment]="true"
+  >
+  </sl-order-manufacturing>
+  <div nz-row nzType="flex" nzJustify="end" [nzGutter]="8" class="device__actions">
+    <div nz-col>
+      <button nz-button nzType="danger" [disabled]="isFormPristine(data, manufacturing)" *ngIf="isResetButton(data)"
+        (click)="resetChanges(data, manufacturing)">Сбросить
+      </button>
+    </div>
+    <div nz-col>
+      <button nz-button nzType="primary" [disabled]="isFormPristine(data, manufacturing)" (click)="saveChanges(data, manufacturing)">
+        Сохранить
+      </button>
+    </div>
+  </div>
+</ng-template>

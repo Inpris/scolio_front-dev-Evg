@@ -1,0 +1,104 @@
+<div [formGroup]="form" nzType="flex" class="print-form">
+    <div nz-row nzAlign="middle" class="print-form__header">Бланк заказа СВОШ № {{device?.number}}</div>
+    <table class="print_table">
+      <tr>
+        <td [style.width]="'25%'">ФИО:</td>
+        <td colspan="4">{{ contact?.lastName }} {{ contact?.firstName }} {{ contact?.secondName }}</td>
+      </tr>
+      <tr>
+        <td>Телефон:</td>
+        <td colspan="4">{{ contact?.phone }}</td>
+      </tr>
+      <tr>
+        <td>Диагноз:</td>
+        <td colspan="4">{{ diagnosis?.name }}</td>
+      </tr>
+      <tr>
+        <td>Принял:</td>
+        <td [style.width]="'40%'" colspan="2">{{ visit?.doctor?.name}}</td>
+        <td [style.width]="'20%'">Дата приема:</td>
+        <td [style.width]="'20%'">{{ visit?.dateTime | date : 'dd.MM.yyyy' }}</td>
+      </tr>
+      <tr>
+        <td>Выдал:</td>
+        <td [style.width]="'20%'">{{ issueData?.issuer1?.name }}</td>
+        <td [style.width]="'20%'">{{ issueData?.issuer2?.name }}</td>
+        <td [style.width]="'20%'">Дата выдачи:</td>
+        <td [style.width]="'20%'">{{ corsetData?.dateOfIssue | date : 'dd.MM.yyyy' }}</td>
+      </tr>
+    </table>
+    <table class="print_table">
+      <tr>
+        <td [style.width]="'25%'">Рост:</td>
+        <td [style.width]="'25%'">{{ visit?.growth}}</td>
+        <td [style.width]="'25%'">Вес:</td>
+        <td [style.width]="'25%'">{{ visit?.weight }}</td>
+      </tr>
+      <tr>
+        <td [style.width]="'25%'">Примечание:</td>
+        <td colspan="4">{{ visit?.comment }}</td>
+      </tr>
+    </table>
+    <table class="print_table print_table__hidden-border page-break" style="border: none;">
+      <tr>
+        <td [style.width]="'25%'" class="print_table__hidden-border">Дата выдачи Турнера: </td>
+        <td class="print_table__hidden-border">{{ corsetData?.dateOfIssueTurner | date : 'dd.MM.yyyy' }}</td>
+      </tr>
+      <tr>
+        <td class="print_table__hidden-border">Дата отправки в филиал: </td>
+        <td>{{ corsetData?.dateSendingToBranch | date : 'dd.MM.yyyy' }}</td>
+      </tr>
+      <tr>
+        <td class="print_table__hidden-border">Филиал: </td>
+        <td>{{ corsetData?.branch?.name}}</td>
+      </tr>
+    </table>
+    <div nz-row class="print-form__row after-break" nzJustify="center" nzAlign="middle">
+      <sl-swosh-device-measurement  formControlName="measurementData"></sl-swosh-device-measurement>
+    </div>
+    <table class="print_table">
+      <tr>
+        <td [style.width]="'20%'">Тип корсета:</td>
+        <td [style.width]="'20%'">{{ corsetData?.corsetType?.name }}</td>
+        <td [style.width]="'20%'">Исполнитель:</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.carcassExecutor1?.name }}</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.carcassExecutor2?.name }}</td>
+      </tr>
+      <tr>
+        <td colspan="2"></td>
+        <td [style.width]="'20%'">Блоковка:</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.blockingExecutor1?.name }}</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.blockingExecutor2?.name }}</td>
+      </tr>
+      <tr>
+        <td [style.width]="'20%'">Тип пластика:</td>
+        <td [style.width]="'20%'">{{ corsetData?.plasticType?.name }}</td>
+        <td [style.width]="'20%'">Спиливание:</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.cuttingExecutor1?.name }}</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.cuttingExecutor2?.name }}</td>
+      </tr>
+      <tr>
+        <td [style.width]="'20%'">Цвет корсета:</td>
+        <td [style.width]="'20%'">{{ corsetData?.color }}</td>
+        <td [style.width]="'20%'">Обточка:</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.turningExecutor1?.name }}</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.turningExecutor2?.name }}</td>
+      </tr>
+      <tr>
+        <td colspan="2"></td>
+        <td [style.width]="'20%'">Уст.креплений:</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.fastenersInstallExecutor1?.name }}</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.fastenersInstallExecutor2?.name }}</td>
+      </tr>
+      <tr>
+        <td colspan="2"></td>
+        <td [style.width]="'20%'">Сборка:</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.assemblyExecutor1?.name }}</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.assemblyExecutor2?.name }}</td>
+      </tr>
+      <tr>
+        <td>Комментарий: </td>
+        <td colspan="4">{{ manufacturingData?.comment }}</td>
+      </tr>
+    </table>
+  </div>

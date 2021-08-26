@@ -1,0 +1,80 @@
+<nz-card nzNoHovering="true" class="msg" [nzTitle]="title">
+  <ng-template #title>
+    <div nz-row [nzType]="'flex'" [nzGutter]="8" class="msg__title"> 
+      <div nz-col class="msg__title__icon">
+        <i *ngIf="typeMsg === 'email'" class="anticon anticon-mail"></i>
+        <i *ngIf="typeMsg === 'sms'" class="anticon anticon-message"></i>
+      </div>
+      <div  nz-col class="msg__title__text">
+        <div *ngIf="typeMsg === 'email'">
+          Написать письмо
+        </div> 
+        <div *ngIf="typeMsg === 'sms'">
+            Отправить SMS- сообщение
+        </div> 
+      </div>
+    </div>
+  </ng-template>
+
+  <div nz-row class="msg__body__logo" [nzType]="'flex'" [nzAlign]="'middle'">
+    <div nz-col>От кого</div>
+    <img nz-col class="msg__body__logo__img" src="/assets/logo-small.png">
+    <div nz-col>Scoliologic</div>
+  </div>
+  <nz-spin [nzSpinning]="msgFormLoading" nzSize="large">
+    <form class="msg__body__form" nz-form [formGroup]="form" novalidate (ngSubmit)="onSubmit(form)">
+
+      <nz-form-item>
+        <div nz-row class="msg__body__form__from">
+          <nz-form-label [nzSpan]="2">Кому</nz-form-label>
+          <nz-form-control [nzSpan]="22">
+            <input nz-input formControlName="to">
+          </nz-form-control>
+        </div>
+        <div nz-row *ngIf="typeMsg === 'email'">
+          <nz-form-label [nzSpan]="2">Тема</nz-form-label>
+          <nz-form-control [nzSpan]="22">
+            <input nz-input formControlName="subject" placeholder="Введите тему сообщения">
+          </nz-form-control>
+        </div>
+      </nz-form-item>
+
+      <nz-form-item nz-row>
+        <div class="" nz-col nzSpan="24">
+          <label *ngIf="typeMsg === 'email'">Текст письма*</label>
+          <label *ngIf="typeMsg === 'sms'">Текст сообщения* {{ countSymbol }} символов</label>
+          <nz-form-control [ngClass]="{'editor-error': editorError}">
+              <ckeditor *ngIf="typeMsg === 'email'"
+                        [(ngModel)]="htmlBody"
+                        (change)="editorOnChange()"
+                        [config]="ckeConfig"
+                        formControlName="htmlBody"
+                        (ready)="onReady($event)">
+              </ckeditor>
+            <textarea nz-input 
+              *ngIf="typeMsg === 'sms'"
+              formControlName="htmlBody"
+              rows="6"
+            ></textarea>
+          </nz-form-control>
+        </div>
+      </nz-form-item>
+
+      <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzGutter]="8">
+        <div nz-col>
+          <button type="submit" nz-button nzType="primary">
+            <i class="anticon anticon-save"></i>
+            <span>Отправить</span>
+          </button>
+        </div>
+
+        <div nz-col>
+          <button type="button" nz-button (click)="closeForm(htmlBody)">
+            <i class="anticon anticon-close"></i>
+            <span>Отмена</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </nz-spin>
+</nz-card>

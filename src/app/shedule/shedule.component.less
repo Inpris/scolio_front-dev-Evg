@@ -1,0 +1,94 @@
+@import "variables";
+
+.sl-preloader {
+  align-items: center;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  nz-spin {
+    height: auto;
+  }
+}
+
+.branches {
+  width: 100%;
+  margin-bottom: 8px;
+
+  nz-select {
+    width:  50%;
+  }
+}
+
+.sl-page {
+  &__header nz-dropdown {
+    margin: 0 24px;
+  }
+
+  &__body {
+    flex-wrap: nowrap;
+  }
+
+  &__shedule {
+    flex-grow: 1;
+
+    @media (min-width: @sl-media-1440px) {
+      flex-basis: 40%;
+    }
+  }
+
+  &__appointment-form {
+    flex-grow: 1;
+
+    ::ng-deep .contact-link {
+      cursor: pointer;
+      display: none;
+    }
+
+    @media (min-width: @sl-media-1440px) {
+      flex-basis: 30%;
+    }
+
+    @media (max-width: @sl-media-1440px) {
+      ::ng-deep .contact-link {
+        display: inline-block;
+      }
+    }
+  }
+
+  &__contact {
+    flex-basis: 30%;
+
+    @media (max-width: @sl-media-1440px) {
+      display: none;
+    }
+  }
+}
+
+nz-card, ::ng-deep .ant-card-body {
+  height: 100%;
+}
+
+.filter-control {
+  width: 33%;
+}
+
+.bottom-filter {
+  width: 49%;
+}
+
+.filter-branch-control {
+  width: 50%;
+}
+
+:host ::ng-deep .ant-calendar-picker {
+  width: 100%;
+}
+
+nz-form-control {
+  padding: 0 !important;
+}

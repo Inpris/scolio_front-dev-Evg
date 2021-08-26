@@ -1,0 +1,175 @@
+<form nz-form [formGroup]="form" (ngSubmit)="onSubmit(form)" slScrollToFirstInvalid slOffset="108" [slForm]="form" novalidate>
+  <nz-spin nzSize="large" [nzSpinning]="loading">
+    <div nz-row>
+      <div nz-col [nzSpan]="4">
+        <nz-affix [nzTarget]="scrollContainer" [nzOffsetTop]="nzOffsetTopValue">
+          <nz-card [nzTitle]="timelineTitle" [nzLoading]="loading && !visitsManager.visits.length" class="visit-list-card">
+            <ng-template #timelineTitle>
+              <div nz-row nzType="flex" nzJustify="space-between">
+                <div>Посещения</div>
+                <div>
+                  <button type="button" nz-button nzSize="small" nzType="primary" nzShape="circle"
+                          title="Создать посещение"
+                          (click)="createVisit()">
+                    <i class="anticon anticon-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+            <sl-visits-timeline [visitsManager]="visitsManager"
+                                [visitId] = "visitId"
+                                (visitDelete)="deleteVisit($event)"
+                                (visitSelect)="selectVisit($event)"></sl-visits-timeline>
+          </nz-card>
+          <div *ngIf="visitsManager.selected" class="visits-block change-log">
+            <div>Создал: {{ visitsManager.selected.createdBy.name }}, {{ visitsManager.selected.createdDate | date:
+              'dd.MM.yyyy H:mm'}}
+            </div>
+            <div *ngIf="visitsManager.selected.lastModifiedBy">Изменил: {{ visitsManager.selected.lastModifiedBy.name
+              }}, {{ visitsManager.selected.lastModifiedDate | date: 'dd.MM.yyyy H:mm'}}
+            </div>
+          </div>
+        </nz-affix>
+      </div>
+      <div nz-col [nzSpan]="14" *ngIf="visitsManager.selected">
+        <nz-card [nzTitle]="headerTittle" [nzExtra]="dealDownload">
+          <ng-template #headerTittle>
+            <span>{{form.get('appointment').value?.medicalService.name}}. {{form.get('appointment').value?.visitReason.name}}</span>
+          </ng-template>
+          <ng-template #dealDownload>
+            <button nz-button
+                    type="button" nzType="primary" nzSize="small" (click)="downloadCertificate()">Справка</button>
+            <button nz-button
+                    type="button" nzType="primary" nzSize="small" (click)="showMarloModal()">Бланк МАРЛО</button>
+            <button nz-button
+                    *ngIf="!visitsManager.selected?.deal.contractId"
+                    [disabled]="!visitsManager.selected?.deal.id"
+                    [title]="!visitsManager.selected?.deal.id ? 'Нельзя создать договор, так как отсутствует сделка' : ''"
+                    type="button" nzType="primary" nzSize="small" (click)="showContractModal()">Создать договор</button>
+            <ng-container *ngIf="visitsManager.selected?.deal.contractId">
+              <button nz-button
+                      type="button"
+                      nzType="primary"
+                      nzSize="small"
+                      (click)="showContractModal(visitsManager.selected?.deal.contractId)">
+                Обновить договор</button>
+              <sl-contract-templates [visitsManager]="visitsManager"></sl-contract-templates>
+            </ng-container>
+          </ng-template>
+          <sl-visit-appointment [visitsManager]="visitsManager" formControlName="appointment" [medicalServiceSysName]="form.get('appointment').value?.medicalService.sysName"></sl-visit-appointment>
+        </nz-card>
+        <nz-card nzTitle="План ведения пациента">
+          <sl-patient-healing-plan [visits]="visitsManager.visitsRelative | visitBySysName : visitsManager.selected.medicalService.sysName"
+                                   formControlName="healingPlan"></sl-patient-healing-plan>
+        </nz-card>
+        <nz-card [nzTitle]="titlePhotoVideo">
+          <ng-template #titlePhotoVideo>
+            <div nz-row nzType="flex" nzJustify="space-between">
+              <div>Фото / Видео</div>
+              <div>
+                <button class="action__compare" type="button" nz-button nzSize="small" [disabled]="visitsManager.selectedPhotos.length < 2" (click)="comparePhotos()"><i class="anticon anticon-swap"></i> Сравнить</button>
+                <sl-visit-history-selection [visits]="visitsManager.visitsRelative | visitBySysName : visitsManager.selected.medicalService.sysName"
+                                            [(ngModel)]="selectedAttachments"
+                                            [isHistoryEmpty]="isAttachmentsEmpty"
+                                            (ngModelChange)="updateAttachmentsSelection($event)"
+                                            [ngModelOptions]="{standalone: true}"
+                ></sl-visit-history-selection>
+              </div>
+            </div>
+          </ng-template>
+          <sl-visit-photo-video formControlName="attachments" [measurementsControl]="this.form.get('measurements')" [visitsManager]="visitsManager"></sl-visit-photo-video>
+          <ng-template ngFor let-data let-i="index" [ngForOf]="selectedAttachments">
+            <div class="patients-history__items" nz-row nzType="flex" nzJustify="space-between">
+              <div>{{data.dateTime | date : 'dd.MM.yyyy'}}</div>
+              <div (click)="hideSelection(i, 'selectedAttachments')" class="patients-history__remove">
+                <i class="anticon anticon-close"></i>
+                Скрыть из истории
+              </div>
+            </div>
+            <sl-visit-photo-video [attachments]="selectedAttachments[i].attachments"
+                                  [visitsManager]="visitsManager"
+                                  [readonly]="true"></sl-visit-photo-video>
+          </ng-template>
+        </nz-card>
+        <nz-card [nzTitle]="title" *ngIf="hasVisitMeasurement(sysName, visitReasonSysName)">
+          <ng-template #title>
+            <div nz-row nzType="flex" nzJustify="space-between">
+              <div>Замеры</div>
+              <div>
+                <sl-visit-history-selection [visits]="visitsManager.visitsRelative | visitBySysName : visitsManager.selected.medicalService.sysName"
+                                            [(ngModel)]="selectedMeasurements"
+                                            [ngModelOptions]="{standalone: true}"
+                ></sl-visit-history-selection>
+              </div>
+            </div>
+          </ng-template>
+          <sl-visit-meansurement [ngModel]="form.get('measurements').value"
+                                 [ngModelOptions]="{ standalone: true }"
+                                 [readonly]="true"></sl-visit-meansurement>
+          <ng-template ngFor let-data let-i="index" [ngForOf]="selectedMeasurements">
+            <div class="patients-history__items" nz-row nzType="flex" nzJustify="space-between">
+              <div>{{data.dateTime | date : 'dd.MM.yyyy'}}</div>
+              <div (click)="hideSelection(i, 'selectedMeasurements')" class="patients-history__remove">
+                <i class="anticon anticon-close"></i>
+                Скрыть из истории
+              </div>
+            </div>
+            <sl-visit-meansurement [ngModel]="selectedMeasurements[i]"
+                                    [ngModelOptions]="{ standalone: true }"
+                                    [readonly]="true"></sl-visit-meansurement>
+          </ng-template>
+        </nz-card>
+
+        <nz-card *ngIf="hasVisitDeviceMeasurement(sysName, visitReasonSysName)">
+          <sl-device-measurement [form]="form" [visitsManager]="visitsManager"></sl-device-measurement>
+        </nz-card>
+
+        <nz-card *ngIf="sysName === 'Apparatus' || sysName === 'Tutor'">
+          <sl-device-measurement [form]="form" [visitsManager]="visitsManager" forceType="ApparatusLeg"></sl-device-measurement>
+        </nz-card>
+
+        <nz-card [nzTitle]="wearingTitle" *ngIf="hasDeviceWearing(sysName, visitReasonSysName)">
+          <ng-template #wearingTitle>
+            <span>{{form.get('appointment').value?.medicalService.name}}. Ношение</span>
+          </ng-template>
+          <sl-corset-wearing formControlName="wearing" [medicalServiceSysName]="form.get('appointment').value?.medicalService.sysName"></sl-corset-wearing>
+        </nz-card>
+      </div>
+      <div nz-col [nzSpan]="6" *ngIf="visitsManager.selected">
+        <nz-card nzTitle="Данные о пациенте">
+          <sl-patient-info formControlName="info" [sysName]="sysName"></sl-patient-info>
+        </nz-card>
+        <nz-card nzTitle="Примечания">
+          <sl-visit-comment formControlName="comment"></sl-visit-comment>
+        </nz-card>
+        <nz-card nzTitle="Диагноз">
+          <sl-patient-diagnosis formControlName="diagnosis"></sl-patient-diagnosis>
+        </nz-card>
+        <nz-card nzTitle="ИПР / ПРП">
+          <sl-ipr-prp formControlName=iprPrp></sl-ipr-prp>
+        </nz-card>
+        <nz-card *ngIf="sysName === 'ProtezVK' && hasDevices(sysName, visitReasonSysName)" nzTitle="Пороки культи">
+          <sl-stump-vices-vk formControlName=stumpVicesVk></sl-stump-vices-vk>
+        </nz-card>
+        <nz-card nzTitle="Изделия" *ngIf="hasDevices(sysName, visitReasonSysName)">
+          <sl-visit-devices [visitsManager]="visitsManager" [visitReasonSysName]="visitReasonSysName"></sl-visit-devices>
+        </nz-card>
+        <nz-card [nzTitle]="documentsTitle">
+          <ng-template #documentsTitle>
+            <div nz-row nzType="flex" nzJustify="space-between">
+              <div nz-col>Документы</div>
+              <div nz-col *slIfHasAccess="[ROLES_USERS.ADMIN, ROLES_USERS.USER, ROLES_USERS.USER_MANAGER];">
+                <button type="button" nz-button nzType="dashed" nzSize="small" (click)="mtkTemplates()">Шаблоны</button>
+              </div>
+            </div>
+          </ng-template>
+          <sl-visit-documents [visitsManager]="visitsManager"></sl-visit-documents>
+        </nz-card>
+        <nz-card nzTitle="Файлы">
+          <sl-visit-files formControlName="otherFiles" [visitsManager]="visitsManager"></sl-visit-files>
+        </nz-card>
+      </div>
+    </div>
+  </nz-spin>
+  <sl-fixed-save-panel [disabled]="form.untouched" [loading]="loading" (reset)="resetForm()"></sl-fixed-save-panel>
+</form>

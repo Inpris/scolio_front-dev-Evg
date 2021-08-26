@@ -1,0 +1,17 @@
+<div class="player">
+  <div (mouseover)="mouseover()" (mouseleave)="mouseleave()">
+    <video [src]="media.contentURI" #player (ended)="end()">
+    </video>
+    <div class="play" *ngIf="!hideControls" (click)="play()" [ngClass]="{'playing' : isPlaying}"></div>
+    <div class="fullscreen" *ngIf="!hideControls" (click)="fullscreen()"></div>
+  </div>
+  <div *ngIf="showPrevious" class="icon-button previous" (click)="previous()">
+    <i class="anticon anticon-double-left"></i>
+  </div>
+  <div *ngIf="showNext" class="icon-button next" (click)="next()">
+    <i class="anticon anticon-double-right"></i>
+  </div>
+</div>
+<span class="modal-close" (click)="close()">
+      <i class="anticon anticon-close"></i>
+</span>

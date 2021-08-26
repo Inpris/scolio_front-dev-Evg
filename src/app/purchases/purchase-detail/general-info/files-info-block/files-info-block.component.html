@@ -1,0 +1,8 @@
+<sl-files-info-block-viewer
+  *ngIf="!isEditMode"
+  (changeMode)="onChangeMode($event)"
+></sl-files-info-block-viewer>
+<sl-files-info-block-editor
+  *ngIf="isEditMode"
+  (changeMode)="onChangeMode($event)"
+></sl-files-info-block-editor>

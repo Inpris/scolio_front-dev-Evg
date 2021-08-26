@@ -1,0 +1,45 @@
+<div *ngIf="recordsInfo">
+  <div class="contact-card-placeholder">
+    Здесь будет информация о посещениях пациента
+  </div>
+</div>
+<div class="contact-card-placeholder" *ngIf="unConfirm">
+  Информация о данных этого пациента недоступна для вашего филиала
+</div>
+<div *ngIf="showInfo">
+  <div class="contact" >
+    <div class="info">
+      <span *ngIf="!isPatient">{{contact.fullName}}</span>
+      <a class="sl-link" *ngIf="isPatient" target="_blank" [routerLink]="['/patients', contact.id]">{{contact.fullName}}</a>
+      <div *ngIf="contact.birthDate">{{contact.birthDate|date:'dd.MM.yyy'}}
+        <span i18n>{{contact.birthDate|age}} {contact.birthDate|age, plural, one {год} few {года} many {лет} other {лет}}</span>
+      </div>
+    </div>
+    <div class="avatar">
+      <i class="anticon anticon-user"></i>
+    </div>
+  </div>
+  <nz-spin [nzSpinning]="contactCardLoading" nzSize="large">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel *ngFor="let visit of visits"
+                         nzHeader="{{visit.dateTime|date:'dd.MM.yyy'}} {{visit.medicalService.name}}. {{visit.visitReason.name}}"
+                         [(nzActive)]="visit.active"
+                         (nzActiveChange)="collapseSiblings($event, visit)">
+        <p>Вид изделия/Услуга: {{visit.medicalService.name}}</p>
+        <p *ngIf="visit.visitReason">Цель посещения: {{visit.visitReason.name}}</p>
+        <p>Кабинет: {{visit.room.name}}</p>
+        <p *ngIf="visit.doctor">Принимающий специалист: {{visit.doctor.name}}</p>
+        <a [routerLink]="['/patients/', contact.id, 'visits']" [queryParams]="{id: visit.id}" target="_blank">Перейти к посещению</a>
+      </nz-collapse-panel>
+    </nz-collapse>
+    <div *ngIf="!contactCardLoading && visits.length === 0 && !isPatient; ">
+      <span>У контакта отсутствует карточка пациента. Карточка пациента будет создана после создания посещения.</span>
+    </div>
+    <div *ngIf="!contactCardLoading && visits.length === 0" class="empty-visit-info-block">
+      <span>Информация о посещениях отсутствует</span>
+    </div>
+    <div class="load-more" *ngIf="hasMore">
+      <a class="sl-link" (click)="loadMoreVisits()">ранее</a>
+    </div>
+  </nz-spin>
+</div>

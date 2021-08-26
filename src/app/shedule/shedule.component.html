@@ -1,0 +1,138 @@
+<div class="sl-preloader" *ngIf="loading">
+  <nz-spin nzSize="large"></nz-spin>
+</div>
+<div *ngIf="!loading">
+  <div class="sl-page__header">
+    <h2>Запись на прием</h2>
+  </div>
+  <div nz-row nzType="flex" nzAlign="stretch" nzGutter="16" class="sl-page__body">
+    <div nz-col class="sl-page__shedule">
+      <nz-card nzNoHovering="true">
+        <nz-spin [nzSpinning]="sheduleLoading" nzSize="large">
+          <form nz-form [formGroup]="form" novalidate>
+            <div nz-row nzGutter="16" nzType="flex">
+              <div nz-col class="filter-branch-control">
+                <label>Филиалы</label>
+                <nz-select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedBranch" (ngModelChange)="onSelectBranch($event)" nzPlaceHolder="<Не выбрано>">
+                  <nz-option *ngFor="let option of branches" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+                </nz-select>
+              </div>
+              <div nz-col class="filter-branch-control">
+                <div class="sl-form-item--small" nz-form-item>
+                  <label>Кабинет:</label>
+                  <nz-form-control>
+                    <nz-select formControlName="room" nzPlaceHolder nzDropdownClassName="qaaDropdownCabinet"
+                               qaaLocator="qaaSelectCabinet">
+                      <nz-option *ngFor="let option of rooms"
+                                 [nzLabel]="option.name"
+                                 [nzValue]="option"
+                                 nzDropdownClassName="qaaCabinet"></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </div>
+              </div>
+            </div>
+            <div nz-row nzGutter="16" nzType="flex">
+              <div nz-col class="filter-control">
+                <div class="sl-form-item--small" nz-form-item>
+                    <sl-control-selection title="Вид изделия/Услуга:"
+                                          [control]="form.get('service')"
+                                          [options]="services"
+                                          [isShowTooltip]="true"
+                                          tooltipPlacement="right"
+                                          nzDropdownClassName="qaaDropdownMedicalService"
+                                          qaaLocator="qaaSelectMedicalService"></sl-control-selection>
+                </div>
+              </div>
+              <div nz-col class="filter-control">
+                <div class="sl-form-item--small" nz-form-item>
+                  <label>Цель посещения:</label>
+                  <nz-form-control>
+                    <nz-select formControlName="visitReason" nzPlaceHolder [nzDisabled]="visitReasons.length == 0"
+                               nzDropdownClassName="qaaDropdownVisitReason" qaaLocator="qaaSelectVisitReason">
+                      <nz-option *ngFor="let option of visitReasons"
+                                 [nzLabel]="option.name"
+                                 [nzValue]="option"
+                                 [nzDisabled]="isVisitReasonDisable(option)"></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </div>
+              </div>
+              <div nz-col class="filter-control">
+                <div class="sl-form-item--small" nz-form-item>
+                  <label>Месяц:</label>
+                  <nz-form-control>
+                    <sl-date-picker formControlName="mondayDate" nzPlaceHolder nzFormat="MM.YYYY"
+                                    nzMode="month"></sl-date-picker>
+                  </nz-form-control>
+                </div>
+              </div>
+            </div>
+            <div nz-row [nzType]="'flex'" [nzJustify]="'space-between'">
+              <div nz-col class="bottom-filter">
+                <div class="sl-form-item--small" nz-form-item>
+                  <label>Выбрать врача</label>
+                  <nz-form-control>
+                    <nz-select formControlName="doctor" nzPlaceHolder="<Не выбрано>" nzShowSearch nzAllowClear
+                               nzDropdownClassName="qaaDropdownDoctor"
+                               qaaLocator="qaaSelectDoctor">
+                      <nz-option *ngFor="let doctor of doctors"
+                                 [nzLabel]="doctor.name"
+                                 [nzValue]="doctor">
+                      </nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </div>
+              </div>
+              <div nz-col class="bottom-filter">
+                <div class="sl-form-item--small" nz-form-item>
+                  <label>Выбрать интервал</label>
+                  <nz-form-control>
+                    <nz-select nzPlaceHolder="Please select" [formControl]="timeStep">
+                      <nz-option [nzLabel]="10" [nzValue]="10"></nz-option>
+                      <nz-option [nzLabel]="15" [nzValue]="15"></nz-option>
+                      <nz-option [nzLabel]="30" [nzValue]="30"></nz-option>
+                      <nz-option [nzLabel]="45" [nzValue]="45"></nz-option>
+                      <nz-option [nzLabel]="60" [nzValue]="60"></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </div>
+              </div>
+            </div>
+          </form>
+          <sl-week-shedule [date]="date"
+                           [shedule]="shedule"
+                           [anotherSelected]="anotherSelected"
+                           [visitReason]="form.value.visitReason"
+                           [timeStep]="timeStep.value"
+                           (loadWeek)="onWeekChange($event)"
+                           (selectAppointment)="onSelectAppointment($event)"
+                           (selectDate)="onSelectDate($event)"
+                           (selectDoctor)="onSelectDoctor($event)"
+                           (selectDefaultDoctor)="onSelectDefaultDoctor($event)"></sl-week-shedule>
+        </nz-spin>
+      </nz-card>
+    </div>
+    <div nz-col class="sl-page__appointment-form">
+      <nz-card>
+        <sl-appointment-form [appointment]="appointment"
+                             [date]="date"
+                             [branchId]="selectedBranch"
+                             [room]="form.value.room"
+                             [service]="form.value.service"
+                             [visitReason]="form.value.visitReason"
+                             (appointmentCreated)="onAppointmentCreated($event)"
+                             [contact]="contact"
+                             [doctor]="displayedDoctor"
+                             [purchaseId]="purchaseId"
+                             (come)="come($event)"
+                             (selectContact)="onSelectContact($event)"></sl-appointment-form>
+      </nz-card>
+    </div>
+    <div nz-col class="sl-page__contact">
+      <nz-card>
+        <sl-contact-card [hasCome]="hasCome" [branchId]="selectedBranch" [contact]="appointment?.contact || contact"></sl-contact-card>
+      </nz-card>
+    </div>
+  </div>
+</div>

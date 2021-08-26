@@ -1,0 +1,92 @@
+<div [formGroup]="form">
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col [nzSpan]="8">
+      <sl-control-selection title="Вид изделия/Услуга:"
+                            [options]="medicalServices"
+                            [control]="form.get('medicalService')"
+                            [disabled]="true"
+                            [pageParams]="{ pageSize: 500 }"
+                            nzDropdownClassName="qaaDropdownMedicalService"
+                            qaaLocator="qaaSelectMedicalService"></sl-control-selection>
+    </div>
+
+    <div nz-col [nzSpan]="6">
+      <sl-control-selection title="Цель посещения:"
+                            #reasonSelection
+                            [options]="reasons"
+                            [allowClear]="false"
+                            [control]="form.get('visitReason')"
+                            nzDropdownClassName="qaaDropdownVisitReason"
+                            qaaLocator="qaaSelectVisitReason"></sl-control-selection>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <sl-control-selection title="Специалист:"
+                            [service]="doctorServiceWrapper"
+                            [control]="form.get('doctor')"
+                            [dataFactory]="fromPaginationChunk"
+                            [pageParams]="{ pageSize: 500 }"
+                            nzDropdownClassName="qaaDropdownDoctor"
+                            qaaLocator="qaaSelectDoctor"></sl-control-selection>
+    </div>
+  </div>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col [nzSpan]="8">
+      <label>Время приема:</label>
+      <div nz-row nzType="flex">
+        <div nz-col class="time-picker">
+          <nz-form-control>
+            <sl-time-picker formControlName="dateTimeStart"
+                            [nzFormat]="'HH:mm'"
+                            nzPlaceHolder="ЧЧ:MM"></sl-time-picker>
+          </nz-form-control>
+        </div>
+        <div nz-col class="time-separator"> -</div>
+        <div nz-col class="time-picker">
+          <nz-form-control>
+            <sl-time-picker formControlName="dateTimeEnd"
+                            [nzFormat]="'HH:mm'"
+                            nzPlaceHolder="ЧЧ:MM"></sl-time-picker>
+          </nz-form-control>
+        </div>
+      </div>
+    </div>
+    <div nz-col [nzSpan]="6">
+      <sl-control-selection title="Кабинет:"
+                            #roomSelection
+                            [options]="rooms"
+                            [control]="form.get('room')"
+                            nzDropdownClassName="qaaDropdownCabinet"
+                            qaaLocator="qaaSelectCabinet"></sl-control-selection>
+    </div>
+    <div *ngIf="medicalServiceSysName === 'Corset'" nz-col [nzSpan]="8">
+      <nz-collapse *ngIf="medicalServiceSysName === 'Corset'">
+        <nz-collapse-panel [nzHeader]="'Динамика лечения:'">
+          <nz-form-control>
+            <sl-control-selection [control]="form.get('healingDynamic')"
+                                  [options]="dynamics"
+                                  nzDropdownClassName="qaaDropdownHealingDynamic"
+                                  qaaLocator="qaaSelectHealingDynamic"></sl-control-selection>
+          </nz-form-control>
+        </nz-collapse-panel>
+      </nz-collapse>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <label>Дата следующего приема:</label>
+      <div nz-row nzType="flex">
+        <div nz-col>
+          <nz-form-control>
+            <sl-date-picker formControlName="nextVisitDate" nzFormat="DD.MM.YYYY" nzPlaceHolder></sl-date-picker>
+          </nz-form-control>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nz-form-control>
+      <label
+        nz-checkbox
+        formControlName="acceptXRay"
+      >
+        <span>Согласен на рентген исследование</span>
+      </label>
+    </nz-form-control>
+</div>

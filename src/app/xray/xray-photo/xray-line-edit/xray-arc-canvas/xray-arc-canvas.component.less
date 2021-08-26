@@ -1,0 +1,41 @@
+@import "variables";
+@import "/styles/measurements-mixins";
+
+.photo-container {
+  position: relative;
+  overflow: auto;
+  background: black;
+  height: 100%;
+  width: 100%;
+}
+
+.photo-canvas-container {
+  position: absolute;
+}
+
+.photo-container-row {
+  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.photo-container-column {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 24px;
+}
+
+.action-button-column {
+  display: flex;
+  flex-direction: column;
+  width: 64px;
+}
+
+.container-svg {
+  position: absolute;
+}
+
+.button-sider {
+  background: white;
+  padding-top: 8px;
+}

@@ -1,0 +1,10 @@
+<sl-control-selection
+  [control]="form.get('region')"
+  [title]="label"
+  [service]="regionService"
+  [dataFactory]="fromPaginationChunk"
+  [pageParams]="{ pageSize: 15 }"
+  [serverSearch]="true"
+  nzDropdownClassName="qaaDropdownRegion"
+  qaaLocator="qaaSelectRegion">
+</sl-control-selection>

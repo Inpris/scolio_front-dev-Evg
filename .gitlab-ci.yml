@@ -1,0 +1,118 @@
+image: docker:stable
+
+stages:
+  - build
+  - deploy
+
+variables:
+  DEPLOYMENT_REPO: git@gitlab.simbirsoft:devops/scoliologic.git
+
+before_script:
+  - export TAG="${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA:0:8}"
+
+build_fe:
+  image: node:9.4
+  stage: build
+  script:
+    - npm install
+    - npm run-script build
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-fe"
+    paths:
+      - .npm/
+      - node_modules/
+  artifacts:
+    name: "${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA:0:8}-fe"
+    expire_in: 2 days
+    when: on_success
+    paths:
+      - dist/
+
+deploy_to_dev:
+  image: dr.simbirsoft1.com/library/ansible:2.4
+  stage: deploy
+  variables:
+    CURRENT_DEPLOYMENT_KEY: "$DEV_DEPLOYMENT_KEY"
+    CURRENT_DEPLOYMENT_ENV: "dev"
+  script:
+    - mkdir -p ~/.ssh/
+    - echo -e "Host *\n\rStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - echo "$CURRENT_DEPLOYMENT_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - git clone $DEPLOYMENT_REPO ~/deploy
+    - tar -cvpzf ~/deploy/files/fe-${TAG}.tgz -C dist/ .
+    - cd ~/deploy
+    - ansible-playbook -i environments/${CURRENT_DEPLOYMENT_ENV}/inventory deploy.yaml --tags=fe --extra-vars "project_fe_package=fe-${TAG}.tgz"
+  environment:
+    name: dev
+    url: http://scoliologic-dev.simbirsoft
+  when: manual
+
+deploy_to_test:
+  image: dr.simbirsoft1.com/library/ansible:2.4
+  stage: deploy
+  variables:
+    CURRENT_DEPLOYMENT_KEY: "$TEST_DEPLOYMENT_KEY"
+    CURRENT_DEPLOYMENT_ENV: "test"
+  script:
+    - mkdir -p ~/.ssh/
+    - echo -e "Host *\n\rStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - echo "$CURRENT_DEPLOYMENT_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - git clone $DEPLOYMENT_REPO ~/deploy
+    - tar -cvpzf ~/deploy/files/fe-${TAG}.tgz -C dist/ .
+    - cd ~/deploy
+    - ansible-playbook -i environments/${CURRENT_DEPLOYMENT_ENV}/inventory deploy.yaml --tags=fe --extra-vars "project_fe_package=fe-${TAG}.tgz"
+  environment:
+    name: test
+    url: http://scoliologic-test.simbirsoft
+  when: manual
+
+deploy_to_demo:
+  image: dr.simbirsoft1.com/library/ansible:2.4
+  stage: deploy
+  variables:
+    CURRENT_DEPLOYMENT_KEY: "$DEMO_DEPLOYMENT_KEY"
+    CURRENT_DEPLOYMENT_ENV: "demo"
+  script:
+    - mkdir -p ~/.ssh/
+    - echo -e "Host *\n\rStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - echo "$CURRENT_DEPLOYMENT_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - git clone $DEPLOYMENT_REPO ~/deploy
+    - tar -cvpzf ~/deploy/files/fe-${TAG}.tgz -C dist/ .
+    - cd ~/deploy
+    - ansible-playbook -i environments/${CURRENT_DEPLOYMENT_ENV}/inventory deploy.yaml --tags=fe --extra-vars "project_fe_package=fe-${TAG}.tgz"
+  environment:
+    name: demo
+    url: http://scoliologic-demo.simbirsoft
+  when: manual
+
+deploy_to_prod:
+  image: dr.simbirsoft1.com/library/ansible:2.4
+  stage: deploy
+  variables:
+    CURRENT_DEPLOYMENT_KEY: "$PROD_DEPLOYMENT_KEY"
+    CURRENT_DEPLOYMENT_ENV: "prod"
+  script:
+    - mkdir -p ~/.ssh/
+    - echo -e "Host *\n\rStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - echo "$CURRENT_DEPLOYMENT_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - git clone $DEPLOYMENT_REPO ~/deploy
+    - tar -cvpzf ~/deploy/files/fe-${TAG}.tgz -C dist/ .
+    - cd ~/deploy
+    - ansible-playbook -i environments/${CURRENT_DEPLOYMENT_ENV}/inventory deploy.yaml -u emp --tags=fe --extra-vars "project_fe_package=fe-${TAG}.tgz"
+  only:
+    - master
+  environment:
+    name: prod
+  when: manual

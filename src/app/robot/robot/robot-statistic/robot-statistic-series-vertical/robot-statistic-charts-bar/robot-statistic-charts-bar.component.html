@@ -1,0 +1,15 @@
+<svg:defs *ngIf="hasGradient">
+  <svg:g ngx-charts-svg-linear-gradient
+    [orientation]="orientation"
+    [name]="gradientId"
+    [stops]="gradientStops"
+  />
+</svg:defs>
+<svg:path
+  class="bar"
+  stroke="none"
+  [class.active]="isActive"
+  [attr.d]="path"
+  [attr.fill]="hasGradient ? gradientFill : fill"
+  (click)="select.emit(data)"
+/>

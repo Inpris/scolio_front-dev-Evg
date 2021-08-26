@@ -1,0 +1,63 @@
+@import "variables";
+
+.purchase-detail {
+  font-size: 14px;
+  /deep/ .ant-table-wrapper {
+    background-color: @gray-0;
+  }
+
+  &__header {
+    margin-bottom: 10px;
+    &__title {
+      &__btn-back {
+        margin-bottom: 5px;
+        a {
+          color: @black;
+        }
+      }
+      &__status {
+        opacity: 0.65;
+        margin-left: 20px;
+        h3 {
+          color: rgba(0,0,0,1);
+          padding: 0 5px;
+        }
+      }
+    }
+    &__btn-remove {
+      cursor: pointer;
+    }
+
+    &__icons {
+      margin-bottom: 7px;
+      .anticon-medicine-box {
+        padding-left: 10px;
+        color: @blue-5;
+      }
+
+      .anticon-info-circle-o {
+        padding: 0 10px;
+        color: @red-5;
+      }
+    }
+
+    i {
+      font-size: 22px;
+    }
+  }
+
+  &__body {
+  }
+
+  .breadcrumb__nav {
+    cursor: pointer;
+    outline: none;
+  }
+
+}
+
+:host ::ng-deep {
+  nz-badge > sup {
+    background-color: @green-5;
+  }
+}

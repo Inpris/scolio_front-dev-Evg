@@ -1,0 +1,32 @@
+<div class="dictionary-specification-page">
+  <nz-table #nzTable [nzData]="data" [nzLoading]="pending" [nzShowPagination]="false" [nzPageSize]="data?.length" [nzScroll]="{ y: '500px'}">
+    <thead>
+      <tr>
+        <th nzWidth="20%">Шифр</th>
+        <th nzWidth="45%">Наименование спецификации</th>
+        <th nzWidth="20%">Производитель</th>
+        <th nzWidth="15%">Цена</th>
+      </tr>
+    </thead>
+    <tbody>
+        <ng-template ngFor let-data [ngForOf]="nzTable.data">
+      <tr 
+        class="dictionary-specification-page__row" 
+        
+        (click)="selectSpecification(data)"
+      >
+        <td>{{ data?.code }}</td>
+        <td>{{ data?.name }}</td>
+        <td>{{ data?.manufacturer }}</td>
+        <td>{{ data?.price }}</td>
+      </tr>
+        </ng-template>
+      <tr class="infinity-container" *ngIf="data && pagination.page <= pagination.pageCount - 1">
+        <td colspan="100">
+          <sl-infinity-scroll #infinityScroll [rootContainer]="scrollContainer"
+            (loadCallback)="getData(true)"></sl-infinity-scroll>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

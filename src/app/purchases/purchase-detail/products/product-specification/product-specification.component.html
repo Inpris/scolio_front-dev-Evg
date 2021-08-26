@@ -1,0 +1,69 @@
+<div class="table-info">
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col class="table-info__total">Всего: {{specifications?.length || 0}}</div>
+    <div nz-col class="table-info__add">
+      <button nz-button nzType="primary" nzSize="small" (click)="openModalDeviceForm()">+ Спецификация</button>
+    </div>
+  </div>
+</div>
+<nz-table #tableSpecification
+  [nzData]="specifications"
+  [nzShowPagination]="false"
+  [nzFrontPagination]="false"
+>
+  <thead>
+  <tr>
+    <th nzWidth="80px">Шифр</th>
+    <th nzWidth="140px">Наименование</th>
+    <th nzWidth="130px">Производитель</th>
+    <th nzWidth="40px">Количество</th>
+    <th nzWidth="80px">Цена за единицу</th>
+    <th nzWidth="80px">Сумма</th>
+    <th nzWidth="100px">История изменений</th>
+    <th nzWidth="130px">Заметки</th>
+    <th nzWidth="40px">
+      <div nz-row [nzType]="'flex'" nzJustify="space-between">
+        Действия
+      </div>
+    </th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <ng-template ngFor let-data let-index="index" [ngForOf]="tableSpecification.data">
+    <tr>
+      <td>{{data.code}}</td>
+      <td>{{data.name}}</td>
+      <td>{{data.manufacturer}}</td>
+      <td>{{data.count}}</td>
+      <td>{{ data.price | currency:'RUB':'symbol-narrow'}}</td>
+      <td>{{ data.count * data.price | currency:'RUB':'symbol-narrow'}}</td>
+      <td>
+        <div>Создал {{ data.createdBy.name }}</div>
+        <div>{{ data.createdDate | date: 'dd.MM.yyyy' }}</div>
+        <div *ngIf="data.lastModifiedBy">
+          <div>Изменил {{ data.lastModifiedBy.name }}</div>
+          <div>{{ data.lastModifiedDate | date: 'dd.MM.yyyy' }}</div>
+        </div>
+      </td>
+      <td>{{data.note}}</td>
+      <td>
+        <div nz-row [nzType]="'flex'" nzJustify="space-between" class="device__actions">
+          <nz-popover>
+            <i nz-popover class="anticon anticon-printer device__action"></i>
+            <ng-template #nzTemplate>Распечатать информацию по спецификации</ng-template>
+          </nz-popover>
+          <nz-popover>
+            <i nz-popover (click)="removeDevice(data.id, index)" class="anticon anticon-delete device__action"></i>
+            <ng-template #nzTemplate>Удалить спецификацию</ng-template>
+          </nz-popover>
+          <nz-popover>
+            <i nz-popover (click)="openModalDeviceForm(data)" class="anticon anticon-edit device__action"></i>
+            <ng-template #nzTemplate>Изменить данные о спецификации</ng-template>
+          </nz-popover>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  </tbody>
+</nz-table>

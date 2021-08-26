@@ -1,0 +1,44 @@
+<div nz-row nzGutter="16" nzType="flex" class="photo-container-row">
+  <nz-layout nzType="flex" [style.height]="'94%'">
+    <nz-content>
+      <div #container class="photo-container">
+        <canvas #photoCanvas class="photo-canvas-container"></canvas>
+        <svg #lineSvg class="container-svg"></svg>
+      </div>
+    </nz-content>
+    <nz-sider [nzWidth]="56" class="button-sider">
+      <div nz-col class="button-column">
+        <nz-tooltip nzTitle="Выбрать линии" nzPlacement="left">
+            <button nz-button nz-tooltip class="select-button" [nzType]="selectLineMode ? 'primary' : ''" (click)="selectLines()">
+              <i class="anticon anticon-select"></i>
+            </button>
+          </nz-tooltip>
+          <nz-tooltip nzTitle="Очистить выделение линий" nzPlacement="left">
+            <button #startDrawLineButton nz-button nz-tooltip class="edit-button" (click)="clearLineSelection()">
+              <i class="anticon anticon-close-square-o"></i>
+            </button>
+          </nz-tooltip>
+          <nz-tooltip nzTitle="Рисовать линии" nzPlacement="left">
+          <button #startDrawLineButton nz-button nz-tooltip class="edit-button" [nzType]="editLineMode ? 'primary' : ''" (click)="startDrawLine()">
+            <i class="anticon anticon-edit"></i>
+          </button>
+          </nz-tooltip>
+          <nz-tooltip nzTitle="Рисовать прямые линии" nzPlacement="left">
+            <button #startDrawLineButton nz-button nz-tooltip class="edit-button" [nzType]="strikeLineMode ? 'primary' : ''" (click)="startDrawStrikeLine()">
+              <i class="anticon anticon-plus"></i>
+            </button>
+          </nz-tooltip>
+          <nz-tooltip nzTitle="Удалить выбранные линии" nzPlacement="left">
+            <button nz-button nz-tooltip class="delete-button" (click)="deleteSelectedLines()">
+              <i class="anticon anticon-close-circle"></i>
+            </button>
+          </nz-tooltip>
+          <nz-tooltip nzTitle="Удалить все линии" nzPlacement="left">
+            <button nz-button nz-tooltip class="delete-button" (click)="deleteLines()">
+              <i class="anticon anticon-delete"></i>
+            </button>
+          </nz-tooltip>
+      </div>
+    </nz-sider>
+  </nz-layout>
+</div>

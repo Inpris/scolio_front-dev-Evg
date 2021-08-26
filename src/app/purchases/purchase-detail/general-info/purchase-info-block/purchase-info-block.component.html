@@ -1,0 +1,9 @@
+<sl-purchase-info-block-viewer
+  *ngIf="!isEditMode"
+  (changeMode)="onChangeMode($event)"
+></sl-purchase-info-block-viewer>
+<sl-purchase-info-block-editor
+  *ngIf="isEditMode"
+  [componentType]="componentType"
+  (changeMode)="onChangeMode($event)"
+></sl-purchase-info-block-editor>

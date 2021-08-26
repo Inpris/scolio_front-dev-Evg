@@ -1,0 +1,38 @@
+<div [formGroup]="form">
+  <div nz-row nzType="flex"  nzJustify="space-between" nzGutter="16" >
+    <div nz-col nzSpan="4" class="measurement-column__header">
+      <label class="ant-form-item-label"></label>
+    </div>
+    <div nz-col nzSpan="4" class="measurement-column__header" *ngFor="let column of columns">
+      <label class="ant-form-item-label">{{column.name}}</label>
+    </div>
+  </div>
+  <div nz-row *ngFor="let measurement of form.get('measurements')['controls']; let $index = index" nzType="flex" nzGutter="16" nzJustify="space-between">
+    <div nz-col nzSpan="4" class="measurement-column__measurement-name">
+      <label class="ant-form-item-label">{{rows[$index]}}</label>
+    </div>
+    <div nz-col nzSpan="4" *ngFor="let col of columns" style="display: flex; justify-content: center; ">
+        <nz-form-item nzFlex>
+          <nz-form-control>
+              <div *ngIf="col.field === 'value' && !readonly" class="measurement-column__angle">
+                <input disabled="true" nz-input nzSize="small" class="measurement-value-input" [formControl]="measurement.get(col.field)" nzAllowClear>
+                <button *ngIf="!readonly" type="button" nz-button nz-tooltip nzSize="small" class="clear-angle-button" (click)="clearAngleValue(rows[$index])">
+                    <i class="anticon anticon-close-circle"></i>
+                  </button>
+              </div>
+              <nz-select *ngIf="col.type === 'select' && col.field != 'rotation' && !readonly" nzSize="small" class="measurement-select" nzPlaceHolder="" [formControl]="measurement.get(col.field)" nzAllowClear>
+                <ng-container *ngFor="let type of vertebraType">
+                  <nz-option [nzValue]="type" [nzLabel]="type"></nz-option>
+                </ng-container>
+              </nz-select>
+              <nz-select *ngIf="col.type === 'select' && col.field === 'rotation' && !readonly" nzSize="small" class="measurement-select" nzPlaceHolder="" [formControl]="measurement.get(col.field)" nzAllowClear>
+              <ng-container *ngFor="let rotation of rotationType">
+                <nz-option [nzValue]="rotation" [nzLabel]="rotation"></nz-option>
+              </ng-container>
+            </nz-select>
+            <span *ngIf="readonly">{{measurement.get(col.field).value}}</span>
+           </nz-form-control>
+        </nz-form-item>
+    </div>
+  </div>
+</div>

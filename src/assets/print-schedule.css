@@ -1,0 +1,67 @@
+.table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  margin-top: 20px;
+  page-break-inside: auto;
+}
+
+.header {
+  display: table-header-group;
+}
+
+.header > .table__cell {
+  justify-content: center;
+}
+
+.body {
+  display:table-footer-group;
+}
+
+.table__row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: stretch;
+  border-bottom: 1px solid black;
+  page-break-inside: auto;
+}
+
+.table__cell {
+  display: flex;
+  align-items: center;
+  border-right: 1px solid black;
+  padding: 5px;
+  height: auto;
+  width: 25%;
+  word-break: break-all;
+  page-break-inside:auto;
+  page-break-after:auto;
+}
+
+.table__cell:nth-child(2) {
+  width: 15% !important;
+  justify-content: center;
+}
+
+.table__cell:nth-child(3) {
+  width: 23% !important;
+}
+
+.table__cell:nth-child(4) {
+  width: 37% !important;
+}
+
+.room, .date {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.date {
+  font-size: 18px;
+}

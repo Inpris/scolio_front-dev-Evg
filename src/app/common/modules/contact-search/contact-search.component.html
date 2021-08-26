@@ -1,0 +1,33 @@
+<form nz-form [formGroup]="searchForm" novalidate>
+  <label>Поиск:</label>
+  <nz-form-control>
+    <nz-select formControlName="contact"
+               nzAllowClear
+               nzNotFoundContent
+               nzPlaceHolder
+               nzShowSearch
+               nzServerSearch="true"
+               (nzOnSearch)="onSearch($event)"
+               [nzDisabled]="disabled"
+               nzDropdownClassName="qaaDropdownContact"
+               qaaLocator="qaaSelectContact">
+      <ng-container *ngIf="notFound; then notFoundTemplate else contactsTemplate"></ng-container>
+      <ng-template #contactsTemplate>
+        <nz-option
+          *ngFor="let contact of contacts"
+          nzLabel="{{contact.fullName}} ({{contact.visitCount}}) {{contact.birthDate|date:'dd.MM.yyyy'}} гр"
+          [nzValue]="contact">
+        </nz-option>
+      </ng-template>
+      <ng-template #notFoundTemplate>
+        <nz-option
+          nzLabel="Пациенты не найдены, создать нового пациента"
+          [nzValue]="searchForm.value.searchTerm">
+        </nz-option>
+      </ng-template>
+      <nz-option *ngIf="loadingContacts && !contacts.length" nzDisabled nzCustomContent>
+        <nz-spin nzSize="small" class="spin"></nz-spin> Loading Data...
+      </nz-option>
+    </nz-select>
+  </nz-form-control>
+</form>

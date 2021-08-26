@@ -1,0 +1,22 @@
+<div class="general-info">
+  <div nz-row nzGutter="18">
+    <div nz-col nzSpan="14">
+      <sl-purchase-info-block #infoBlock
+                              [ngClass]="{ disabledState: additionalBlock.isEditMode || filesBlock.isEditMode }">
+      </sl-purchase-info-block>
+    </div>
+    <div nz-col nzSpan="10">
+      <sl-additional-info-block #additionalBlock
+                                [ngClass]="{ disabledState: infoBlock.isEditMode || filesBlock.isEditMode }"
+      ></sl-additional-info-block>
+      <sl-files-info-block #filesBlock
+                           [ngClass]="{ disabledState: infoBlock.isEditMode || additionalBlock.isEditMode }"
+                           class="general-info--files-block">
+      </sl-files-info-block>
+    </div>
+  </div>
+  <sl-fixed-save-panel [disabled]="!(infoBlock.isEditMode || additionalBlock.isEditMode || filesBlock.isEditMode)"
+                       (save)="saveData()"
+                       (reset)="cancel()">
+  </sl-fixed-save-panel>
+</div>

@@ -1,0 +1,269 @@
+<div class="mt12" *ngIf="formType === 'create'"><i class="anticon anticon-close form__close" (click)="closeForm()"></i></div>
+<nz-card nzNoHovering="true" class="form" [nzTitle]="title">
+
+  <ng-template #title>
+    <div nz-row
+      [nzType]="'flex'"
+      class="form__title"
+      [nzAlign]="'middle'"
+    >
+      <div *ngIf="formType === 'create'; then create else edit"></div>
+      <ng-template #create>
+        <div nz-col class="form__title__icon">
+          <i class="anticon anticon-file-text"></i>
+        </div>
+        <div nz-col class="form__title__text">
+          {{ this.form.value.title }}
+        </div>
+      </ng-template>
+
+      <ng-template #edit>
+        <div
+          class="form__title__icon"
+          [ngClass]="statusSysName == 'NotProcessed' ? 'blue-color' :
+            statusSysName == 'Processing' ? 'orange-color' : 'green-color'"
+        >
+          <i class="anticon anticon-file-text"></i>
+        </div>
+        <div nz-col class="form__title__text">
+
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>
+
+  <nz-spin [nzSpinning]="leadFormLoading" nzSize="large">
+    <form class="form__body" nz-form [formGroup]="form" novalidate (ngSubmit)="onSubmit(form)">
+      <div nz-row>
+        <div nz-col nzSpan="" class="sl-form-item--small" nz-form-item>
+          <label>Заголовок*</label>
+          <nz-form-control>
+            <input nz-input formControlName="title">
+          </nz-form-control>
+        </div>
+      </div>
+      <div nz-row
+           class="form__body__contact"
+           *ngIf="selectedContact"
+           [nzType]="'flex'"
+           [nzAlign]="'middle'">
+        <div nz-col class="form__body__contact__text">
+          Контакт: {{ selectedContact.fullName }} {{ selectedContact.phone }} {{ selectedContact.email }}
+        </div>
+        <div nz-col
+             class="form__body__contact__btn"
+             (click)="removeSelectedContact()">
+          <nz-popover>
+            <i nz-popover class="anticon anticon-close"></i>
+            <ng-template #nzTemplate>
+              <p>удалить контакт</p>
+            </ng-template>
+          </nz-popover>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="48">
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="12">
+          <label>Фамилия</label>
+          <nz-form-control nz-row>
+            <nz-popover [nzPlacement]="'right'"
+                        [(nzVisible)]="lastNameVisible"
+                        [nzTrigger]="null">
+              <input nz-input (keydown.Tab)="closeAllPopap()" nz-popover formControlName="lastName">
+              <ng-template #nzTemplate>
+                <p>совпадений по</p>
+                <span>ФИ найдено </span><a (click)='openModalContacts()'>({{ contactCount }})</a>
+              </ng-template>
+            </nz-popover>
+          </nz-form-control>
+        </div>
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="12">
+          <label>Имя*</label>
+          <nz-form-control nz-row>
+            <input nz-input (keydown.Tab)="closeAllPopap()" formControlName="firstName">
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row [nzGutter]="48">
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="12">
+          <label>Отчество</label>
+          <nz-form-control nz-row>
+            <input nz-input formControlName="secondName">
+          </nz-form-control>
+        </div>
+
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="12">
+          <label>Дата рождения</label>
+          <nz-form-control nz-row >
+            <sl-date-picker formControlName="birthDate"
+                           nzFormat="DD.MM.YYYY"
+                           nzPlaceHolder></sl-date-picker>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row [nzGutter]="48">
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="12">
+          <label>Телефон</label>
+          <nz-form-control nz-row>
+            <nz-popover [nzPlacement]="'right'"
+                        [(nzVisible)]="phoneVisible"
+                        [nzTrigger]="null">
+              <input nz-input nz-popover (keydown.Tab)="closeAllPopap()" formControlName="phone" slPhoneFormatter>
+              <ng-template #nzTemplate>
+                <p>совпадений по</p>
+                <span>телефону найдено </span><a (click)='openModalContacts()'>({{ contactCount }})</a>
+              </ng-template>
+            </nz-popover>
+          </nz-form-control>
+        </div>
+
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="12">
+          <label>email</label>
+          <nz-form-control nz-row>
+            <nz-popover [nzPlacement]="'right'"
+                        [(nzVisible)]="emailVisible"
+                        [nzTrigger]="null">
+              <input nz-input nz-popover (keydown.Tab)="closeAllPopap()" formControlName="email">
+              <ng-template #nzTemplate>
+                <p>совпадений по</p>
+                <span>email найдено </span><a (click)='openModalContacts()'>({{ contactCount }})</a>
+              </ng-template>
+            </nz-popover>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="24">
+          <label>Комментарий*</label>
+          <nz-form-control>
+            <input nz-input formControlName="comment" nzType="textarea" nzRows="4">
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="">
+          <label>Откуда узнали о клинике*</label>
+          <nz-form-control>
+            <nz-select formControlName="leadSourceId" nzPlaceHolder>
+              <nz-option *ngFor="let option of leadSources"
+                         [nzLabel]="option.name"
+                         [nzValue]="option.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="">
+          <label>Вид изделия/Услуга</label>
+          <nz-form-control>
+            <nz-select formControlName="medicalServiceId" nzPlaceHolder>
+              <nz-option *ngFor="let option of services"
+                         [nzLabel]="option.name"
+                         [nzValue]="option.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div class="form__body__utm" *ngIf="showUtmTags">
+        <div *ngFor="let utmKey of data.utmTags | keys">
+          <div *ngIf="data.utmTags[utmKey]">
+            {{ utmKey }}: {{ data.utmTags[utmKey] }}
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="sl-form-item--small"
+        nz-form-item nz-row nzSpan="8" *ngIf="users"
+        [ngClass]="{'field-margin-bottom': !data.createdBy}"
+      >
+        <label>Ответственный*</label>
+        <nz-form-control>
+          <nz-select formControlName="assignedUserId"
+            nzPlaceHolder="<Не выбрано>"
+            nzShowSearch
+            nzAllowClear
+          >
+            <nz-option *ngFor="let user of users"
+                       [nzLabel]="user.abbreviatedName"
+                       [nzValue]="user.id">
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </div>
+
+      <nz-form-item
+          *ngIf="data.createdBy"
+          class="form__body__info"
+      >
+        <div nz-row [nzType]="'flex'">
+          <div nz-col>
+            <div nz-col>
+              Дата, время создания: {{ data.createdDate | date: 'dd.MM.yyyy H:mm'}}
+            </div>
+            <div nz-col *ngIf="data.lastModifiedBy">
+              Дата, время изменения: {{ data.lastModifiedDate | date: 'dd.MM.yyyy H:mm'}}
+            </div>
+          </div>
+          <div nz-col [nzOffset]="1">
+            <div nz-col>
+              Автор: {{ data.createdBy.name }}
+            </div>
+            <div nz-col *ngIf="data.lastModifiedBy">
+              Автор: {{ data.lastModifiedBy.name }}
+            </div>
+          </div>
+        </div>
+      </nz-form-item>
+
+      <div nz-row
+        class="form__body__btn"
+        [nzType]="'flex'"
+        [nzJustify]="'center'"
+        [nzGutter]="8"
+      >
+        <div nz-col>
+          <button type="submit" nz-button nzType="primary">
+            <i class="anticon anticon-save"></i>
+            <span *ngIf="formType === 'create'">Сохранить</span>
+            <span *ngIf="formType === 'edit'">Обновить</span>
+          </button>
+        </div>
+
+        <div nz-col>
+          <button type="button" nz-button (click)="closeForm()">
+            <i class="anticon anticon-close"></i>
+            <span>Отмена</span>
+          </button>
+        </div>
+        <div nz-col *ngIf="formType === 'edit'">
+          <button type="button" nz-button  [nzType]="'danger'" (click)="openRejectForm()">
+            <i class="anticon anticon-minus-circle"></i>
+            <span>Отказ</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </nz-spin>
+</nz-card>
+
+<ng-template #contactsModalContent>
+  <sl-contact-list
+    [contacts]="contacts"
+    (closeModal)="closeModalContacts($event)"
+  ></sl-contact-list>
+</ng-template>
+
+<ng-template #rejectModalContent>
+  <sl-form-reject
+    [lead]="tempDataForCreateUpdat.id"
+    (closeModal)="closeModalReject($event)"
+  ></sl-form-reject>
+</ng-template>

@@ -1,0 +1,30 @@
+@import "variables";
+@import "mixins";
+
+.sl-modal-form();
+
+:host ::ng-deep {
+  .ant-calendar-picker {
+    width: 100%;
+  }
+}
+
+.blank__main-text {
+  margin-top: 16px;
+}
+
+:host ::ng-deep .act-mtk {
+  &__template-selection nz-select:not(.ant-select-open) {
+    .ant-select-selection-selected-value {
+      display: none !important;
+    }
+    .ant-select-selection__placeholder {
+      display: block !important;
+    }
+  }
+  &__commission {
+    .ant-row-flex {
+      margin-bottom: 8px;
+    }
+  }
+}

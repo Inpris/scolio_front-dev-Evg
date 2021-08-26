@@ -1,0 +1,51 @@
+@import "variables";
+@import "/styles/measurements-mixins";
+
+nz-input-number {
+  width: 60px;
+}
+
+.measurement-name {
+  .measurement-name-mixin;
+}
+
+.measurement-value-input {
+  .measurement-value-input-mixin;
+}
+
+.measurement-select {
+  .measurement-select-mixin;
+}
+
+.measurement-column {
+  &__header {
+    text-align: center;
+  }
+  &__measurement-name {
+    text-align: left;
+  }
+  &__ange {
+    flex-wrap: nowrap;
+    display: flex;
+    align-self: center;
+  }
+}
+
+.measurement-column__angle {
+  position: relative;
+  .clear-angle-button {
+    .clear-angle-button-mixin;
+    position: absolute;
+    top: 7px;
+    right: -18px;
+    padding: 0;
+    margin: 0;
+    width: auto;
+  }
+}
+
+:host ::ng-deep {
+  .ant-form-item {
+    margin: 0;
+  }
+}

@@ -1,0 +1,91 @@
+<div nz-row nzType="flex" nzJustify="space-between" class="user__header">
+  <div nz-col>
+    <h2>Пользователи</h2>
+  </div>
+  <div nz-col>
+    <button [disabled]="pending" (click)="createUser()" class="ant-btn ant-btn-primary">
+      <i class="anticon anticon-user-add"></i>
+      <span>+ Пользователь</span>
+    </button>
+    <button [disabled]="pending" (click)="resetFilter()" class="ant-btn ant-btn-primary">
+      <i class="anticon anticon-reload"></i>
+      <span>Сбросить все фильтры</span>
+    </button>
+  </div>
+</div>
+<div class="table-info">
+  <div class="table-info__total">Всего: {{pagination?.totalCount || 0}}</div>
+</div>
+<nz-table #nzTable [nzData]="data" [nzShowPagination]="false" [nzLoading]="pending" [nzPageSize]="data?.length">
+  <thead>
+  <tr>
+    <th nzShowSort nzWidth="300px" [nzSort]="sortMap.sortBy === 'fullName' && sortMap.sortType" (nzSortChange)="sort('fullName', $event)">
+      <sl-table-filter-text placeholder="Поиск по ФИО" [label]="'ФИО'"
+        [(ngModel)]="filterMap.searchTerm" (filterChange)="search($event)"></sl-table-filter-text>
+    </th>
+    <th nzShowSort nzWidth="160px" [nzSort]="sortMap.sortBy === 'roles' && sortMap.sortType" (nzSortChange)="sort('roles', $event)">
+      <sl-table-filter-multiple [(ngModel)]="filterMap.roles" [label]="'Роли'"
+        (filterChange)="search($event)" [filters]="roles || []"></sl-table-filter-multiple>
+    </th>
+    <th nzShowSort nzWidth="160px" [nzSort]="sortMap.sortBy === 'phoneNumber' && sortMap.sortType" (nzSortChange)="sort('phoneNumber', $event)">
+      <sl-table-filter-text placeholder="Поиск по телефону" [label]="'Телефон'"
+        [(ngModel)]="filterMap.phoneNumber" (filterChange)="search($event)"></sl-table-filter-text>
+    </th>
+    <th nzShowSort nzWidth="160px" [nzSort]="sortMap.sortBy === 'email' && sortMap.sortType" (nzSortChange)="sort('email', $event)">
+      <sl-table-filter-text placeholder="Поиск по email" [label]="'Email'"
+        [(ngModel)]="filterMap.email" (filterChange)="search($event)"></sl-table-filter-text>
+    </th>
+    <th nzShowSort nzWidth="120px" [nzSort]="sortMap.sortBy === 'userName' && sortMap.sortType" (nzSortChange)="sort('userName', $event)">
+      <sl-table-filter-text placeholder="Поиск по логину" [label]="'Логин'"
+        [(ngModel)]="filterMap.userName" (filterChange)="search($event)"></sl-table-filter-text>
+    </th>
+    <th nzShowSort nzWidth="160px" [nzSort]="sortMap.sortBy === 'branchId' && sortMap.sortType" (nzSortChange)="sort('branchId', $event)">
+      <sl-table-filter-select [(ngModel)]="filterMap.branchId" [label]="'Филиал'"
+                                (filterChange)="search($event)" [filters]="branches || []"></sl-table-filter-select>
+    </th>
+    <th nzShowSort nzWidth="200px" [nzSort]="sortMap.sortBy === 'departmentId' && sortMap.sortType" (nzSortChange)="sort('departmentId', $event)">
+      <sl-table-filter-select [(ngModel)]="filterMap.departmentId" [label]="'Отдел'"
+                                (filterChange)="search($event)" [filters]="departments || []"></sl-table-filter-select>
+    </th>
+    <th nzShowSort nzWidth="160px" [nzSort]="sortMap.sortBy === 'positionId' && sortMap.sortType" (nzSortChange)="sort('positionId', $event)">
+      <sl-table-filter-select [(ngModel)]="filterMap.positionId" [label]="'Должность'"
+                                (filterChange)="search($event)" [filters]="positions || []"></sl-table-filter-select>
+    </th>
+    <th nzWidth="120px"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-template ngFor let-data [ngForOf]="nzTable.data">
+    <tr [ngClass]="{ 'user__row-deleted': data.isDeleted }" class="user__row">
+      <td>{{ data.lastName }} {{ data.firstName }} {{ data.secondName }}</td>
+      <td>{{ data.rolesSysNames }}</td>
+      <td>{{ data.phoneNumber }}</td>
+      <td>{{ data.email }}</td>
+      <td>{{ data.userName }}</td>
+      <td>{{dictionariesHashMap[data.branchId]?.name}}</td>
+      <td>{{dictionariesHashMap[data.departmentId]?.name}}</td>
+      <td>{{dictionariesHashMap[data.positionId]?.name}}</td>
+      <td class="actions">
+        <nz-tooltip nzTitle="Заблокировать" *ngIf="!data.isDeleted" nzPlacement="top">
+          <i nz-tooltip class="anticon anticon-unlock" (click)="toggleDisabled(data)"></i>
+        </nz-tooltip>
+        <nz-tooltip nzTitle="Разблокировать" *ngIf="data.isDeleted" nzPlacement="top">
+          <i nz-tooltip class="anticon anticon-lock" (click)="toggleDisabled(data)"></i>
+        </nz-tooltip>
+        <nz-tooltip nzTitle="Редактировать" nzPlacement="top">
+          <i nz-tooltip class="anticon anticon-edit" (click)="editUser(data)"></i>
+        </nz-tooltip>
+        <nz-tooltip nzTitle="Сменить пароль" nzPlacement="top">
+          <i nz-tooltip class="anticon anticon-key" (click)="changePassword(data)"></i>
+        </nz-tooltip>
+      </td>
+    </tr>
+  </ng-template>
+  <tr class="infinity-container" *ngIf="data && pagination.page <= pagination.pageCount - 1">
+    <td colspan="100">
+      <sl-infinity-scroll #infinityScroll [rootContainer]="scrollContainer"
+        (loadCallback)="getData(true)"></sl-infinity-scroll>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

@@ -1,0 +1,58 @@
+@import "variables";
+
+:host {
+  box-sizing: border-box;
+  display: block;
+  height: 100%;
+  min-height: 100%;
+}
+
+.sl-root-layout {
+  box-sizing: border-box;
+  height: 100%;
+  min-height: 100%;
+}
+
+.sl-root-sidebar {
+  background-color: @cyan-9;
+}
+
+.sl-root-header {
+  height: 34px;
+  line-height: 34px;
+  background-color:  @cyan-9;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+  span {
+    font-size: 16px;
+  }
+  i {
+    font-size: 18px;
+    line-height: 34px;
+    cursor: pointer;
+    &:hover {
+      color: @cyan-5;
+    }
+  }
+}
+
+.sl-root-content {
+  padding: 16px;
+}
+
+.sl-footer {
+  align-items: center;
+  background-color: @white;
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 8px 16px;
+}
+
+.sl-footer__logo {
+  display: inline-block;
+  height: 40px;
+  margin: 0 4px 0 0;
+  width: 60px;
+}

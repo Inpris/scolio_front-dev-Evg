@@ -1,0 +1,34 @@
+<div class="custom-dropdown" >
+  <div nz-dropdown class="filter-icon-container" (click)="togleFilter()">
+    <span class="filter-label" [ngClass]="{ 'filter-label__selected': !!value }">{{label}}</span>
+    <i class="anticon anticon-filter ant-table-filter-icon"
+    [ngClass]="{ 'ant-table-filter-selected': !!value }"
+    ></i>
+  </div>
+  <div class="filter-dropdown-custom" *ngIf="visible">
+    <nz-input-group nzSuffixIcon="anticon anticon-search">
+      <nz-select 
+        [ngModel]="value"
+        nzShowSearch
+        [(nzOpen)]="openState"
+        nzAllowClear
+        #select
+        (nzOnSearch)="onSearch($event)"
+      >
+        <nz-option 
+          *ngFor="let region of filters"
+          [nzLabel]="region.name"
+          [nzValue]="region.id"
+        ></nz-option>
+      </nz-select>
+    </nz-input-group>
+    <div class="ant-table-filter-dropdown-btns">
+      <a class="ant-table-filter-dropdown-link confirm" (click)="applyFilter(select.value)">
+        <span>OK</span>
+      </a>
+      <a class="ant-table-filter-dropdown-link clear" (click)="resetFilter()">
+        <span>Сбросить</span>
+      </a>
+    </div>
+  </div>
+</div>

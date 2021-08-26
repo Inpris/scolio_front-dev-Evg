@@ -1,0 +1,31 @@
+<div class="purchases-page">
+  <div nz-row
+    class="purchases-page__header"
+    nzType="flex"
+    nzAlign="middle"
+    nzJustify="space-between"
+  >
+    <div nz-col class="purchases-page__header__title">
+      <h2 class="sl-breadcrumb" nz-row nzType="flex">
+        <span class="sl-breadcrumb-item">Закупки</span>
+        <span class="sl-breadcrumb-item">Реестр закупок</span>
+      </h2>
+    </div>
+    <div nz-col >
+      <button nz-button nzType="primary" [routerLink]="['/purchases/create']">
+        <i class="anticon anticon-plus"></i>
+          Новая закупка
+      </button>
+    </div>
+  </div>
+
+  <div class="purchases-page__body">
+    <div class="purchases-page__body-cols" nz-row [nzType]="'flex'" [nzGutter]="24">
+      <div nz-col [nzSpan]="5"><sl-purchase-calendar></sl-purchase-calendar></div>
+      <div nz-col [nzSpan]="19"><sl-deadline></sl-deadline></div>
+    </div>
+    <div class="purchases-page__body__purchase">
+      <sl-purchase-list></sl-purchase-list>
+    </div>
+  </div>
+</div>

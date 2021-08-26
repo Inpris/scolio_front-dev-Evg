@@ -1,0 +1,20 @@
+<nz-card nzNoHovering="true" class="form" [nzTitle]="title">
+  <ng-template #title>
+    <div nz-row [nzType]="'flex'" [nzGutter]="8" class="form__title">
+      <div nz-col class="form__title__icon">
+        <i class="anticon anticon-contacts"></i>
+      </div>
+      <div nz-col class="form__title__text">
+        {{formType === 'edit' ? this.data.fullName : 'Добавление нового пациента'}}
+      </div>
+      <i class="anticon anticon-close form__close" (click)="closeForm()"></i>
+    </div>
+  </ng-template>
+  
+  <sl-patient-form
+          [data]="data"
+          [formType]="formType"
+          (actionCallback)="actionCallback($event)"
+  >
+  </sl-patient-form>
+</nz-card>

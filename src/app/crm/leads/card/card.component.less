@@ -1,0 +1,119 @@
+@import "variables";
+
+.card {
+  margin: 10px 0;
+  &__title-text {
+    color: @blue-5;
+    cursor: pointer;
+  }
+  &__title-btn {
+    cursor: pointer;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    i {
+      font-size: 22px;
+    }
+    .orange-color {
+      color: orange;
+    }
+    .white-color {
+      color: white;
+    }
+    &__check {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &__circle {
+      background-color: greenyellow;
+      height: 22px;
+      width: 22px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      i {
+        font-size: 16px;
+      }
+    }
+  }
+  &__body {
+    &__content {
+      // display: flex;
+      padding-bottom: 24px;
+      justify-content: space-between;
+      &__left {
+        &__assignment-user {
+          display: flex;
+          &__key {}
+          &__val {
+            margin-left: 10px;
+          }
+        }
+      }
+      &__right {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        i {
+          margin-left: 10px;
+          font-size: 22px;
+          cursor: pointer;
+        }
+        .enable {
+          color: darkslategrey;
+        }
+        .disable {
+          color: @divider;
+          cursor: default;
+        }
+      }
+      border-bottom: 1px solid @divider;
+    }
+    &__utm {
+      display: flex;
+      justify-content: space-between;
+      &__left {
+        &__item {
+
+        }
+      }
+      &__right {
+        &__date {
+
+        }
+      }
+      margin-bottom: 12px;
+    }
+    &__contact {
+      &__info {
+        margin-bottom: 12px;
+        div {
+          margin-right: 5px;
+          font-weight: bold;
+        }
+        &__last-name {}
+        &__first-name {}
+        &__second-name {}
+        &__birthday {}
+      }
+      &__comment {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    &__task {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+      button {
+        margin-left: 20px;
+        background-color: darkslategrey;
+        border-color: darkslategrey;
+      }
+    }
+  }
+}

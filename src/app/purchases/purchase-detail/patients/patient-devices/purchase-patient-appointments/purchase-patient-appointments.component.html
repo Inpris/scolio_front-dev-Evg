@@ -1,0 +1,41 @@
+  <button nz-button class="add-appointment-button" nzType="primary" nzSize="small" (click)="openModalSheduleForm(null)">+ Запись на прием</button>
+  <nz-table #table
+    [nzData]="appointments"
+    [nzShowPagination]="false">
+    <thead>
+    <tr>
+      <th>Вид изделия</th>
+      <th>Цель посещения</th>
+      <th>Кабинет</th>
+      <th>Дата и Время</th>
+      <th>Врач</th>
+      <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-template ngFor let-data let-index="index" [ngForOf]="table.data">
+      <tr [ngClass]="{ 'row-expanded': data.expand}">
+        <td>{{ data.service?.name }}</td>
+        <td>{{ data.visitReason?.name }}</td>
+        <td>{{ data.room?.name }}</td>
+        <td>{{ data.dateTime | date: 'dd.MM.yyy H:mm' }}</td>
+        <td>{{ data.doctor?.name }}</td>
+        <td>
+          <div nz-row [nzType]="'flex'" nzJustify="space-between" class="appointment__actions">
+            <nz-popover>
+              <i nz-popover  class="anticon anticon-delete appointment__action" [ngClass]="{'disabled': !canDelete(data)}" (click)="deleteAppointment(data)"></i>
+              <ng-template #nzTemplate>Удалить запись на прием</ng-template>
+            </nz-popover>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    </tbody>
+  </nz-table>
+  <ng-template #sheduleModalContent>
+    <sl-shedule [contact]="contact"
+                [services]="availableServices"
+                [purchaseId]="purchaseId"
+                (appointmentCreated)="onAppointmentCreated($event)">
+    </sl-shedule>
+  </ng-template>

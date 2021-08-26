@@ -1,0 +1,3 @@
+<nz-radio-group [(ngModel)]="currentMethod" (ngModelChange)="onSelect($event)" >
+  <label *ngFor="let method of methods" nz-radio-button [nzValue]="method.sysName" [nzDisabled]="disabled" [attr.qaaLocator]="method.sysName">{{method.name}}</label>
+</nz-radio-group>

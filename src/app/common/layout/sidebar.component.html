@@ -1,0 +1,88 @@
+<a class="sl-sidebar__avatar">
+  <div class="sl-sidebar__avatar-icon anticon anticon-user"></div>
+</a>
+<div class="sl-sidebar__link"
+   routerLink="/shedule"
+   routerLinkActive="sl-sidebar__link--active"
+   *slIfHasAccess="[ROLES_USERS.DOCTOR, ROLES_USERS.USER, ROLES_USERS.USER_MANAGER, ROLES_USERS.ADMIN, ROLES_USERS.CALLCENTER];">
+  <div class="sl-sidebar__icon anticon anticon-calendar"></div>
+  <div class="sl-sidebar__text">Запись на прием</div>
+</div>
+<a class="sl-sidebar__link"
+   routerLink="/crm"
+   routerLinkActive="sl-sidebar__link--active"
+   *slIfHasAccess="[ROLES_USERS.USER, ROLES_USERS.USER_MANAGER, ROLES_USERS.ADMIN, ROLES_USERS.SALES_MANAGER];">
+  <div class="sl-sidebar__icon anticon anticon-area-chart"></div>
+  <div class="sl-sidebar__text">CRM</div>
+</a>
+<a class="sl-sidebar__link"
+   routerLink="/purchases"
+   routerLinkActive="sl-sidebar__link--active"
+   *slIfHasAccess="[ROLES_USERS.USER, ROLES_USERS.USER_MANAGER, ROLES_USERS.ADMIN];">
+  <div class="sl-sidebar__icon anticon anticon-message"></div>
+  <div class="sl-sidebar__text">Закупки</div>
+</a>
+<a class="sl-sidebar__link"
+   routerLink="/patients"
+   routerLinkActive="sl-sidebar__link--active"
+   *slIfHasAccess="[ROLES_USERS.DOCTOR, ROLES_USERS.USER, ROLES_USERS.USER_MANAGER, ROLES_USERS.ADMIN, ROLES_USERS.XRAY_MASTER, ROLES_USERS.SALES_MANAGER];">
+  <div class="sl-sidebar__icon anticon anticon-contacts"></div>
+  <div class="sl-sidebar__text">Пациенты</div>
+</a>
+<a class="sl-sidebar__link"
+   routerLink="/robot"
+   routerLinkActive="sl-sidebar__link--active"
+  *slIfHasAccess="[ROLES_USERS.DOCTOR, ROLES_USERS.USER, ROLES_USERS.USER_MANAGER, ROLES_USERS.ADMIN, ROLES_USERS.WORKER, ROLES_USERS.WORKER_MANAGER];">
+  <div class="sl-sidebar__icon anticon anticon-tool"></div>
+  <div class="sl-sidebar__text">Робот</div>
+</a>
+<a class="sl-sidebar__link"
+  routerLink="/locksmith"
+  routerLinkActive="sl-sidebar__link--active"
+  *slIfHasAccess="[ROLES_USERS.DOCTOR, ROLES_USERS.USER, ROLES_USERS.USER_MANAGER, ROLES_USERS.ADMIN, ROLES_USERS.LOCKSMITH_USER, ROLES_USERS.LOCKSMITH_LEAD];">
+  <div class="sl-sidebar__icon anticon anticon-api"></div>
+  <div class="sl-sidebar__text">Слесарка</div>
+</a>
+<a class="sl-sidebar__link"
+  *slIfHasAccess="['hidden'];">
+  <div class="sl-sidebar__icon anticon anticon-database"></div>
+  <div class="sl-sidebar__text">Склад</div>
+</a>
+<a class="sl-sidebar__link"
+   routerLink="/users"
+   routerLinkActive="sl-sidebar__link--active"
+  *slIfHasAccess="[ROLES_USERS.ADMIN];">
+  <div class="sl-sidebar__icon anticon anticon-team"></div>
+  <div class="sl-sidebar__text">Сотрудники</div>
+</a>
+<a class="sl-sidebar__link"
+   routerLink="/schedule-settings"
+   routerLinkActive="sl-sidebar__link--active"
+  *slIfHasAccess="[ROLES_USERS.DOCTOR_TIME_TABLE];">
+  <div class="sl-sidebar__icon anticon anticon-table"></div>
+  <div class="sl-sidebar__text">График кабинетов</div>
+</a>
+<a class="sl-sidebar__link"
+   routerLink="/reports"
+   routerLinkActive="sl-sidebar__link--active"
+  *slIfHasAccess="[ROLES_USERS.ADMIN];">
+  <div class="sl-sidebar__icon anticon anticon-export"></div>
+  <div class="sl-sidebar__text">Отчеты</div>
+</a>
+<a class="sl-sidebar__link"
+   *slIfHasAccess="['hidden'];">
+  <div class="sl-sidebar__icon anticon anticon-setting"></div>
+  <div class="sl-sidebar__text">Настройки</div>
+</a>
+<a class="sl-sidebar__link"
+   *slIfHasAccess="['hidden'];">
+  <div class="sl-sidebar__icon anticon anticon-question-circle-o"></div>
+  <div class="sl-sidebar__text">Поддержка</div>
+</a>
+<a class="sl-sidebar__link"
+   routerLink="/dictionary"
+   routerLinkActive="sl-sidebar__link--active"
+   *slIfHasAccess="[ROLES_USERS.ADMIN];">
+  <div class="sl-sidebar__icon anticon anticon-book"></div>
+  <div class="sl-sidebar__text">Справочники системы</div>
+</a>

@@ -1,0 +1,44 @@
+@import "variables";
+
+.protez-nk-order-short {
+  display: flex;
+  flex-direction: column;
+
+  &__close {
+    right: -10px;
+    top: -20px;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  & > *:first-child {
+    margin-bottom: 20px;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+
+    button:first-child {
+      margin-right: 10px;
+    }
+  }
+
+  &__row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+}

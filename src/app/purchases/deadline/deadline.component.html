@@ -1,0 +1,48 @@
+<nz-card class="deadline-page" [nzTitle]="title" [nzExtra]="extra" >
+  <ng-template #title>
+    <div class="deadline-page__title">
+      Заканчивается срок выполнения работ ({{ pageParams.totalCount || 0 }})
+    </div>
+  </ng-template>
+
+  <ng-template #extra>
+    <div class="deadline-page__extra">
+
+    </div>
+  </ng-template>
+
+  <nz-table #basicTable
+    [nzFrontPagination]="false"
+    [nzData]="data"
+    [nzLoading]="dealLineData.isLoading"
+    [nzPageSize]="pageParams.pageSize"
+    [nzTotal]="pageParams.totalCount"
+    [(nzPageIndex)]="pageParams.page"
+
+    (nzPageIndexChange)="indexChange()"
+    (nzPageIndexChangeClick)="pageIndexChangeClick()"
+  >
+    <tbody>
+    <tr *ngFor="let item of basicTable.data" [ngClass]="{ 'overdu': item.purchaseOverdu }">
+      <td nz-td>
+        <a [routerLink]="['/purchases/', item.id]">{{ item.noticeNumber }}</a>
+      </td>
+      <td nz-td>{{ item.contractNumber }}</td>
+      <td nz-td>
+        <div *ngIf="item.customer && item.customer.company.region && item.customer.company.region.name">
+          {{ item.customer.company.region.name }}
+        </div>
+      </td>
+      <td nz-td>{{ item.purchaseChapters ? item.purchaseChapters[0].name : '' }}</td>
+      <td nz-td class="deadline">{{ item.deadline | date: 'dd.MM.yyyy'}}</td>
+      <td nz-td>
+        <sl-product-count-field [countData]="createProductCountData(item)"></sl-product-count-field>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+  <div class="deadline-page__legend" *ngIf="basicTable.data.length">
+    <sl-product-count-field ></sl-product-count-field>
+  </div>
+</nz-card>
+

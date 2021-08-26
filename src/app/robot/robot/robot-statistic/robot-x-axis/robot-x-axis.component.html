@@ -1,0 +1,26 @@
+<svg:g
+  [attr.class]="xAxisClassName"
+  [attr.transform]="transform">
+  <svg:g sl-robot-x-axis-ticks
+         *ngIf="xScale"
+         [tickFormatting]="tickFormatting"
+         [tickArguments]="tickArguments"
+         [tickStroke]="tickStroke"
+         [scale]="xScale"
+         [orient]="xOrient"
+         [showGridLines]="showGridLines"
+         [gridLineHeight]="dims.height"
+         [width]="dims.width"
+         [tickValues]="ticks"
+         (clicked)="clicked.next($event)"
+         (dimensionsChanged)="emitTicksHeight($event)"
+  />
+  <svg:g sl-robot-x-axis-label
+         *ngIf="showLabel"
+         [label]="labelText"
+         [offset]="labelOffset"
+         [orient]="'bottom'"
+         [height]="dims.height"
+         [width]="dims.width">
+  </svg:g>
+</svg:g>

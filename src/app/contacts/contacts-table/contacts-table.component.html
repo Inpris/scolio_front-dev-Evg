@@ -1,0 +1,29 @@
+<div>
+  <div class="table-info">
+    <div class="table-info__total">Всего: {{pagination?.totalCount || 0}}</div>
+  </div>
+  <nz-table #nzTable [nzData]="data" [nzShowPagination]="false" [nzLoading]="pending" [nzPageSize]="data?.length">
+    <thead>
+    <tr>
+      <th *ngIf="templateExpand" nzShowExpand></th>
+      <ng-container *ngTemplateOutlet="templateHead"></ng-container>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-template ngFor let-data let-i="index" [ngForOf]="nzTable.data">
+      <tr>
+        <td *ngIf="templateExpand" nzShowExpand [(nzExpand)]="data.expand"></td>
+        <ng-container *ngTemplateOutlet="templateBody; context: { data: data, i: i }"></ng-container>
+      </tr>
+      <tr *ngIf="templateExpand" [nzExpand]="data.expand">
+        <ng-container *ngTemplateOutlet="templateExpand; context: { data: data, i: i }"></ng-container>
+      </tr>
+    </ng-template>
+    <tr class="infinity-container" *ngIf="data && pagination.page <= pagination.pageCount - 1">
+      <td colspan="100">
+        <sl-infinity-scroll #infinityScroll [rootContainer]="scrollContainer" (loadCallback)="getContacts(true)"></sl-infinity-scroll>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

@@ -1,0 +1,86 @@
+<div class="detail-mail">
+
+  <div nz-row 
+    class="detail-mail__head" 
+    [nzType]="'flex'" 
+    [nzJustify]="'space-between'"
+  >
+    <div nz-row 
+      class="detail-mail__head__left" 
+      [nzType]="'flex'" 
+    >
+      <div (click)="back(null)">
+        <i class="anticon anticon-left"></i>
+      </div>
+      <div class="detail-mail__head__left__title">
+        <h2>CRM/<b>{{ data.subject }}</b></h2>
+      </div>
+    </div>
+    <div nz-col class="detail-mail__head__right">
+      <button nz-button nzType="primary" (click)="sendMsg()" *ngIf="isShowAnswerButton">
+        <span>Ответить</span>
+      </button>
+      <button nz-button nzType="primary" (click)="confirmRemove(data)" *ngIf="isShowDeleteButton">
+        <span>Удалить</span>
+      </button>
+      <button nz-button nzType="primary" (click)="confirmRestore(data)" *ngIf="isShowRestoreButton">
+        <span>Восстановить</span>
+      </button>
+    </div>
+
+
+  </div>
+
+  <div class="detail-mail__body">
+    <nz-card nzNoHovering="true"> 
+      <div nz-row
+        class="detail-mail__body__entity-link"
+        *ngIf="data.entity && data.entity.id"
+      >
+        {{ entityTypes[data.entity.type] }}:
+        <a  *ngIf="data.entity.type === 'Lead'" [routerLink]="['/crm/leads', data.entity.id]">{{ data.entity.name }}</a>
+        <span  *ngIf="data.entity.type === 'Contact'">{{ data.entity.name }}</span>
+      </div>
+      <div nz-row [nzType]="'flex'" [nzJustify]="'space-between'">
+        <div nz-col>
+          <div nz-row [nzType]="'flex'" [nzAlign]="'middle'">
+            <i class="anticon anticon-contacts"></i>
+            <b>{{ data.fromName }}  {{ data.from }}</b>
+          </div>
+        </div>
+        <div nz-col>
+          {{ data.dateTime | date: 'dd MMMM yyyy'}}
+        </div>
+      </div>
+      <br>
+      <div class="detail-mail__body__to">Кому: {{ data.to }}</div>
+      <br>
+      <div #container></div>
+      <div nz-row
+        class="detail-mail__body__attachments"
+        [nzType]="'flex'"
+      >
+        <div nz-col
+          class="detail-mail__body__attachments__file"
+          *ngFor="let file of data.attachments"
+        >
+          <div nz-row
+            [nzType]="'flex'"
+            [nzAlign]="'middle'"
+            (click)="downloadFile(file)"
+          >
+            <i class="anticon anticon-file"></i>
+            <div>{{ file.name }}</div>
+          </div>
+        </div>
+      </div>
+    </nz-card>
+  </div>
+</div>
+
+<ng-template #formMsgModalContent>
+  <sl-send-msg 
+    [data]="msgData" 
+    (closeModal)="closeModalMsgForm($event)"
+  ></sl-send-msg>
+</ng-template>

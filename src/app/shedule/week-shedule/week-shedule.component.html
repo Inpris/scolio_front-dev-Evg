@@ -1,0 +1,34 @@
+<div class="week-selector">
+  <div class="link" (click)="onPrevWeek()">Предыдущая неделя</div>
+  <div class="date-range">
+    <span>{{firstDay.date|date:'dd'}}</span>
+    <span *ngIf="multiMonthWeek">{{firstDay.date|date:'MMMM'}}</span>
+    <span>-</span>
+    <span>{{lastDay.date|date:'dd'}}</span>
+    <span>{{lastDay.date|date:'MMMM'}}</span>
+  </div>
+  <div class="link" (click)="onNextWeek()">Следующая неделя</div>
+</div>
+<div class="shedule-table">
+  <div class="shedule-column" *ngFor="let day of weekShedule">
+    <div class="shedule-cell" (click)="onShowDayShedule(day.date)">
+      <div class="shedule-record header">
+        <span>{{day.date|date:'E'}}</span>
+        <span>{{day.date|date:'dd'}}</span><span *ngIf="multiMonthWeek">.{{day.date|date:'MM'}}</span>
+      </div>
+    </div>
+    <div class="shedule-cell" *ngFor="let sheduleCell of day.records">
+      <ng-container *ngFor="let sheduleRecord of sheduleCell; index as i">
+        <div *ngIf="i > 0" class="separator"></div>
+        <div class="shedule-record"
+             [ngClass]="sheduleRecord.status"
+             [class.confirmed]="sheduleRecord.confirmed"
+             [class.selected]="isSelectedDate(sheduleRecord.dateTimeStart)"
+             [class.disabled-of-another]="isSelectedOfAnotherUserDate(sheduleRecord.dateTimeStart)"
+             (click)="onSelectRecord(sheduleRecord)">
+          {{sheduleRecord.visibleDate|date:'H:mm'}}
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

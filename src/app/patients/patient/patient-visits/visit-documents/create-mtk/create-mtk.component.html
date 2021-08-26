@@ -1,0 +1,93 @@
+<form [formGroup]="form" (ngSubmit)="createAct()" novalidate>
+  <nz-card class="form" [nzTitle]="title">
+
+    <ng-template #title>
+      <div nz-row [nzType]="'flex'" nzJustify="space-between" class="form__title">
+        <div nz-col class="form__title__text">
+          Создание акта МТК
+        </div>
+        <i class="anticon anticon-close form__close" (click)="closeForm()"></i>
+      </div>
+    </ng-template>
+
+    <nz-spin [nzSpinning]="isBusy">
+      <div nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col nzSpan="7">
+          <label class="form__required">№ Акта МТК</label>
+          <nz-form-control>
+            <input nz-input formControlName="number">
+          </nz-form-control>
+        </div>
+        <div nz-col nzSpan="7">
+          <label class="form__required">Дата акта МТК</label>
+          <nz-form-control>
+            <sl-date-picker formControlName="actDate" nzFormat="DD.MM.YYYY" nzPlaceHolder></sl-date-picker>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <nz-divider nzText="Комиссия"></nz-divider>
+
+      <sl-mtk-comission [form]="form" [templates]="templates" [readonly]="true" [preselect]="!data"></sl-mtk-comission>
+
+      <nz-divider nzText="Заключение комиссии акта МТК"></nz-divider>
+      <div class="act-mtk__template-selection">
+        <nz-select nzPlaceHolder="Добавить из справочника"
+                   nzShowSearch
+                   [(ngModel)]="selectedSolution"
+                   (ngModelChange)="onSelect($event, 'comissionSolution')"
+                   [ngModelOptions]="{ standalone: true }"
+                   nzDropdownClassName="qaadropdownComissionSolutionTemplate"
+                   qaaLocator="qaaSelectComissionSolutionTemplate">
+          <nz-option [nzValue]="item" [nzLabel]="item.name" *ngFor="let item of commisionSolutions"></nz-option>
+        </nz-select>
+      </div>
+      <div nz-row class="blank__main-text">
+        <div nz-col nzSpan="24">
+          <nz-form-control>
+            <textarea nz-input formControlName="comissionSolution"></textarea>
+          </nz-form-control>
+        </div>
+      </div>
+      <nz-divider nzText="Рекомендации комиссии акта МТК"></nz-divider>
+      <div class="act-mtk__template-selection">
+        <nz-select nzPlaceHolder="Добавить из справочника"
+                   nzShowSearch
+                   [(ngModel)]="selectedRecomendation"
+                   (ngModelChange)="onSelect($event, 'comissionRecomendations')"
+                   [ngModelOptions]="{ standalone: true }"
+                   nzDropdownClassName="qaaDropdownComissionRecomendationsTemplate"
+                   qaaLocator="qaaSelectComissionRecomendationsTemplate">
+          <nz-option [nzValue]="item" [nzLabel]="item.name" *ngFor="let item of commissionRecomendations"></nz-option>
+        </nz-select>
+      </div>
+      <div nz-row class="blank__main-text">
+        <div nz-col nzSpan="24">
+          <nz-form-control>
+            <textarea nz-input formControlName="comissionRecomendations"></textarea>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row
+           class="form__body__btn"
+           nzType="flex"
+           nzJustify="center"
+           [nzGutter]="8">
+        <div nz-col>
+          <button type="submit" nz-button nzType="primary">
+            <i class="anticon anticon-save"></i>
+            <span>Сохранить</span>
+          </button>
+        </div>
+
+        <div nz-col>
+          <button type="button" nz-button (click)="closeForm()">
+            <i class="anticon anticon-close"></i>
+            <span>Отмена</span>
+          </button>
+        </div>
+      </div>
+    </nz-spin>
+  </nz-card>
+</form>

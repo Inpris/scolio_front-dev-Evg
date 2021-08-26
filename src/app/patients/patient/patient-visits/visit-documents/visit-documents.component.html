@@ -1,0 +1,18 @@
+<nz-spin [nzSpinning]="isBusy">
+<div class="files__items">
+  <div *ngFor="let act of visitsManager.selected?.actsMtk"  nz-row nzType="flex" nzJustify="space-between" nzAlign="middle">
+    <div nz-col nzSpan="19">
+      <a *ngIf="act.attachmentId" [href]="'/api/v1/files/' + act.attachmentId" target="_blank" download>Акт МТК №{{act.number}}</a>
+      <a *ngIf="!act.attachmentId" (click)="editAct(act)">Акт МТК №{{act.number || 'N/A'}}</a>
+    </div>
+    <div nz-col class="files__item-actions">
+      <i class="anticon anticon-edit file__edit" (click)="editAct(act)"></i>
+      <i class="anticon anticon-close-circle file__remove" (click)="deleteAct(act)"></i>
+    </div>
+  </div>
+</div>
+<div nz-row nzType="flex" nzJustify="end">
+  <button type="button" nz-col nzSize="small" nz-button nzType="dashed" (click)="createMtk()">+ Акт мтк
+  </button>
+</div>
+</nz-spin>

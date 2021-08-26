@@ -1,0 +1,47 @@
+@import "variables";
+
+.radio-button-checked() {
+  border-color: currentColor;
+  box-shadow: -1px 0 0 0 currentColor;
+}
+
+:host ::ng-deep {
+  nz-radio-group {
+    width: 100%;
+    label {
+      width: 50%;
+      text-align: center;
+    }
+  }
+  .sl-button {
+    &__green {
+      &:hover {
+        color: @green-5;
+      }
+      &.ant-radio-button-wrapper-checked {
+        color: @green-5;
+        .radio-button-checked();
+      }
+    }
+    &__red {
+      &:hover {
+        color: @red-5;
+      }
+      &.ant-radio-button-wrapper-checked {
+        color: @red-5;
+        .radio-button-checked();
+      }
+    }
+  }
+}
+
+.manufacturing {
+  &__controlled {
+    color: @green-5;
+    float: right;
+    margin-top: 6px;
+  }
+  &__control {
+    margin-top: 6px;
+  }
+}

@@ -1,0 +1,44 @@
+@import "variables";
+
+.col {
+  padding: 6px;
+  // width: 100%;
+  nz-card > ::ng-deep div.ant-card-body {
+    padding: 0;
+    background-color: #ececec;
+  }
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__text {
+      padding: 0 24px;
+      line-height: 48px;
+    }
+    &__btn {
+      padding-right: 24px;
+      button {
+        background-color: darkslategrey; 
+        border-color: darkslategrey;
+        i {
+          color: white;
+          font-size: 22px;
+        }
+      }
+    }
+  }
+  .blue-color {
+    background-color: @blue-0;
+  }
+  .orange-color {
+    background-color: orange;
+  }
+  .green-color {
+    background-color: @green-3;
+  }
+  &__body {
+    height: 100vh;
+    overflow: auto;
+  }
+}

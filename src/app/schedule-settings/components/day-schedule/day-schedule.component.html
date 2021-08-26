@@ -1,0 +1,29 @@
+<div class="day-schedule">
+  <div class="day-schedule__header" (click)="changeDayStatus()">{{ dayNames[day] }}</div>
+  <ng-container *ngFor="let cell of cells$ | async;">
+    <ng-container [ngSwitch]="cell.status">
+      <ng-container *ngSwitchCase="cellStatuses.TAKEN">
+        <div [nz-tooltip]="takenTooltip(cell)" [class]="cellClasses(cell)" (click)="changeStatus(cell)">
+          <span>{{ cell.time | date : 'HH:mm' }}</span>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="doctorId">
+        <ng-container *ngSwitchCase="cellStatuses.DISABLED">
+          <div [nz-tooltip]="'В данное время доктор не работает'" [class]="cellClasses(cell)" (click)="changeStatus(cell)">
+            <span>{{ cell.time | date : 'HH:mm' }}</span>
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="cellStatuses.SELF_DISABLED">
+        <div [nz-tooltip]="selfTakenTooltip(cell)" [class]="cellClasses(cell)" (click)="changeStatus(cell)">
+          <span>{{ cell.time | date : 'HH:mm' }}</span>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <div [class]="cellClasses(cell)" (click)="changeStatus(cell)">
+          <span>{{ cell.time | date : 'HH:mm' }}</span>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</div>

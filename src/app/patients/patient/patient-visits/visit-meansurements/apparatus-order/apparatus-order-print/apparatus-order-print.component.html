@@ -1,0 +1,314 @@
+<div [formGroup]="form" nzType="block" class="print-form">
+  <div nz-row nzAlign="middle" class="print-form__header">Бланк заказа {{ messageItem }} № {{ device?.number }}</div>
+  <table class="print_table">
+    <tr>
+      <td [style.width]="'25%'">ФИО:</td>
+      <td colspan="4">{{ contact?.lastName }} {{ contact?.firstName }} {{ contact?.secondName }}</td>
+    </tr>
+    <tr>
+      <td>Телефон:</td>
+      <td colspan="4">{{ contact?.phone }}</td>
+    </tr>
+    <tr>
+      <td>Диагноз:</td>
+      <td colspan="4">{{ diagnosis?.name }}</td>
+    </tr>
+    <tr>
+      <td>Принял:</td>
+      <td [style.width]="'40%'" colspan="2">{{ visit?.doctor?.name}}</td>
+      <td [style.width]="'20%'">Дата приема:</td>
+      <td [style.width]="'20%'">{{ visit?.dateTime | date : 'dd.MM.yyyy' }}</td>
+    </tr>
+    <tr>
+      <td>Провел примерку 1:</td>
+      <td [style.width]="'20%'"></td>
+      <td [style.width]="'20%'"></td>
+      <td [style.width]="'20%'">Дата примерки 1:</td>
+      <td [style.width]="'20%'"></td>
+    </tr>
+    <tr>
+      <td>Провел примерку 2:</td>
+      <td></td>
+      <td></td>
+      <td>Дата примерки 2:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Выдал:</td>
+      <td>{{ issueData?.issuer1?.name }}</td>
+      <td>{{ issueData?.issuer2?.name }}</td>
+      <td>Дата выдачи:</td>
+      <td>{{ corsetData?.dateOfIssue | date : 'dd.MM.yyyy' }}</td>
+    </tr>
+  </table>
+  <table class="info-table withot_border">
+    <tr class="withot_border">
+      <td [style.width]="'50%'" class="withot_border">
+        <img src="/assets/apparatus_measurements.png">
+      </td>
+      <td [style.width]="'50%'" [style.padding-right]="'0px'" class="info-table__param-col">
+        <table>
+          <tr>
+            <td [style.width]="'30%'">Рост:</td>
+            <td>{{ growth }}</td>
+          </tr>
+          <tr>
+            <td [style.width]="'30%'">Вес:</td>
+            <td>{{ weight }}</td>
+          </tr>
+          <tr>
+            <td [style.width]="'30%'" [style.height]="'120px'">Примечание:</td>
+            <td>{{ comment }}</td>
+          </tr>
+          <tr>
+            <td [style.width]="'30%'">Дата выдачи Турнера:</td>
+            <td>{{ corsetData?.dateOfIssueTurner | date : 'dd.MM.yyyy' }}</td>
+          </tr>
+          <tr>
+            <td [style.width]="'30%'">Дата отправки в филиал:</td>
+            <td>{{ corsetData?.dateSendingToBranch | date : 'dd.MM.yyyy' }}</td>
+          </tr>
+          <tr>
+            <td [style.width]="'30%'">Филиал:</td>
+            <td>{{ corsetData?.branch?.name }}</td>
+          </tr>
+        </table>
+        <br/>
+      </td>
+    </tr>
+  </table>
+  <table class="apparatus-kontr-angle-table page-break">
+    <tr>
+      <td rowspan="2"></td>
+      <td colspan="2">контрактура</td>
+    </tr>
+    <tr>
+      <td [style.width]="'20%'">правый</td>
+      <td [style.width]="'20%'">левый</td>
+    </tr>
+    <tr>
+      <td [style.width]="'30%'" class="left-align">Тазобедренный сустав</td>
+      <td [style.width]="'20%'">{{ apparatLegMeasurement?.rightHipContracture }}</td>
+      <td [style.width]="'20%'">{{ apparatLegMeasurement?.leftHipContracture }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'30%'" class="left-align">Колленный сустав</td>
+      <td>{{ apparatLegMeasurement?.rightKneeContracture }}</td>
+      <td>{{ apparatLegMeasurement?.leftKneeContracture }}</td>
+    </tr>
+    <tr>
+      <td class="left-align">Голеностопный сустав</td>
+      <td>{{ apparatLegMeasurement?.rightAnkleContracture }}</td>
+      <td>{{ apparatLegMeasurement?.leftAnkleContracture }}</td>
+    </tr>
+    <tr>
+      <td class="left-align">Материал</td>
+      <td colspan="2">{{ hingeParameters?.plasticType?.name }}</td>
+    </tr>
+    <tr>
+      <td class="left-align">Вкладная гильза</td>
+      <td colspan="2">{{ hingeParameters?.adapterSleeve }}</td>
+    </tr>
+    <tr>
+    <td class="left-align">Цвет пластика</td>
+      <td colspan="2">{{ color }}</td>
+    </tr>
+    <tr *ngIf="productType !== 'Tutor'">
+      <td class="left-align">Тазобедренный шарнир</td>
+      <td colspan="2">{{ hipJoint }}</td>
+    </tr>
+    <tr *ngIf="productType !== 'Tutor'">
+      <td class="left-align">Коленный шарнир</td>
+      <td colspan="2">{{ kneeJoint }}</td>
+    </tr>
+    <tr *ngIf="productType !== 'Tutor'">
+      <td class="left-align">Голеностопный шарнир</td>
+      <td colspan="2">{{ hingeParameters?.ankleJoint }}</td>
+    </tr>
+    <tr>
+      <td class="left-align">Крепление</td>
+      <td colspan="2">{{ hingeParameters?.mount }}</td>
+    </tr>
+    <tr>
+      <td class="left-align">Компенсация укорочения</td>
+      <td colspan="2">{{ compensation }}</td>
+    </tr>
+  </table>
+  <br>
+  <table style="text-align: left;" class="apparat-measurements-table after-break">
+    <tr>
+      <td [style.width]="'40%'" class="apparat-measurements-table__header center-align">Окружность</td>
+      <td [style.width]="'30%'" class="center-align">правая</td>
+      <td [style.width]="'30%'" class="center-align">левая</td>
+    </tr>
+    <tr>
+      <td>Носок</td>
+      <td>{{ apparatLegMeasurement?.rightSockRound }}</td>
+      <td>{{ apparatLegMeasurement?.leftSockRound }}</td>
+    </tr>
+    <tr>
+      <td>Головки плюсневых</td>
+      <td>{{ apparatLegMeasurement?.rightMetatarsalHeadsRound }}</td>
+      <td>{{ apparatLegMeasurement?.leftMetatarsalHeadsRound }}</td>
+    </tr>
+    <tr>
+      <td>Пятка</td>
+      <td>{{ apparatLegMeasurement?.rightHeelRound }}</td>
+      <td>{{ apparatLegMeasurement?.leftHeelRound }}</td>
+    </tr>
+    <tr>
+      <td>Над лодыжками</td>
+      <td>{{ apparatLegMeasurement?.rightOverTheAnklesRound }}</td>
+      <td>{{ apparatLegMeasurement?.leftOverTheAnklesRound }}</td>
+    </tr>
+    <tr>
+      <td>Голень (максимально выступающая часть)</td>
+      <td>{{ apparatLegMeasurement?.rightDrumstickMaximumRound }}</td>
+      <td>{{ apparatLegMeasurement?.leftDrumstickMaximumRound }}</td>
+    </tr>
+    <tr>
+      <td>Колено</td>
+      <td>{{ apparatLegMeasurement?.rightKneeRound }}</td>
+      <td>{{ apparatLegMeasurement?.leftKneeRound }}</td>
+    </tr>
+    <tr>
+      <td>Середина бедра</td>
+      <td>{{ apparatLegMeasurement?.rightMidThighRound }}</td>
+      <td>{{ apparatLegMeasurement?.leftMidThighRound }}</td>
+    </tr>
+    <tr>
+      <td>Промежность</td>
+      <td>{{ apparatLegMeasurement?.rightCrotchRound }}</td>
+      <td>{{ apparatLegMeasurement?.leftCrotchRound }}</td>
+    </tr>
+    <tr>
+      <td class="apparat-measurements-table__header center-align">Поперечный размер</td>
+      <td colspan="2"></td>
+    </tr>
+    <tr>
+      <td>Лодыжки</td>
+      <td>{{ apparatLegMeasurement?.rightAnkles }}</td>
+      <td>{{ apparatLegMeasurement?.leftAnkles }}</td>
+    </tr>
+    <tr>
+      <td>Головки плюсневых</td>
+      <td>{{ apparatLegMeasurement?.rightMetatarsalHeads }}</td>
+      <td>{{ apparatLegMeasurement?.leftMetatarsalHeads }}</td>
+    </tr>
+    <tr>
+      <td>Длины стопы</td>
+      <td>{{ apparatLegMeasurement?.rightFootLength }}</td>
+      <td>{{ apparatLegMeasurement?.leftFootLength }}</td>
+    </tr>
+    <tr>
+      <td class="apparat-measurements-table__header center-align">Высота от пола</td>
+      <td colspan="2"></td>
+    </tr>
+    <tr>
+      <td>Над лодыжками</td>
+      <td>{{ apparatLegMeasurement?.rightOverTheAnkles }}</td>
+      <td>{{ apparatLegMeasurement?.leftOverTheAnkles }}</td>
+    </tr>
+    <tr>
+      <td>Голень</td>
+      <td>{{ apparatLegMeasurement?.rightShin }}</td>
+      <td>{{ apparatLegMeasurement?.leftShin }}</td>
+    </tr>
+    <tr>
+      <td>Колено</td>
+      <td>{{ apparatLegMeasurement?.rightKnee }}</td>
+      <td>{{ apparatLegMeasurement?.leftKnee }}</td>
+    </tr>
+    <tr>
+      <td>Середина бедра</td>
+      <td>{{ apparatLegMeasurement?.rightMidThigh }}</td>
+      <td>{{ apparatLegMeasurement?.leftMidThigh }}</td>
+    </tr>
+    <tr>
+      <td>Промежность</td>
+      <td>{{ apparatLegMeasurement?.rightCrotch }}</td>
+      <td>{{ apparatLegMeasurement?.leftCrotch }}</td>
+    </tr>
+    <tr>
+      <td>Вертел</td>
+      <td>{{ apparatLegMeasurement?.rightSpit }}</td>
+      <td>{{ apparatLegMeasurement?.leftSpit }}</td>
+    </tr>
+  </table>
+  <br>
+  <table class="manufactoring-table">
+    <tr>
+      <td>Комментарий</td>
+      <td colspan="2">{{ manufacturingData?.comment }}</td>
+    </tr>
+    <tr>
+      <td>Отрисовка 3д модели</td>
+      <td>{{ device?.model3DExecutor1?.name }}</td>
+      <td>{{ device?.model3DExecutor2?.name }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'40%'">Снятие слепка</td>
+      <td [style.width]="'30%'">{{ manufacturingData?.impressionTakingExecutor1?.name }}</td>
+      <td [style.width]="'30%'">{{ manufacturingData?.impressionTakingExecutor2?.name }}</td>
+    </tr>
+    <tr>
+      <td>Изготовление тушки</td>
+      <td>{{ manufacturingData?.carcassExecutor1?.name }}</td>
+      <td>{{ manufacturingData?.carcassExecutor2?.name }}</td>
+    </tr>
+    <tr>
+      <td>Обработка слепка</td>
+      <td>{{ manufacturingData?.impressionProcessExecutor1?.name }}</td>
+      <td>{{ manufacturingData?.impressionProcessExecutor2?.name }}</td>
+    </tr>
+    <tr>
+      <td>Блоковка</td>
+      <td>{{ manufacturingData?.blockingExecutor1?.name }}</td>
+      <td>{{ manufacturingData?.blockingExecutor2?.name }}</td>
+    </tr>
+    <tr>
+      <td>Ламинация</td>
+      <td>{{ manufacturingData?.laminationExecutor1?.name }}</td>
+      <td>{{ manufacturingData?.laminationExecutor2?.name }}</td>
+    </tr>
+    <tr>
+      <td>Сборка</td>
+      <td>{{ manufacturingData?.assemblyExecutor1?.name }}</td>
+      <td>{{ manufacturingData?.assemblyExecutor2?.name }}</td>
+    </tr>
+    <tr>
+      <td>Примерка</td>
+      <td>{{ manufacturingData?.fittingExecutor1?.name }}</td>
+      <td>{{ manufacturingData?.fittingExecutor2?.name }}</td>
+    </tr>
+    <tr>
+      <td>Спиливание</td>
+      <td>{{ manufacturingData?.cuttingExecutor1?.name }}</td>
+      <td>{{ manufacturingData?.cuttingExecutor2?.name }}</td>
+    </tr>
+    <tr>
+      <td>Обточка</td>
+      <td>{{ manufacturingData?.turningExecutor1?.name }}</td>
+      <td>{{ manufacturingData?.turningExecutor2?.name }}</td>
+    </tr>
+    <tr>
+      <td>Установка креплений</td>
+      <td>{{ manufacturingData?.fastenersInstallExecutor1?.name }}</td>
+      <td>{{ manufacturingData?.fastenersInstallExecutor2?.name }}</td>
+    </tr>
+    <tr>
+      <td>Препрег</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Выдача</td>
+      <td>{{ issueData?.issuer1?.name }}</td>
+      <td>{{ issueData?.issuer2?.name }}</td>
+    </tr>
+    <tr>
+      <td>Дата выдачи изделия</td>
+      <td colspan="2">{{ corsetData?.dateOfIssue | date : 'dd.MM.yyyy' }}</td>
+    </tr>
+  </table>
+</div>

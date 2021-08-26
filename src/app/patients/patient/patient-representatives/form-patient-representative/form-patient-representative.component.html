@@ -1,0 +1,50 @@
+<nz-card nzNoHovering="true" class="form" [nzTitle]="title">
+  <ng-template #title>
+    <div nz-row nzType="flex" [nzGutter]="8" class="form__title">
+      <div nz-col class="form__title__icon">
+        <i class="anticon anticon-contacts"></i>
+      </div>
+      <div *ngIf="formType === 'edit'; then edit; else create"></div>
+      <ng-template #edit>
+        <div nz-col>Изменение данных представителя</div>
+      </ng-template>
+      <ng-template #create>
+        <div nz-col>Добавление нового представителя</div>
+      </ng-template>
+      <i class="anticon anticon-close form__close" (click)="closeForm()"></i>
+    </div>
+  </ng-template>
+  <form [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+
+    <sl-contragent-person formControlName="contactConragent"
+                          [isEditMode]="isEditMode"
+                          (selectedRepresentative)="selectedRepresentativeChange($event)"
+                          ></sl-contragent-person>
+
+    <div nz-row
+          class="form__body__btn"
+          [nzType]="'flex'"
+          [nzJustify]="'center'"
+          [nzGutter]="8"
+        >
+          <div nz-col [nzSpan]="data && data.id ? 12 : ''">
+            <div nz-row nzType="flex" nzGutter="8" [nzJustify]="'end'">
+              <div nz-col>
+                <button type="submit" nz-button nzType="primary">
+                  <i class="anticon anticon-save"></i>
+                  <span *ngIf="formType === 'create'">Сохранить</span>
+                  <span *ngIf="formType === 'edit'">Обновить</span>
+                </button>
+              </div>
+              <div nz-col>
+                <button type="button" nz-button (click)="closeForm()">
+                  <i class="anticon anticon-close"></i>
+                  <span>Отмена</span>
+                </button>
+              </div>
+            </div>
+          </div>
+    </div>
+  </form>
+</nz-card>
+

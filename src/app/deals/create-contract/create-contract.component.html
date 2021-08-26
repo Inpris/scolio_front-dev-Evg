@@ -1,0 +1,152 @@
+<nz-card nzNoHovering="true" class="form" [nzTitle]="title" [nzExtra]="deal">
+  <ng-template #title>
+    <div nz-row [nzType]="'flex'" [nzGutter]="8" class="form__title">
+      <div nz-col class="form__title__icon">
+        <i class="anticon anticon-contacts"></i>
+      </div>
+      <div nz-col class="form__title__text">
+        Создание договора
+      </div>
+      <i class="anticon anticon-close form__close" (click)="closeForm()"></i>
+    </div>
+  </ng-template>
+  <ng-template #deal>
+    <b>Сделка: {{contact.name}}, {{visitsManager.selected?.deal.dealDisplayText}}</b>
+  </ng-template>
+  <nz-spin [nzSpinning]="isBusy">
+    <form [formGroup]="form" novalidate (ngSubmit)="onSubmit()"
+          slScrollToFirstInvalid
+          [slForm]="form"
+          scrollContainer=".ant-modal-wrap">
+      <div nz-row nzType="flex" nzJustify="space-between" nzAlign="stretch">
+        <div nz-col nzSpan="11">
+          <label>Тип договора*:</label>
+          <nz-select formControlName="contractTypeId" nzPlaceHolder nzDropdownClassName="qaaDropdownCabinet"
+                     [nzDisabled]="contractId"
+                     qaaLocator="qaaSelectCabinet">
+            <nz-option *ngFor="let option of contractsTypes"
+                       [nzLabel]="option.name"
+                       [nzValue]="option.id"
+                       nzDropdownClassName="qaaCabinet"></nz-option>
+          </nz-select>
+          <div style="margin: 10px 0;">Юридическое лицо: {{ legalEntity }}</div>
+          <div *ngIf="contractId" style="margin: 10px 0;">Номер договора: {{ form.get('contractNumber').value }}</div>
+          <div>
+            <label>Дата заключения*:</label>
+            <nz-form-control>
+              <sl-date-picker nzFormat="DD.MM.YYYY" formControlName="contractDate"></sl-date-picker>
+            </nz-form-control>
+          </div>
+          <div>
+            <label>Дата окончания срока действия:</label>
+            <nz-form-control>
+              <sl-date-picker nzFormat="DD.MM.YYYY" formControlName="expirationDate"></sl-date-picker>
+            </nz-form-control>
+          </div>
+          <div>
+            <label>Заметка:</label>
+            <nz-form-control>
+              <textarea nz-input formControlName="note" rows="10"></textarea>
+            </nz-form-control>
+          </div>
+          <div *ngIf="savedProducts.length" class="products">
+            <span>Изделия:</span>
+            <div class="products__container">
+              <div *ngFor="let item of savedProducts; let i = index;" class="products__item">
+                <div class="products__item-info">
+                  <div class="products__item-title" (click)="editProduct(item)">
+                    {{item.productKind?.productKindName || ''}}:
+                  </div>
+                  <div>{{item.quantity}}шт. Стоимость: {{ (item.quantity * item.price).toFixed(2) }} </div>
+                </div>
+                <div class="products__item-remove">
+                  <button nz-button nzType="dashed" type="button" (click)="deleteProduct(i)">
+                    <span>Удалить</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!showAddProduct" class="products__add">
+            <button nz-button nzType="primary" type="button" (click)="addProduct()">
+              <span>Добавить изделие +</span>
+            </button>
+          </div>
+          <ng-container *ngIf="showAddProduct">
+            <div [formGroup]="productForm" class="products__add-block">
+              <label>Наименование изделия из классификатора:</label>
+              <nz-form-control>
+                <sl-control-selection title="Выберите изделие:"
+                                      [options]="productKinds"
+                                      [control]="productForm.get('productKind')"
+                                      nzDropdownClassName="qaaDropdownVisitReasonDeal"
+                                      labelField="productKindName"
+                                      qaaLocator="qaaSelectVisitReasonDeal"></sl-control-selection>
+              </nz-form-control>
+              <div class="products__add-price">
+                <div class="products__add-price-block">
+                  <label>Цена:</label>
+                  <nz-form-control>
+                    <input slCurrency class="products__add-input" nz-input formControlName="price" />
+                  </nz-form-control>
+                </div>
+                <div style="flex: 1;">
+                  <label>Количество:</label>
+                  <nz-form-control>
+                    <nz-input-number class="products__add-input" nz-input formControlName="quantity" [nzMin]="0"></nz-input-number>
+                  </nz-form-control>
+                </div>
+              </div>
+              <div class="products__add-buttons">
+                <button nz-button nzType="primary" type="button" (click)="saveProduct()">
+                  <i class="anticon anticon-save"></i>
+                  <span>Сохранить</span>
+                </button>
+                <button nz-button nzType="primary" type="button" (click)="cancelProduct()">
+                  <span>Отмена</span>
+                </button>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div nz-col>
+          <nz-divider nzType="vertical"></nz-divider>
+        </div>
+        <div nz-col nzSpan="11">
+          <span>Контрагент: </span>
+          <sl-control-selection [control]="form.get('contragentType')" [options]="[{ name: 'Юрлицо', sysName: 'company'}, { name: 'Физлицо', sysName: 'person'}]" valueField="sysName"></sl-control-selection>
+          <ng-container [ngSwitch]="form.value.contragentType">
+            <sl-contragent-person *ngSwitchCase="'person'"
+              formControlName="contactConragent"
+              [isContract]="true"
+              [patientId]="contact.id"
+              (selectedRepresentative)="selectedRepresentativeChange($event)"
+            ></sl-contragent-person>
+            <sl-contragent-company *ngSwitchCase="'company'" formControlName="companyContragent"></sl-contragent-company>
+          </ng-container>
+        </div>
+      </div>
+
+      <div nz-row
+           class="form__body__btn"
+           [nzType]="'flex'"
+           [nzJustify]="'center'"
+           [nzGutter]="8"
+      >
+        <div nz-col>
+          <button type="submit" nz-button nzType="primary">
+            <i class="anticon anticon-save"></i>
+            <span>Сохранить</span>
+          </button>
+        </div>
+
+        <div nz-col>
+          <button type="button" nz-button (click)="closeForm()">
+            <i class="anticon anticon-close"></i>
+            <span>Отмена</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </nz-spin>
+</nz-card>

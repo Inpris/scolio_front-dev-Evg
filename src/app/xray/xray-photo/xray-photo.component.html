@@ -1,0 +1,31 @@
+<nz-layout class="xray-container">
+  <nz-header class="xray-header" [style.height]="'56px'">
+    <div nz-row class="tabs">
+      <div class="tab"
+           [class.active]="isShowPhotoMode"
+           (click)="editPhoto()">Редактирование изображения</div>
+       <div class="tab"
+            [class.active]="!isShowPhotoMode"
+            (click)="editLines()">Рисование линий</div>
+    </div>
+  </nz-header>
+  <nz-content class="layout-content">
+    <sl-xray-photo-edit [imageURI]="imageURI"
+                        [imageName]="imageName"
+                        (loadPhoto)="updatePhoto($event)"
+                        (changePhoto)="setPhotoChanged(true)"
+                        (applyPhotoChanges)="updatePhoto($event)"
+                        (resetPhoto)="setPhotoChanged(false)"
+                        [visitId]="visitId"
+                        (savePhoto)="savePhoto($event)"
+                        *ngIf="isShowPhotoMode"></sl-xray-photo-edit>
+  <sl-xray-line-edit [imageURI]="imageURI"
+                     [imageName]="imageName"
+                     (changeArcs)="setArcsChanged($event)"
+                     [measurements]="this.measurements"
+                     [visitId]="visitId"
+                     *ngIf="!isShowPhotoMode"
+                     (save)="saveXrayFile($event)"></sl-xray-line-edit>
+  </nz-content>
+</nz-layout>
+

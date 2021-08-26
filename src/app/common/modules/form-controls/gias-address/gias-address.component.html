@@ -1,0 +1,33 @@
+<fieldset [formGroup]="form">
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="11" nz-form-item>
+      <sl-gias-region [form]="form"></sl-gias-region>
+    </div>
+    <div nz-col nzSpan="11" nz-form-item>
+      <sl-gias-city [form]="form"></sl-gias-city>
+    </div>
+  </div>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="24" nz-form-item>
+      <label>Улица</label>
+      <nz-form-control>
+        <input nz-input formControlName="street">
+      </nz-form-control>
+    </div>
+  </div>
+  
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="11" nz-form-item>
+      <label>Дом</label>
+      <nz-form-control>
+        <input nz-input formControlName="house">
+      </nz-form-control>
+    </div>
+    <div nz-col nzSpan="11" nz-form-item>
+      <label>Квартира</label>
+      <nz-form-control>
+        <input nz-input formControlName="flat">
+      </nz-form-control>
+    </div>
+  </div>
+</fieldset>

@@ -1,0 +1,16 @@
+<div nz-row nzType="flex">
+  <sl-media-preview nz-col
+                    (previewMedia)="previewMedia($event)"
+                    (deleteMedia)="deleteMedia($event)"
+                    (selectMedia)="visitsManager.togglePhotoSelection($event)"
+                    *ngFor="let media of attachments"
+                    [attachments]="attachments"
+                    [readonly]="readonly"
+                    [media]="media"></sl-media-preview>
+  <nz-spin [nzSpinning]="fileLoading" nzSize="large" *ngIf="!readonly">
+    <label class="file__add">
+      <i class="anticon anticon-plus"></i>
+      <input type="file" [accept]="extensions" (change)="onFileChosen($event)">
+    </label>
+  </nz-spin>
+</div>

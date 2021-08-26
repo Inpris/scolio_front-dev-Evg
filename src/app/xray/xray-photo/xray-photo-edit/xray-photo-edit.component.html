@@ -1,0 +1,51 @@
+<nz-layout class="layout">
+  <nz-sider [nzWidth]="230" class="edit-button-sider">
+    <nz-card [nzBodyStyle]="buttonCardBodyStyle" class="main-card">
+      <div class="edit-button-container">
+        <div nz-row nzType="flex">
+          <div nz-col>
+            <label class="file__add" nz-button nzType="primary" [style.height]="'22px'">
+              <input type="file" (change)="onFileChosen($event)" class="load-button" nzSize="small">
+              Загрузить фото
+            </label>
+          </div>
+          <div nz-col class="loading-icon-container" *ngIf="fileLoading">
+            <i class="anticon anticon-loading anticon-spin loading-icon"></i> Загрузка...
+          </div>
+        </div>
+        <div nz-row class="edit-button-row">
+          <form  class="edit-photo-form">
+            <button nzSize="small" nz-button class="edit-photo-button" (click)="startCrop()" *ngIf="!cropping" nzType="flex">Обрезать по выделению</button>
+            <button nzSize="small" nz-button class="edit-photo-button" (click)="stopCrop()" *ngIf="cropping" nzType="primary">Обрезать по выделению</button>
+            <button nzSize="small" nz-button class="edit-photo-button" (click)="cancelCrop()" *ngIf="cropping">Отменить</button>
+            <button nzSize="small" nz-button class="edit-photo-button" (click)="rotate90Clockwise()" [disabled]="cropping">Повернуть на 90 по чс</button>
+            <button nzSize="small" nz-button class="edit-photo-button" (click)="rotate90counterclockwise()" [disabled]="cropping">Повернуть на 90 против чс</button>
+            <button nzSize="small" nz-button class="edit-photo-button" (click)="rotate180()" [disabled]="cropping">Повернуть на 180</button>
+            <button nzSize="small" nz-button class="edit-photo-button" (click)="flipHorizontally()" [disabled]="cropping">Отразить горизонтально</button>
+            <button nzSize="small" nz-button class="edit-photo-button" (click)="flipVertically()" [disabled]="cropping">Отразить вертикально</button>
+          </form>
+        </div>
+        <div nz-row nzType="flex" nzJustify="space-between" class="apply-button-row">
+          <button nz-button (click)="applyChanges()" nzType="primary" [disabled]="cropping" nzSize="small">Применить</button>
+          <div class="loading-icon-container" *ngIf="changesApplying" >
+            <i class="anticon anticon-loading anticon-spin loading-icon"></i> Сохранение...
+         </div>
+          <button nz-button (click)="reset()" [disabled]="cropping" *ngIf="!changesApplying" nzSize="small">Сбросить</button>
+          <button nz-button (click)="saveImage()" class="save-photo-button" [disabled]="cropping" nzSize="small" nzType="primary">Сохранить в посещение</button>
+        </div>
+      </div>
+    </nz-card>
+  </nz-sider>
+  <nz-content class="layout-content">
+    <nz-card class="main-card canvas-card" [nzBodyStyle]="canvasCardBodyStyle">
+      <div nz-row #container class="photo-container" >
+        <canvas #photoCanvas class="photo-canvas-container"></canvas>
+        <canvas #saveCanvas class="photo-canvas-container"></canvas>
+        <svg #lineSvg class="photo-svg-container"></svg>
+      </div>
+      <div nz-row class="scale-slider-container">
+        <nz-slider [nzDefaultValue]="100" [nzMin]="10" [nzMax]="400" [(ngModel)]="containerScale"></nz-slider>
+      </div>
+    </nz-card>
+  </nz-content>
+</nz-layout>

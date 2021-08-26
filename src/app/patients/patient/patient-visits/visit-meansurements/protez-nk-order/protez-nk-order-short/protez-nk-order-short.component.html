@@ -1,0 +1,60 @@
+<nz-card [nzTitle]="title" [nzExtra]="extra">
+  <ng-template #title>
+    <div nz-row [nzType]="'flex'" [nzGutter]="8" class="form__title">
+      <div nz-col class="form__title__icon">
+        <i class="anticon anticon-schedule"></i>
+      </div>
+      <div nz-col class="form__title__text">
+        Создание бланка заказа
+      </div>
+      <i class="anticon anticon-close protez-nk-order-short__close" (click)="closeForm()"></i>
+    </div>
+  </ng-template>
+  <ng-template #extra>
+    <div>
+      Дата приема: {{ visitsManager.selected.dateTime | date : 'dd.MM.yyyy' }}
+    </div>
+    <div>
+      Принял: {{ visitsManager.selected.doctor?.name  || '-' }}
+    </div>
+  </ng-template>
+  <nz-spin [nzSpinning]="loading$ | async" nzSize="large">
+    <div [formGroup]="form" class="protez-nk-order-short">
+      <sl-protez-nk-info formControlName="info"></sl-protez-nk-info>
+      <nz-card nzTitle="Этапы изготовления" [style.width]="'100%'" [style.marginBottom]="'20px'">
+        <div class="protez-nk-order-short__row">
+          <div class="protez-nk-order-short__col">
+            <label nz-checkbox formControlName="model3d">
+              <span>3D модель</span>
+            </label>
+          </div>
+        </div>
+        <div class="protez-nk-order-short__row">
+          <div class="protez-nk-order-short__col">
+            <label nz-checkbox formControlName="htv">
+              <span>HTV силикон</span>
+            </label>
+          </div>
+        </div>
+        <div class="protez-nk-order-short__row">
+          <div class="protez-nk-order-short__col">
+            <label nz-checkbox formControlName="lamination">
+              <span>Ламинация</span>
+            </label>
+          </div>
+        </div>
+        <div class="protez-nk-order-short__row">
+          <div class="protez-nk-order-short__col">
+            <label nz-checkbox formControlName="cosmeticCladding">
+              <span>Изготовление косметической облицовки</span>
+            </label>
+          </div>
+        </div>
+      </nz-card>
+      <div class="protez-nk-order-short__actions">
+        <button [nzSize]="'large'" class="ant-btn ant-btn-primary" nz-button (click)="save()">Сформировать</button>
+        <button [nzSize]="'large'" nzType="default" nz-button (click)="closeForm()">Отменить</button>
+      </div>
+    </div>
+  </nz-spin>
+</nz-card>

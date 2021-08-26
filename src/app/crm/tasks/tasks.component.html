@@ -1,0 +1,49 @@
+<div nz-row class="task-page">
+  <div class="task-page__header"
+    nz-row 
+    [nzType]="'flex'" 
+    [nzAlign]="'middle'"
+  >
+    <div nz-col  class="task-page__header__title"><h2>CRM/<b>Список задач</b></h2></div>
+    <sl-user-filter (filterChanged)="filterChanged($event)" [selectedUserId]="selectedUserId"></sl-user-filter>
+    
+    <!-- <div nz-col class="task-page__header__create-task">
+      <button (click)="openModalTaskForm()" nz-button nzType="primary">
+        <span>Добавить задачу</span>
+      </button>   
+    </div> -->
+  </div>
+
+  <div *ngIf="taskData.statusesList.length <= 6; then scrollOff else scrollOn"></div> 
+
+  <ng-template #scrollOff>
+    <div nz-row>
+      <sl-column nz-col 
+        [nzSpan]="24 / taskData.statusesList.length"
+        *ngFor="let task of taskData.statusesList; let i = index" 
+        class="task-page__col" 
+        [statusNum]="i"
+      ></sl-column>
+    </div>
+  </ng-template>
+
+  <ng-template #scrollOn>
+    <div class="scroll">
+      <sl-column nz-col 
+        [nzSpan]="24 / taskData.statusesList.length"
+        *ngFor="let task of taskData.statusesList; let i = index" 
+        class="task-page__col col-width" 
+        [statusNum]="i"
+      ></sl-column>
+    </div>
+  </ng-template>
+
+</div>
+
+<ng-template #formTaskModalContent>
+  <sl-task-create-form 
+    [formType]="taskModalType" 
+    [data]="dataForCreateTask" 
+    (closeModal)="closeModalTaskForm($event)"
+  ></sl-task-create-form>
+</ng-template>

@@ -1,0 +1,113 @@
+<form [formGroup]="form" novalidate>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col class="label">Подъем подмышечного пелота</div>
+    <div nz-col nzSpan="15">
+      <sl-control-selection
+        valueField="value"
+        [control]="form.get('liftingOfTheAxillary')"
+        [options]="distanceInCentimeters.slice(1)"
+      ></sl-control-selection>
+    </div>
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col class="label">Сдвиг подмышечного пелота</div>
+    <div nz-col nzSpan="15">
+      <sl-control-selection
+        valueField="value"
+        [control]="form.get('shiftOfTheAxillary')"
+        [options]="distanceInCentimeters.slice(1)"
+      ></sl-control-selection>
+    </div>
+  </div>
+
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col class="label">Вклейка грудного пелота</div>
+    <div nz-col nzSpan="15">
+      <div nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col nzSpan="7">
+          <sl-control-selection
+            valueField="value"
+            [control]="form.get('pasteOfBreast')"
+            [options]="distanceInCentimeters"
+          ></sl-control-selection>
+        </div>
+        <div nz-col nzSpan="7">
+          <sl-control-selection
+            valueField="value"
+            [control]="form.get('pasteOfBreastFrom')"
+            [options]="vertebra"
+            class="from"
+          ></sl-control-selection>
+        </div>
+        <div nz-col nzSpan="7">
+          <sl-control-selection
+            valueField="value"
+            [control]="form.get('pasteOfBreastTo')"
+            [options]="vertebra"
+            class="to"
+          ></sl-control-selection>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col class="label">Вклейка поясничного пелота</div>
+    <div nz-col nzSpan="15">
+      <div nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col nzSpan="7">
+          <sl-control-selection
+            valueField="value"
+            [control]="form.get('pasteOfLoin')"
+            [options]="distanceInCentimeters"
+          ></sl-control-selection>
+        </div>
+        <div nz-col nzSpan="7">
+          <sl-control-selection
+            valueField="value"
+            [control]="form.get('pasteOfLoinFrom')"
+            [options]="vertebra"
+            class="from"
+          ></sl-control-selection>
+        </div>
+        <div nz-col nzSpan="7">
+          <sl-control-selection
+            valueField="value"
+            [control]="form.get('pasteOfLoinTo')"
+            [options]="vertebra"
+            class="to"
+          ></sl-control-selection>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col class="label">Увеличение полости спереди</div>
+    <div nz-col nzSpan="15">
+      <nz-form-control>
+        <input nz-input formControlName="enlargedFrontCavity">
+      </nz-form-control>
+    </div>
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col class="label">Вклейка грудного пелота спереди в проекции</div>
+    <div nz-col nzSpan="15">
+      <sl-control-selection
+        valueField="value"
+        [control]="form.get('insertionThoraxInFront')"
+        [options]="insertionThoraxInFront"
+      ></sl-control-selection>
+    </div>
+  </div>
+
+  <div>
+    <div class="label">Специфические варианты коррекции</div>
+    <textarea nz-input formControlName="exctraCorrectionVariants"></textarea>
+  </div>
+</form>

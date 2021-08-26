@@ -1,0 +1,118 @@
+<nz-card nzNoHovering="true" class="product" [nzTitle]="title">
+  <ng-template #title>
+    <div class="product__title">
+      <div *ngIf="formType === 'edit'; then edit; else create"></div>
+      <ng-template #edit>
+        <div>Изменение данных изделия</div>
+      </ng-template>
+      <ng-template #create>
+        <div>Добавление нового изделия</div>
+      </ng-template>
+      <i class="anticon anticon-close form__close" (click)="closeForm()"></i>
+    </div>
+  </ng-template>
+
+  <form class="product__form__body" nz-form [formGroup]="form" novalidate (ngSubmit)="onSubmit(form)">
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Тип изделия*</nz-form-label>
+          <nz-form-control>
+            <sl-control-selection [control]="form.get('deviceType')" [disabled]="formType === 'edit' && data.productType"
+              [options]="productTypes"
+              nzDropdownClassName="qaaDropdownDeviceType"
+              qaaLocator="qaaSelectDeviceType"></sl-control-selection>
+            <nz-form-explain *ngIf="form.get('deviceType').dirty && form.get('deviceType').errors">
+              Введите тип изделия
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Наименование изделия*</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="name">
+            <nz-form-explain *ngIf="form.get('name').dirty && form.get('name').errors">
+              Введите название
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row nzType="flex" nzGutter="16">
+      <div nz-col nzSpan="6">
+        <nz-form-item>
+          <nz-form-label>Кол-во изделий*</nz-form-label>
+          <nz-form-control>
+            <nz-input-number nz-input [nzParser]="countRound" formControlName="count" [nzMin]="0"></nz-input-number>
+            <nz-form-explain *ngIf="form.get('count').dirty && form.get('count').errors">
+              Введите кол-во
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="6">
+        <nz-form-item>
+          <nz-form-label>Цена*</nz-form-label>
+          <nz-form-control>
+            <nz-input-number nz-input formControlName="price" [nzMin]="0"></nz-input-number>
+            <nz-form-explain *ngIf="form.get('price').dirty && form.get('price').errors">
+              Введите цену
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Техническое описание*</nz-form-label>
+          <nz-form-control>
+            <textarea nz-input formControlName="description" rows="6"></textarea>
+            <nz-form-explain *ngIf="form.get('description').dirty && form.get('description').errors">
+              Введите комментарий
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Заметка</nz-form-label>
+          <nz-form-control>
+            <textarea nz-input formControlName="note" rows="4"></textarea>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row
+         class="product__form__body__btn"
+         [nzType]="'flex'"
+         [nzJustify]="'center'"
+         [nzGutter]="8">
+      <div nz-col>
+        <button type="submit" nz-button nzType="primary">
+          <i class="anticon anticon-save"></i>
+          <span *ngIf="formType === 'create'">Сохранить</span>
+          <span *ngIf="formType === 'edit'">Обновить</span>
+        </button>
+      </div>
+
+      <div nz-col>
+        <button type="button" nz-button (click)="closeForm()">
+          <i class="anticon anticon-close"></i>
+          <span>Отмена</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</nz-card>

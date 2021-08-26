@@ -1,0 +1,52 @@
+@import "variables";
+
+.deadline-page {
+  height: 100%;
+  &__title {
+
+  }
+
+  /deep/ .ant-card-body {
+    padding-top: 1px;
+  }
+
+  td {
+    text-align: center;
+    border-bottom: none;
+    padding: 5px 8px;
+  }
+  // убираем hover в таблице
+  tr {
+    &:hover > td {
+      background: none;
+    }
+  }
+
+  .deadline {
+    color: @red-5;
+  }
+
+  &__legend {
+    sl-product-count-field {
+      position: absolute;
+      right: 24px;
+      bottom: 65px;
+    }
+  }
+
+  ::ng-deep {
+    .ant-table-pagination {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      margin: 0;
+    }
+    .ant-spin-container {
+      height: 250px;
+    }
+  }
+
+  .overdu {
+    background-color: rgba(255, 0, 0, 0.07);
+  }
+}

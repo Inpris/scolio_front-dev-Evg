@@ -1,0 +1,17 @@
+@import "variables";
+
+.plan-comment {
+  white-space: pre-line;
+  &__empty {
+    color: @gray-5;
+  }
+}
+
+:host ::ng-deep {
+  nz-timeline-item:last-child .ant-timeline-item {
+    padding-bottom: 0;
+  }
+  .ant-timeline-item-last .ant-timeline-item-content {
+    min-height: 0;
+  }
+}

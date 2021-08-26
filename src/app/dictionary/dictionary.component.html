@@ -1,0 +1,11 @@
+<div nz-row class="dictionary-page">
+  <div class="dictionary__tabs">
+    <nz-tabset [nzSelectedIndex]="selectedTabIndex" (nzSelectedIndexChange)="onTabChange($event)">
+      <nz-tab nzTitle="Филиалы">
+        <div nz-row>
+          <sl-branches></sl-branches>
+        </div>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</div>

@@ -1,0 +1,117 @@
+<h2>График работы докторов в кабинетах на день</h2>
+<div nz-row nzType="flex" [style.height]="'100%'" nzGutter="16" class="doctor-schedule">
+  <div nz-col nzSpan="5">
+    <nz-card nzTitle="Фильтры" [style.minHeight]="'20%'" [style.marginBottom]="'20px'">
+      <div class="room-schedule__filter-name">Филиал</div>
+      <nz-select
+        class="room-schedule__filter-field"
+        nzPlaceHolder="Выберите филиал"
+        [(ngModel)]="selectedBranch"
+        (ngModelChange)="selectBranch($event)"
+      >
+        <nz-option *ngFor="let option of branches" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+      </nz-select>
+      <ng-container *ngIf="selectedBranch">
+        <div class="room-schedule__filter-name">Кабинет</div>
+        <nz-select
+          class="room-schedule__filter-field"
+          nzPlaceHolder="Выберите кабинет"
+          [(ngModel)]="selectedRoom"
+          (ngModelChange)="selectRoom()"
+        >
+          <nz-option *ngFor="let room of rooms" [nzLabel]="room.name" [nzValue]="room"></nz-option>
+        </nz-select>
+        <div class="room-schedule__filter-name">Доктор</div>
+        <nz-select
+          class="room-schedule__filter-field"
+          nzPlaceHolder="Выберите доктора"
+          [(ngModel)]="selectedDoctor"
+          (ngModelChange)="selectDoctor()"
+        >
+          <nz-option *ngFor="let doctor of doctors" [nzLabel]="doctor.name" [nzValue]="doctor"></nz-option>
+        </nz-select>
+        <div class="room-schedule__filter-name">Дата</div>
+        <div class="room-schedule__filter-field">
+          <sl-date-picker
+            nzFormat="DD.MM.YYYY"
+            nzClassName="sl-date-picker-full-row"
+            [(ngModel)]="selectedDate"
+            (ngModelChange)="selectDate($event)"
+          ></sl-date-picker>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="selectedBranch && selectedRoom && selectedDoctor && selectedDate">
+        <div class="room-schedule__filter-name">Время начала работы (час)</div>
+        <nz-select class="room-schedule__filter-field" nzPlaceHolder="<Не выбрано>" [(ngModel)]="startTime">
+          <ng-container *ngFor="let hour of hours">
+            <nz-option *ngIf="hour < endTime" [nzLabel]="hour" [nzValue]="hour"></nz-option>
+          </ng-container>
+        </nz-select>
+        <div class="room-schedule__filter-name">Время завершения работы (час)</div>
+        <nz-select class="room-schedule__filter-field" nzPlaceHolder="<Не выбрано>" [(ngModel)]="endTime">
+          <ng-container *ngFor="let hour of hours">
+            <nz-option *ngIf="hour > startTime" [nzLabel]="hour" [nzValue]="hour"></nz-option>
+          </ng-container>
+        </nz-select>
+        <div class="room-schedule__filter-name">Временной интервал (минут)</div>
+        <nz-select class="room-schedule__filter-field" nzPlaceHolder="Please select" [(ngModel)]="interval">
+          <nz-option [nzLabel]="10" [nzValue]="10"></nz-option>
+          <nz-option [nzLabel]="15" [nzValue]="15"></nz-option>
+          <nz-option [nzLabel]="30" [nzValue]="30"></nz-option>
+          <nz-option [nzLabel]="45" [nzValue]="45"></nz-option>
+          <nz-option [nzLabel]="60" [nzValue]="60"></nz-option>
+        </nz-select>
+      </ng-container>
+    </nz-card>
+  </div>
+  <div nz-col nzSpan="19">
+    <div class="description" [class.description_hidden]="!(descriptionMode$ | async)">
+      <nz-card [nzTitle]="title">
+        <ng-template #title>
+          <div class="description__title" (click)="hideDescription()">Описание</div>
+        </ng-template>
+        <div class="description__body">
+          <div class="description__item">
+            <div class="description__enabled"></div>Свободное для записи время
+          </div>
+          <div class="description__item">
+            <div class="description__disabled"></div>В данное время доктор не работает (вкладка "График работы докторов")
+          </div>
+          <div class="description__item">
+            <div class="description__self-taken"></div>Занятое текущим доктором время
+          </div>
+          <div class="description__item">
+            <div class="description__self-disabled"></div>В данное время доктор работает в другом кабинете (информация при наведении)
+          </div>
+          <div class="description__item">
+            <div class="description__taken"></div>Время занято другим доктором  (информация при наведении)
+          </div>
+        </div>
+      </nz-card>
+    </div>
+    <nz-card nzTitle="Расписание">
+      <div *ngIf="selfTakenTimeOriginal" class="room-schedule__table">
+        <sl-day-schedule
+          [date]="selectedDate"
+          [doctors]="doctors"
+          [rooms]="rooms"
+          [allRooms]="allRooms"
+          [doctorId]="selectedDoctor?.id"
+          [day]="chosenDay"
+          [interval]="interval"
+          [startTime]="startTime"
+          [endTime]="endTime"
+          [time]="doctorWorkPlan[chosenDay]"
+          [selfDisabledTime]="selfDisabledTime[chosenDay]"
+          [takenTime]="takenTime[chosenDay]"
+          [selfTakenTime]="selfTakenTime[chosenDay]"
+          (changedPeriods)="changedPeriods($event, chosenDay)"
+        ></sl-day-schedule>
+      </div>
+      <div nz-row nzJustify="end" nzType="flex" class="save-button-container">
+        <button nz-button (click)="clearSchedule()" class="clear-button" [disabled]="!isChanged">Сбросить изменения</button>
+        <button nz-button nzType="primary" (click)="saveSchedule()" [disabled]="!isChanged">Сохранить расписание</button>
+      </div>
+    </nz-card>
+  </div>
+</div>

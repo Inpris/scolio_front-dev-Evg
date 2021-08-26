@@ -1,0 +1,55 @@
+<nz-layout class="layout edit-button-layout">
+  <nz-sider [nzWidth]="230" class="edit-button-sider">
+    <nz-card nzNoHovering="true" class="main-card" [nzBodyStyle]="measureCardBodyStyle">
+      <div [style.height]="'100%'">
+        <div class="edit-button-container">
+          <div nz-row nzType="flex" class="tabs">
+            <div class="tab active">Список дуг</div>
+          </div>
+          <div nz-row class="measurement-list-row">
+            <form [formGroup]="form">
+              <sl-arc-list formControlName="measurements"
+                          (measurementChange)="measurementChangeHandler($event)"
+                          (measureArcAngle)="measureArcAngle($event)"
+                          (measureVertebraTorsian)="measureVertebraTorsian($event)"></sl-arc-list>
+            </form>
+          </div>
+        </div>
+        <div nz-row nzType="flex"
+            class="action-button-container"
+            nzAlign="bottom"
+            nzJustify="start">
+          <div nz-col>
+            <button nz-button
+                    *ngIf="!fileLoading"
+                    class="save-photo-button"
+                    nzSize="small"
+                    (click)="reset()">Сбросить</button>
+            <button nz-button
+                    *ngIf="!fileLoading"
+                    (click)="saveAsImage()"
+                    class="save-button"
+                    nzSize="small"
+                    nzType="primary">Сохранить в посещение</button>
+            <div *ngIf="fileLoading">
+              <i class="anticon anticon-loading anticon-spin loading-icon" ></i> Сохранение...
+            </div>
+          </div>
+        </div>
+      </div>
+    </nz-card>
+  </nz-sider>
+  <nz-content class="layout-content">
+    <nz-card class="main-card" [nzBodyStyle]="canvasCardBodyStyle" >
+      <div nz-row class="photo-row">
+        <sl-xray-arc-canvas [xrayArcs]="xrayArcs"
+                            [imageURI]="imageURI"
+                            (removeAngle) = "removeAngle($event)"
+                            (changeArc)="changeArc()"></sl-xray-arc-canvas>
+      </div>
+      <div nz-row class="scale-slider-container">
+        <nz-slider [nzDefaultValue]="100" [nzMin]="10" [nzMax]="400" [(ngModel)]="containerScale"></nz-slider>
+      </div>
+    </nz-card>
+  </nz-content>
+</nz-layout>

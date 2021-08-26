@@ -1,0 +1,58 @@
+<form [formGroup]="form" (ngSubmit)="getReport()">
+  <nz-card class="form" [nzTitle]="title">
+    <nz-spin [nzSpinning]="isBusy">
+      <ng-template #title>
+        <div nz-row [nzType]="'flex'" nzJustify="space-between" class="form__title">
+          <div nz-col class="form__title__text">
+            Отчет по слесарке
+          </div>
+          <i class="anticon anticon-close form__close" (click)="close()"></i>
+        </div>
+      </ng-template>
+      <div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle" class="form__row">
+        <div nz-col [nzSpan]="8" class="form__required">Дата окончания работы</div>
+        <nz-form-control nz-col [nzSpan]="15" >
+          <sl-range-picker formControlName="range" nzFormat="DD.MM.YYYY"></sl-range-picker>
+        </nz-form-control>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle" class="form__row">
+        <div nz-col [nzSpan]="8">Исполнитель</div>
+        <div nz-col [nzSpan]="15">
+          <sl-control-selection [control]="form.get('employeeFio')"
+            [options]="users"
+            nzDropdownClassName="qaaDropdownReportExecutor"
+            qaaLocator="qaaSelectReportExecutor"></sl-control-selection>
+        </div>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle" class="form__row">
+        <div nz-col [nzSpan]="8">Филиал</div>
+        <sl-control-selection nz-col [nzSpan]="15"
+          [control]="form.get('branch')"
+          [service]="branchService"
+          [dataFactory]="fromPaginationChunk"
+          nzDropdownClassName="qaaDropdownReportBranch"
+          qaaLocator="qaaSelectReportBranch"
+        ></sl-control-selection>
+      </div>
+      <div nz-row
+           class="form__body__btn"
+           nzType="flex"
+           nzJustify="center"
+        [nzGutter]="8">
+        <div nz-col>
+          <button type="submit" nz-button nzType="primary">
+            <i class="anticon anticon-save"></i>
+            <span>Выгрузить</span>
+          </button>
+        </div>
+
+        <div nz-col>
+          <button type="button" nz-button (click)="close()">
+            <i class="anticon anticon-close"></i>
+            <span>Отмена</span>
+          </button>
+        </div>
+      </div>
+    </nz-spin>
+  </nz-card>
+</form>

@@ -1,0 +1,38 @@
+<div [nzGutter]="12" nz-row [nzType]="'flex'">
+  <div nz-col [nzSpan]="12">
+    <nz-card [nzTitle]="title" class="form" [nzExtra]="extraTemplate">
+      <ng-template #title>
+        <div nz-row [nzType]="'flex'" class="form__title" [nzAlign]="'middle'">
+          <div class="form__title__icon">
+            <i class="anticon anticon-contacts"></i>
+          </div>
+          <div nz-col class="form__title__text">
+            <ng-container *ngTemplateOutlet="person"></ng-container>
+          </div>
+        </div>
+      </ng-template>
+      <sl-patient-form
+              [data]="contact"
+              [formType]="'edit'"
+              (actionCallback)="actionCallback($event)">
+      </sl-patient-form>
+    </nz-card>
+  </div>
+  <ng-template #extraTemplate>
+    <div class="actions" *slIfHasAccess="[ROLES_USERS.ADMIN];">
+      <nz-tooltip nzTitle="Удалить" nzPlacement="top">
+        <i nz-tooltip class="anticon anticon-delete" (click)="confirmRemove()"></i>
+      </nz-tooltip>
+    </div>
+  </ng-template>
+  <div nz-col [nzSpan]="12">
+    <sl-time-line *ngIf="contact" [entity]="contact" [entityType]="'contact'" [checkAccept]="true"></sl-time-line>
+  </div>
+</div>
+
+<ng-template #person>
+  {{ contact?.fullName }}<span *ngIf="contact.birthDate">, {{ contact.birthDate | date : 'dd.MM.yyyy'}} г.р.</span>
+  <span i18n *ngIf="contact.birthDate">
+    ({{contact.birthDate | age}} {contact.birthDate|age, plural, one {год} few {года} many {лет} other {лет}})
+  </span>
+</ng-template>

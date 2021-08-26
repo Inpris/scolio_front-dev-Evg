@@ -1,0 +1,36 @@
+<div class="contact-list">
+  <div>
+    <b>Совпадение данных</b>
+  </div>
+
+  <nz-card nzNoHovering="true">
+    <div nz-row
+      [nzType]="'flex'"
+      class="contact-list__body__title"
+    >
+      <div nz-col [nzSpan]="8">
+        Контакт
+      </div>
+      <div nz-col [nzSpan]="6">
+        Телефон
+      </div>
+      <div nz-col [nzSpan]="8">
+        Электронная почта
+      </div>
+    </div>
+
+    <div class="contact-list__body__content">
+      <div nz-row
+        [nzType]="'flex'"
+        *ngFor="let contact of contacts; let i = index"
+        class="contact-list__body__content__row"
+        [ngClass]="{'divider': i != contacts.length - 1 }"
+      >
+        <div nz-col [nzSpan]="8"><a>{{ contact.lastName }} {{ contact.firstName }} {{ contact.secondName }}</a></div>
+        <div nz-col [nzSpan]="6">{{ contact.phone }}</div>
+        <div nz-col [nzSpan]="8">{{ contact.email }}</div>
+        <div nz-col [nzSpan]="2" (click)="applyContact(contact.id)"><a>Выбрать</a></div>
+      </div>
+    </div>
+  </nz-card>
+</div>

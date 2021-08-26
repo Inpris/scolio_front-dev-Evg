@@ -1,0 +1,218 @@
+<nz-spin [nzSpinning]="appointmentLoading" nzSize="large">
+  <form nz-form [formGroup]="form" novalidate (ngSubmit)="onSubmit(form)">
+    <div>
+      <div nz-row nzType="flex" nzJustify="space-between">
+        <div class="sl-form-item--small" nz-form-item>
+          <label>Пришел:</label>
+          <nz-form-control>
+            <nz-switch formControlName="hasCome" [nzDisabled]="!canCome"></nz-switch>
+          </nz-form-control>
+        </div>
+        <div class="appointment-doctor-info">
+          <ng-container *ngIf="appointment?.visitReason?.name">
+            <div class="appointment-reason">{{ appointment?.service?.name }}. {{ appointment?.visitReason?.name }}</div>
+          </ng-container>
+          <ng-container *ngIf="doctor">
+            <div class="appointment-doctor">
+              <p>Приём ведёт:</p>
+              <p>{{ doctor.name }}</p>
+            </div>
+          </ng-container>
+        </div>
+        <div class="appointment-info">
+          <i class="anticon anticon-calendar"></i>
+          <div class="appointment-time">
+            <ng-container *ngIf="date">
+              <p>{{date|date:'dd.MM.yyyy'}}</p>
+              <p>{{date|date:'H:mm'}}</p>
+              <p>Каб. {{appointment?.room.name || room.name}}</p>
+            </ng-container>
+            <ng-container *ngIf="!date">
+              <p>Выберите</p>
+              <p>дату</p>
+              <p></p>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div nz-row nzGutter="16" *ngIf="appointment?.createdBy?.name || appointment?.lastModifiedBy?.name">
+        <div class="sl-form-item--small appointment-authorship" nz-form-item nz-col nzSpan="24">
+          <ng-container *ngIf="appointment?.createdBy?.name">
+            <p><label>Создал:</label> {{ appointment?.createdBy?.name }} <label>({{appointment?.createdDate | date:'dd.MM.yyyy H:mm' }})</label></p>
+          </ng-container>
+          <ng-container *ngIf="appointment?.lastModifiedBy?.name">
+            <p><label>Изменил:</label> {{ appointment?.lastModifiedBy?.name }} <label>({{appointment?.lastModifiedDate | date:'dd.MM.yyyy H:mm' }})</label></p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="sl-form-item--small" nz-form-item>
+        <sl-contact-search [disabled]="!canEdited || appointment?.id"
+                           [branchId]="branchId"
+                           [initialContact]="addFormPatient"
+                           (contact)="onSelectContact($event)"></sl-contact-search>
+      </div>
+      <br>
+      <div nz-row nzGutter="16">
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="12">
+          <label>Фамилия*:</label>
+          <nz-form-control>
+            <nz-input-group [nzSuffix]="suffixIconButton">
+              <input nz-input
+                     formControlName="lastName"
+              >
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+              <nz-tooltip nzTitle="Перейти к пациенту">
+                <i class="anticon anticon-link contact-link"
+                   *ngIf="contact?.id"
+                   (click)="openContactCard()"
+                   nz-tooltip></i>
+              </nz-tooltip>
+            </ng-template>
+          </nz-form-control>
+        </div>
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="12">
+          <label>Имя*:</label>
+          <nz-form-control>
+            <input nz-input formControlName="firstName">
+          </nz-form-control>
+        </div>
+      </div>
+      <div nz-row nzGutter="16">
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="12">
+          <label>Отчество:</label>
+          <nz-form-control>
+            <input nz-input formControlName="secondName">
+          </nz-form-control>
+        </div>
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="12">
+          <label>Дата рождения:</label>
+          <nz-form-control>
+            <sl-date-picker
+                    formControlName="birthDate"
+                    nzFormat="DD.MM.YYYY"
+                    nzPlaceHolder
+            ></sl-date-picker>
+          </nz-form-control>
+        </div>
+      </div>
+      <div nz-row nzGutter="16">
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="12">
+          <label>Телефон*:</label>
+          <nz-form-control>
+            <input nz-input formControlName="phone" slPhoneFormatter>
+          </nz-form-control>
+        </div>
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="12">
+          <label>Email:</label>
+          <nz-form-control>
+            <input nz-input formControlName="email">
+          </nz-form-control>
+        </div>
+      </div>
+      <div nz-row class="sl-form-item--small" nz-form-item>
+        <label>Откуда узнали о клинике*:</label>
+        <nz-form-control>
+          <nz-select formControlName="leadSourceId" nzDropdownClassName="qaaLeadSource"
+                     nzPlaceHolder
+          >
+            <nz-option *ngFor="let option of leadSources" [nzLabel]="option.name"
+                       [nzValue]="option.id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </div>
+      <div nz-row class="sl-form-item--small" nz-form-item>
+        <label>Записан на следующие даты:</label>
+        <nz-form-control>
+          <textarea nz-input row="4" formControlName="nextAppointments" style="pointer-events: none;"></textarea>
+        </nz-form-control>
+      </div>
+      <div nz-row class="sl-form-item--small" nz-form-item>
+        <label>Предлагаемые даты записи на прием:</label>
+        <nz-form-control>
+          <textarea nz-input row="4" formControlName="offerAppointments" style="pointer-events: none;"></textarea>
+        </nz-form-control>
+      </div>
+      <div nz-row class="sl-form-item--small" nz-form-item>
+        <label>Комментарий:</label>
+        <nz-form-control>
+          <textarea nz-input row="2" formControlName="comment" [disabled]="!canEdited"></textarea>
+        </nz-form-control>
+      </div>
+    </div>
+    <div>
+      <div class="sl-form-checkboxes" nz-form-item>
+        <nz-form-control>
+          <label
+                  nz-checkbox
+                  formControlName="acceptDataProcessing"
+          >
+            <span>Согласен на обработку данных</span>
+          </label>
+        </nz-form-control>
+        <nz-form-control>
+          <label
+                  nz-checkbox
+                  formControlName="acceptSms"
+          >
+            <span>Согласен на получение SMS-сообщений</span>
+          </label>
+        </nz-form-control>
+        <nz-form-control>
+          <label
+                  nz-checkbox
+                  formControlName="acceptOrthoses"
+          >
+            <span>Согласен на ортезирование</span>
+          </label>
+        </nz-form-control>
+        <ng-container *ngIf="!isMainBranch && !canCanceled" style="margin: 10px 0;">
+          <div nz-row class="sl-form-item--small new_phone">
+            <label>Номер для отправки SMS*:</label>
+            <input nz-input placeholder="Телефон" formControlName="newPhone"/>
+          </div>
+          <div nz-row class="sl-form-item--small new_email">
+            <label>Адрес для отправки email*:</label>
+            <input nz-input placeholder="Email" formControlName="newEmail"/>
+          </div>
+        </ng-container>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between">
+        <button type="button" (click)="addAccess()" *ngIf="canConfirm" class="ant-btn ant-btn-primary">
+          <span>Подтвердить доступ</span>
+        </button>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col>
+          <ng-container *ngIf="canEdited">
+            <button type="submit" nz-button nzType="primary">
+              <i class="anticon anticon-save"></i>
+              <span>{{appointment?.id && appointment?.status != 'NotConfirmed' ? 'Сохранить' : 'Подтвердить'}}</span>
+            </button>
+            <button type="button" nz-button nzType="danger" *ngIf="canCanceled" (click)="cancelAppointment()">
+              <i class="anticon anticon-close"></i>
+              <span>Отменить запись</span>
+            </button>
+          </ng-container>
+        </div>
+        <div nz-col *ngIf="templates">
+          <nz-dropdown [nzPlacement]="'topRight'" *ngIf="contact" >
+            <button type="button" nz-button nz-dropdown nzType="primary">
+              <i class="anticon anticon-printer"></i>
+            </button>
+            <ul nz-menu>
+              <li nz-menu-item *ngFor="let template of templates">
+                <a (click)="downloadTemplate(template.template, template.name)">{{template.name}}</a>
+              </li>
+            </ul>
+          </nz-dropdown>
+        </div>
+      </div>
+    </div>
+  </form>
+</nz-spin>
+<ng-template #contactCard>
+  <div style="padding: 8px 20px">
+    <sl-contact-card [contact]="contact"></sl-contact-card>
+  </div>
+</ng-template>

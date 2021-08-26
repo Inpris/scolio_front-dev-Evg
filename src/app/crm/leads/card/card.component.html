@@ -1,0 +1,133 @@
+<nz-card nzNoHovering="true" class="card" [nzTitle]="title" [nzExtra]="extra">
+  <ng-template #title>
+    <div class="card__title-text">
+      <a [routerLink]="[lead.id]">{{ lead.title }}</a>
+    </div>
+  </ng-template>
+
+  <ng-template #extra>
+    <div class="card__title-btn">
+      <div
+        *ngIf="lead.leadStatus.sysName === 'NotProcessed'"
+        class="card__title-btn__check"
+        (click)="createProcessing()"
+      >
+        <nz-tooltip [nzTitle]="'Перевести в статус В работе'">
+          <i nz-tooltip class="anticon anticon-check-circle orange-color"></i>
+        </nz-tooltip>
+      </div>
+      <div
+        *ngIf="lead.leadStatus.sysName == 'Processing'"
+        class="card__title-btn__circle"
+        (click)="clickWorkBtn()"
+      >
+        <nz-tooltip [nzTitle]="'Записать на прием'">
+          <i nz-tooltip class="anticon anticon-calendar white-color"></i>
+        </nz-tooltip>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="card__body">
+    <div nz-row [nzType]="'flex'" class="card__body__content">
+      <div class="card__body__content__left">
+        <div class="card__body__content__left__assignment-user">
+          <div class="card__body__content__left__assignment-user__key">Ответственный</div>
+          <div class="card__body__content__left__assignment-user__val">{{ lead.assignedUser.name }}</div>
+        </div>
+      </div>
+      <div class="card__body__content__right">
+
+        <div class="card__body__content__right__phone">
+          <nz-tooltip [nzTitle]="phoneTooltip">
+            <i *ngIf="this.lead.leadInfo.phone" nz-tooltip class="anticon anticon-phone enable"></i>
+            <i *ngIf="!this.lead.leadInfo.phone" nz-tooltip class="anticon anticon-phone disable"></i>
+          </nz-tooltip>
+        </div>
+
+        <div class="card__body__content__right__email" (click)="sendMsg('email')" *ngIf="lead.leadInfo.email">
+          <nz-tooltip [nzTitle]="'Отправить письмо'">
+            <i nz-tooltip class="anticon anticon-mail"></i>
+          </nz-tooltip>
+        </div>
+
+        <div class="card__body__content__right__email"  *ngIf="!lead.leadInfo.email" >
+          <i class="anticon anticon-mail disable"></i>
+        </div>
+
+        <div class="card__body__content__right__message" (click)="sendMsg('sms')">
+          <nz-tooltip [nzTitle]="smsTooltip">
+            <i nz-tooltip *ngIf="this.lead.leadInfo.phone" class="anticon anticon-message enable"></i>
+            <i nz-tooltip *ngIf="!this.lead.leadInfo.phone" class="anticon anticon-message disable"></i>
+          </nz-tooltip>
+        </div>
+      </div>
+    </div>
+
+    <div class="card__body__utm">
+      <div class="card__body__utm__left">
+        <div *ngFor="let utmKey of lead.utmTags | keys" class="card__body__utm__left__item">
+          <div *ngIf="lead.utmTags[utmKey]">
+            {{ utmKey }}: {{ lead.utmTags[utmKey] }}
+          </div>
+        </div>
+        <div *ngIf="showLeadSource">
+          {{ lead.leadSource.name }}
+        </div>
+      </div>
+      <div class="card__body__utm__right">
+        <div class="card__body__utm__right__date">{{ lead.createdDate | date: 'dd.MM.yyyy'}}</div>
+      </div>
+    </div>
+
+    <div class="card__body__contact">
+      <div
+        nz-row
+        [nzType]="'flex'"
+        *ngIf="fullNameObj && (fullNameObj.lastName || fullNameObj.firstName || fullNameObj.secondName || fullNameObj.birthday)"
+        class="card__body__contact__info"
+      >
+        <div class="card__body__contact__info__last-name">{{ fullNameObj.lastName }}</div>
+        <div class="card__body__contact__info__first-name">{{ fullNameObj.firstName }}</div>
+        <div class="card__body__contact__info__second-name">{{ fullNameObj.secondName }}</div>
+        <div class="card__body__contact__info__birthday">{{ fullNameObj.birthday | date: 'dd.MM.yyyy'}}</div>
+      </div>
+      <div *ngIf="lead.comment" class="card__body__contact__comment">{{ lead.comment }}</div>
+    </div>
+
+    <div class="card__body__task">
+      <button *ngIf="lead.taskCount" class="card__body__task__show" nz-button [nzType]="'primary'">
+        <span>Задачи {{ lead.taskCount }}</span>
+      </button>
+      <nz-tooltip [nzTitle]="'Новая задача'">
+        <button
+          nz-button
+          [nzType]="'primary'"
+          [nzShape]="'circle'"
+          (click)="openModalTaskForm()"
+          nz-tooltip
+        >
+          <i class="anticon anticon-plus"></i>
+        </button>
+      </nz-tooltip>
+    </div>
+
+    </div>
+
+  <ng-template #formMsgModalContent>
+    <sl-send-msg
+      [data]="msgData"
+      (closeModal)="closeModalMsgForm($event)"
+    ></sl-send-msg>
+  </ng-template>
+</nz-card>
+
+<ng-template #sheduleModalContent>
+  <sl-shedule [contact]="contact" [service]="lead.medicalService" (appointmentCreated)="onAppointmentCreated($event)"></sl-shedule>
+</ng-template>
+
+<ng-template #formTaskModalContent>
+  <sl-task-create-form [formType]="'create'" [data]="dataForCreateTask" (closeModal)="closeModalTaskForm($event)"></sl-task-create-form>
+</ng-template>
+
+

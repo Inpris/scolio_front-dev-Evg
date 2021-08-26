@@ -1,0 +1,153 @@
+@import "variables";
+
+.sl-modal-form() {
+  .form {
+    margin-top: 14px;
+    &__title {
+      &__icon {
+        font-size: 22px;
+        color: darkslategrey;
+      }
+    }
+
+    &__body {
+      .ant-row {
+        margin-top: 3px;
+      }
+      .ant-row-flex {
+        margin-top: 3px;
+      }
+      &__btn {
+        margin-top: 24px !important;
+      }
+    }
+    &__close {
+      right: -10px;
+      top: -22px;
+      position: absolute;
+      cursor: pointer;
+    }
+    &__required:after {
+      content: ' * ';
+      color: @red-5;
+    }
+  }
+}
+
+.sl-infinity-table() {
+  .table-info {
+    border: 1px solid @gray-3;
+    padding: 5px 8px;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    background: @gray-1;
+    min-width: 150px;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    &__total {
+      align-self: center;
+    }
+    &__add {
+      margin-left: 32px;
+    }
+  }
+  :host ::ng-deep {
+    .ant-table-tbody > tr > td {
+      word-break: break-word;
+    }
+
+    .ant-table-thead > tr > th {
+      white-space: nowrap;
+    }
+
+    .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+      padding: 8px 8px;
+      font-size: 12px;
+    }
+
+    .ant-table .ant-table-filter-icon {
+      font-size: 14px;
+    }
+
+    .ant-table .ant-table-column-sorter .anticon {
+      font-size: 12px;
+    }
+
+    .ant-table-column-sorter {
+      margin-left: 0;
+    }
+
+    .ant-table-column-sorter-up, .ant-table-column-sorter-down {
+      line-height: 8px;
+      display: block;
+      width: 14px;
+      height: 5.5px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .row-expanded {
+      td {
+        background: @blue-0;
+      }
+    }
+
+    .ant-table-body {
+      border: 1px solid @gray-3;
+      background: white;
+    }
+
+    .ant-table-row.ant-table-expanded-row {
+      &:hover {
+        > td {
+          background: none;
+        }
+      }
+    }
+
+    .ant-table-thead > tr > th {
+      white-space: nowrap;
+    }
+
+    td {
+      word-break: break-word;
+    }
+
+    .infinity-container:hover {
+      td {
+        background: none;
+      }
+    }
+  }
+
+  .custom-filter-dropdown {
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+
+    nz-input-group {
+      padding: 8px;
+    }
+
+    nz-select {
+      width: 200px;
+      z-index: 200;
+    }
+  }
+
+  .infinity-container:hover {
+    td {
+      background: none;
+    }
+  }
+}
+
+.sl-picker-icon {
+  &:hover {
+    cursor: pointer;
+    &::after {
+      color: @blue-5;
+    }
+  }
+}

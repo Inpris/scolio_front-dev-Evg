@@ -1,0 +1,36 @@
+@import "variables";
+
+.col {
+  padding: 6px;
+  nz-card > ::ng-deep div.ant-card-body {
+    padding: 0;
+    background-color: #ececec;
+  }
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__text {
+      padding: 0 24px;
+      line-height: 48px;
+      font-weight: bold;
+    }
+  }
+  .blue-color {
+    background-color: @blue-0;
+  }
+  .gray-color {
+    background-color: @gray-5;
+  }
+  .green-color {
+    background-color: @green-3;
+  }
+  &__body {
+    height: 100vh;
+    overflow: auto;
+  }
+  .dnd-drag-over {
+    border: 2px dashed black;
+  }
+}

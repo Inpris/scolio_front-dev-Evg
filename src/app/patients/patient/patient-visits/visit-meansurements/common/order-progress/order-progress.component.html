@@ -1,0 +1,43 @@
+<nz-steps [nzCurrent]="currentStep">
+  <nz-step nzTitle="Бланк заказа" nzDescription="Оформлен бланк заказа"></nz-step>
+  <nz-step nzTitle="Модель" [nzDescription]="modelDescription"  *ngIf="is3DModel"></nz-step>
+  <ng-template #modelDescription>
+    <div>{{ currentStep > 1 ? 'Создана 3D модель' : 'Изготовление 3D модели' }}</div>
+  </ng-template>
+  <nz-step nzTitle="Изготовление" [nzDescription]="manufacturingDescription">
+    <ng-template #manufacturingDescription>
+      <nz-popover [nzTrigger]="'hover'" [nzPlacement]="'bottom'">
+        <nz-progress nz-popover [nzPercent]="percentageProgress"></nz-progress>
+        <ng-template #nzTemplate>
+          <div *ngFor="let state of schema">
+            <i class="anticon"
+               [ngClass]="manufacturingProgress[state.field] ? 'anticon-check done' : 'anticon-clock-circle-o awaiting'"></i>
+            {{state.name}}
+          </div>
+        </ng-template>
+      </nz-popover>
+    </ng-template>
+  </nz-step>
+  <nz-step nzTitle="Контроль" [nzDescription]="controlDescription">
+    <ng-template #controlDescription>
+      <div *ngIf="is3DModel; then isModel else noModel"></div>
+      <ng-template #isModel>
+        <div>{{ currentStep > 3 ? 'Проконтролировано' : 'Изделие на контроле' }}</div>
+      </ng-template>
+      <ng-template #noModel>
+        <div>{{ currentStep > 2 ? 'Проконтролировано' : 'Изделие на контроле' }}</div>
+      </ng-template>
+    </ng-template>
+  </nz-step>
+  <nz-step nzTitle="Выдача" [nzDescription]="issueDescription">
+    <ng-template #issueDescription>
+       <div *ngIf="is3DModel; then isModel else noModel"></div>
+       <ng-template #isModel>
+          <div>{{ currentStep > 4 ? 'Изделие выдано' : 'Выдача изделия' }}</div>
+       </ng-template>
+       <ng-template #noModel>
+          <div>{{ currentStep > 3 ? 'Изделие выдано' : 'Выдача изделия' }}</div>
+       </ng-template>
+    </ng-template>
+  </nz-step>
+</nz-steps>

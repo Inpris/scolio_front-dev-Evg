@@ -1,0 +1,37 @@
+<div [formGroup]="form">
+  <div>
+    <sl-control-selection title="Основной"
+                          [service]="mkb10"
+                          [dataFactory]="dataFactory"
+                          [serverSearch]="true"
+                          [pageParams]="{ pageSize: 20 }"
+                          [control]="form.get('mkb10')"
+                          [isShowTooltip]="true"
+                          nzDropdownClassName="qaaDropdownPatientMainDiagnosis"
+                          qaaLocator="qaaSelectPatientMainDiagnosis"></sl-control-selection>
+  </div>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="11">
+      <sl-control-selection [service]="diagnosis1"
+                            [dataFactory]="dataFactory"
+                            [pageParams]="{ pageSize: 500 }"
+                            [control]="form.get('diagnosis1')"
+                            nzDropdownClassName="qaaPatientDiagnosis1"
+                            qaaLocator="qaaSelectPatientDiagnosis1"></sl-control-selection>
+    </div>
+    <div nz-col nzSpan="11">
+      <sl-control-selection [service]="diagnosis2"
+                            [dataFactory]="dataFactory"
+                            [pageParams]="{ pageSize: 500 }"
+                            [control]="form.get('diagnosis2')"
+                            nzDropdownClassName="qaaPatientDiagnosis2"
+                            qaaLocator="qaaSelectPatientDiagnosis2"></sl-control-selection>
+    </div>
+  </div>
+  <div>
+    <label>Сопутствующий</label>
+    <nz-form-control>
+      <textarea nz-input formControlName="attendantDiagnosis" maxlength="1024"></textarea>
+    </nz-form-control>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+@import "variables";
+
+.purchase {
+  &__field {
+    color: @gray-6;
+    min-width: 120px;
+    flex-wrap: nowrap;
+    margin-bottom: 8px;
+  }
+  &__object {
+    text-align: left;
+  }
+  &__purchase__row {
+    flex-wrap: nowrap;
+  }
+  &__sider {
+    background: transparent;
+    flex: 0 0 400px !important;
+    max-width: 400px !important;
+  }
+  &__content {
+    padding-right: 280px;
+  }
+}
+@media (max-width: @sl-media-1600px) {
+  .purchase__content {
+    padding-right: 60px;
+  }
+}
+
+.action-button {
+  &__container {
+    height: 100%;
+    padding-top: 8px;
+  }
+}
+
+.btn-reset-filter {
+  margin-left: 5px;
+}

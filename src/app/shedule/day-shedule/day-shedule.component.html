@@ -1,0 +1,75 @@
+<div class="window">
+  <i class="anticon anticon-printer printer" (click)="print()"></i>
+  <h2>Кабинет {{shedule.room.name}}</h2>
+  <div class="day-selector">
+    <div class="day" *ngFor="let day of week" (click)="onShowDayShedule(day)" [class.active]="isSelectedDate(day)">
+      <span>{{day|date:'E'}}</span>
+      <span>{{day|date:'dd'}}</span><span *ngIf="multiMonthWeek">.{{day|date:'MM'}}</span>
+    </div>
+  </div>
+  <div class="table-info">
+    <div nz-col class="table-info__total">Всего: {{dayShedule?.length || 0}}</div>
+  </div>
+  <nz-table #nzTable [nzData]="dayShedule" nzShowPagination="false" [nzPageSize]="dayShedule.length">
+    <thead nz-thead>
+    <tr>
+      <th nz-th nzExpand class="expand"></th>
+      <th nz-th><span>ФИО</span></th>
+      <th nz-th><span>Время</span></th>
+      <th nz-th><span>Цель посещения</span></th>
+      <th nz-th><span>Комментарий</span></th>
+    </tr>
+    </thead>
+    <tbody nz-tbody>
+    <ng-template ngFor let-data [ngForOf]="nzTable.data">
+      <tr nz-tbody-tr>
+        <td nz-td nzShowExpand [(nzExpand)]="data.expand" class="expand"></td>
+        <td nz-td>
+          <a target="_blank" [routerLink]="['/patients/', data.contact.id]">
+            {{data.contact.lastName}} {{data.contact.firstName}} {{data.contact.secondName}}
+          </a>
+        </td>
+        <td nz-td>{{data.dateTimeStart|date:'H:mm'}}</td>
+        <td nz-td>{{data.visitReason.name}}</td>
+        <td nz-td>{{data.comment || '-'}}</td>
+      </tr>
+      <tr nz-tbody-tr *ngIf="data.expand">
+        <td nz-td></td>
+        <td nz-td colspan="4">{{data.contact.name}}</td>
+      </tr>
+    </ng-template>
+    </tbody>
+  </nz-table>
+  <iframe #iframeprint id="iframeprint" style="display: none;" (load)="onFrameLoad()"></iframe>
+</div>
+
+<div #tablePrint class="print-container">
+  <h2 class="room">Кабинет {{shedule.room.name}}</h2>
+  <div class="date">
+    Дата: {{ date|date:'dd.MM.yyyy' }}
+  </div>
+  <div class="table">
+    <div class="table__row header">
+      <div class="table__cell">ФИО</div>
+      <div class="table__cell">ВРЕМЯ</div>
+      <div class="table__cell">ЦЕЛЬ ПОСЕЩЕНИЯ</div>
+      <div class="table__cell">КОММЕНТАРИЙ</div>
+    </div>
+    <div class="body">
+      <div *ngFor="let schedule of dayShedule;" class="table__row">
+        <div class="table__cell">
+          {{schedule.contact.lastName}} {{schedule.contact.firstName}} {{schedule.contact.secondName}}
+        </div>
+        <div class="table__cell">
+          {{schedule.dateTimeStart|date:'H:mm'}}
+        </div>
+        <div class="table__cell">
+          {{schedule.visitReason.name}}
+        </div>
+        <div class="table__cell">
+          {{schedule.comment || '-'}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

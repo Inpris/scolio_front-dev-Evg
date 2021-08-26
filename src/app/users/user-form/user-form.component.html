@@ -1,0 +1,182 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <nz-card class="form" [nzTitle]="title">
+    <nz-spin [nzSpinning]="isBusy">
+      <ng-template #title>
+        <div nz-row [nzType]="'flex'" [nzGutter]="8" class="form__title">
+          <div nz-col class="form__title__icon">
+            <i class="anticon anticon-user"></i>
+          </div>
+          <div nz-col class="form__title__text">
+            <span *ngIf="user; else newUser">
+              Редактирование пользователя {{user.abbreviatedName}}
+            </span>
+            <ng-template #newUser>
+              <span>Создание нового пользователя</span>
+            </ng-template>
+          </div>
+          <i class="anticon anticon-close form__close" (click)="close()"></i>
+        </div>
+      </ng-template>
+
+
+      <div nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col nzSpan="11">
+          <label>Фамилия*</label>
+          <nz-form-control>
+            <input nz-input formControlName="lastName"/>
+          </nz-form-control>
+        </div>
+        <div nz-col nzSpan="11">
+          <label>Имя*</label>
+          <nz-form-control>
+            <input nz-input formControlName="firstName"/>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col nzSpan="11">
+          <label>Отчество</label>
+          <nz-form-control>
+            <input nz-input formControlName="secondName"/>
+          </nz-form-control>
+        </div>
+        <div nz-col nzSpan="11">
+          <label>Дата рождения*</label>
+          <nz-form-control nz-row >
+            <sl-date-picker formControlName="birthDate"
+                            nzFormat="DD.MM.YYYY"
+                            nzPlaceHolder></sl-date-picker>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col nzSpan="11">
+          <label>Email*</label>
+          <nz-form-control>
+            <input nz-input formControlName="email"/>
+          </nz-form-control>
+        </div>
+        <div nz-col nzSpan="11">
+          <label>Телефон*</label>
+          <nz-form-control>
+            <input nz-input slPhoneFormatter formControlName="phoneNumber">
+          </nz-form-control>
+        </div>
+      </div>
+
+      <nz-divider></nz-divider>
+
+      <div nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col nzSpan="11">
+          <label>Логин*</label>
+          <nz-form-control>
+            <input nz-input formControlName="userName" [maxlength]="24" slTemplateReplacement [slRegex]="regex" [slReplace]="''"/>
+          </nz-form-control>
+        </div>
+        <div nz-col nzSpan="11" *ngIf="!user">
+          <nz-popover>
+            <label nz-popover class="sl-detail-help">Пароль*</label>
+            <ng-template #nzTemplate>
+             <sl-user-password-criteria></sl-user-password-criteria>
+            </ng-template>
+          </nz-popover>
+          <nz-form-control>
+            <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
+              <input nz-input formControlName="password" [maxlength]="24" [type]="showPassword ? 'text' : 'password'"/>
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+              <div class="show-password"
+                (mousedown)="showPsw(true)"
+                (mouseup)="showPsw(false)"
+                (mouseleave)="showPsw(false)">
+                <i class="anticon anticon-eye-o" *ngIf="!showPassword"></i>
+                <i class="anticon anticon-eye" *ngIf="showPassword"></i>
+              </div>
+            </ng-template>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col nzSpan="24">
+          <nz-popover>
+            <label nz-popover class="sl-detail-help">Роли пользователя*</label>
+            <ng-template #nzTemplate>
+              <sl-user-roles-description></sl-user-roles-description>
+            </ng-template>
+          </nz-popover>
+          <nz-form-control>
+            <nz-select formControlName="roles" nzMode="multiple" nzPlaceHolder="<Не выбрано>">
+              <nz-option *ngFor="let option of roles" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <nz-divider></nz-divider>
+
+      <div  nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col nzSpan="24">
+          <label>Филиалы*</label>
+          <nz-form-control>
+            <nz-select formControlName="branchIds" nzMode="multiple" nzPlaceHolder="<Не выбрано>">
+              <nz-option *ngFor="let option of branches" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div  nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col nzSpan="24">
+          <label>Главный Филиал*</label>
+          <nz-form-control>
+            <nz-select formControlName="branchId" nzPlaceHolder="<Не выбрано>">
+              <nz-option *ngFor="let option of allowBranches" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div  nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col nzSpan="11">
+          <label>Отдел*</label>
+          <nz-form-control>
+            <nz-select formControlName="departmentId" nzPlaceHolder="<Не выбрано>">
+              <nz-option *ngFor="let option of departments" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </div>
+        <div nz-col nzSpan="11">
+          <label>Должность*</label>
+          <nz-form-control>
+            <nz-select formControlName="positionId" nzPlaceHolder="<Не выбрано>">
+              <nz-option *ngFor="let option of positions" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row
+           class="form__body__btn"
+           nzType="flex"
+           nzJustify="center"
+        [nzGutter]="8">
+        <div nz-col>
+          <button type="submit" nz-button nzType="primary">
+            <i class="anticon anticon-save"></i>
+            <span>Сохранить</span>
+          </button>
+        </div>
+
+        <div nz-col>
+          <button type="button" nz-button (click)="close()">
+            <i class="anticon anticon-close"></i>
+            <span>Отмена</span>
+          </button>
+        </div>
+      </div>
+    </nz-spin>
+  </nz-card>
+</form>

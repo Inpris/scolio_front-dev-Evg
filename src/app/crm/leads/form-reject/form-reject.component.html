@@ -1,0 +1,56 @@
+
+<nz-card nzNoHovering="true" class="form" [nzTitle]="title">
+  <ng-template #title>
+    <div nz-row [nzType]="'flex'" [nzGutter]="8" class="form__title">
+      <div nz-col class="form__title__icon">
+        <i class="anticon anticon-bell"></i>
+      </div>
+      <div nz-col class="form__title__text">Отправить в отказ</div>
+    </div>
+  </ng-template>
+
+  <nz-spin [nzSpinning]="leadFormLoading" nzSize="large">
+    <form class="form__body" nz-form [formGroup]="form" novalidate (ngSubmit)="onSubmit(form)">
+      <!--<div nz-row>-->
+        <!--<div class="" nz-col nzSpan="24">-->
+          <!--<label>Комментарий*</label>-->
+          <!--<div nz-form-control>-->
+            <!--<input nz-input formControlName="comment" nzType="textarea" nzRows="4">-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <div nz-row>
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="">
+          <label>Причина отказа:</label>
+          <nz-form-control nz-col>
+            <nz-select formControlName="reasonId" nzPlaceHolder>
+              <nz-option *ngFor="let option of services"
+                         [nzLabel]="option.name"
+                         [nzValue]="option.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row
+           class="form__body__btn"
+           [nzType]="'flex'"
+           [nzJustify]="'center'"
+           [nzGutter]="8">
+        <div nz-col>
+          <button type="submit" nz-button nzType="primary">
+            <i class="anticon anticon-save"></i>
+            <span>Сохранить</span>
+          </button>
+        </div>
+        <div nz-col>
+          <button type="button" nz-button  (click)="closeForm()">
+            <i class="anticon anticon-close"></i>
+            <span>Отмена</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </nz-spin>
+</nz-card>

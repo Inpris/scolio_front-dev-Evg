@@ -1,0 +1,98 @@
+<sl-purchase-short-description
+  [purchase]="purchase"
+  [actionButtonText]="'+ Новое изделие'"
+  (action)="openModalDeviceForm()">
+</sl-purchase-short-description>
+<div class="products">
+  <div class="table-info">
+    <div nz-col class="table-info__total">Всего: {{pageParams?.totalCount || 0}}</div>
+  </div>
+  <nz-table #table
+    [nzData]="data"
+    [nzLoading]="dataLoading"
+    [nzShowPagination]="false"
+    [nzFrontPagination]="false"
+  >
+    <thead>
+      <tr>
+        <th nzShowExpand></th>
+        <th nzShowSort [(nzSort)]="sortMap.name" (nzSortChange)="sort('name',$event)">
+          Наименование
+        </th>
+        <th nzShowSort [(nzSort)]="sortMap.count" (nzSortChange)="sort('count',$event)">
+          Количество
+        </th>
+        <th nzShowSort [(nzSort)]="sortMap.price" (nzSortChange)="sort('price',$event)">
+          Цена за ед.
+        </th>
+        <th nzShowSort [(nzSort)]="sortMap.totalAmount" (nzSortChange)="sort('totalAmount',$event)">
+          Сумма
+        </th>
+        <th>
+          История изменений
+        </th>
+        <th nzWidth="350px">Заметки</th>
+        <th nzWidth="120px">Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+    <ng-template ngFor let-data let-i="index" [ngForOf]="table.data">
+      <tr [ngClass]="{ 'row-expanded': data.expand}">
+        <td nzShowExpand (nzExpandChange)="expandChange(data, $event)" [(nzExpand)]="data.expand"
+            qaaLocator="qaaExpandInformation"></td>
+        <td qaaLocator="qaaDeviceName">{{ data.name }}</td>
+        <td qaaLocator="qaaDeviceCount">
+          <nz-popover>
+            <sl-product-count-field
+              class="sl-detail-help"
+              nz-popover
+              [countData]="createProductCountData(data)"
+            >
+            </sl-product-count-field>
+            <ng-template #nzTemplate>
+              <sl-product-count-field></sl-product-count-field>
+            </ng-template>
+          </nz-popover>
+        </td>
+        <td qaaLocator="qaaDevicePrice">{{ data.price | currency:'RUB':'symbol-narrow'}}</td>
+        <td qaaLocator="qaaDeviceSum">{{ data.count * data.price | currency:'RUB':'symbol-narrow'}}</td>
+        <td>
+          <div>Создал {{ data.createdBy.name }}</div>
+          <div>{{ data.createdDate | date: 'dd.MM.yyyy' }}</div>
+          <div *ngIf="data.lastModifiedBy">
+            <div>Изменил {{ data.lastModifiedBy.name }}</div>
+            <div>{{ data.lastModifiedDate | date: 'dd.MM.yyyy' }}</div>
+          </div>
+        </td>
+        <td>
+          <div>{{ data.note }}</div>
+        </td>
+        <td>
+          <div nz-row [nzType]="'flex'" nzJustify="space-between" class="device__actions">
+            <nz-popover>
+              <i nz-popover (click)="print()" class="anticon anticon-printer device__action"></i>
+              <ng-template #nzTemplate>Распечатать информацию по изделию</ng-template>
+            </nz-popover>
+            <nz-popover qaaLocator="qaaDeleteDevice">
+              <i nz-popover (click)="removeDevice(data.id, i)" class="anticon anticon-delete device__action"></i>
+              <ng-template #nzTemplate>Удалить изделие</ng-template>
+            </nz-popover>
+            <nz-popover qaaLocator="qaaEditDevice">
+              <i nz-popover (click)="openModalDeviceForm(data)" class="anticon anticon-edit device__action"></i>
+              <ng-template #nzTemplate>Изменить данные об изделии</ng-template>
+            </nz-popover>
+          </div>
+        </td>
+      </tr>
+      <tr [nzExpand]="data.expand">
+        <td></td>
+        <td colspan="7" class="purchase-list__patients">
+          <div class="description-title">Техническое описание:</div>
+          <div class="description-text">{{data.description}}</div>
+          <sl-product-specification [productId]="data.id"></sl-product-specification>
+        </td>
+      </tr>
+    </ng-template>
+    </tbody>
+  </nz-table>
+</div>

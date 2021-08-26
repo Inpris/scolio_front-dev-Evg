@@ -1,0 +1,70 @@
+<div nz-row nzType="flex" nzJustify="space-between" class="user__header">
+  <div nz-col>
+    <h2>Посещения</h2>
+  </div>
+  <div class="filters" *ngIf="!updatingList">
+    <nz-select [formControl]="templateControl" nzAllowClear nzPlaceHolder="<Не выбрано>" class="templates">
+      <nz-option
+        *ngFor="let temp of templates"
+        [nzLabel]="temp.templateName"
+        [nzValue]="temp.id">
+      </nz-option>
+    </nz-select>
+    <button (click)="getExcel()" class="ant-btn ant-btn-primary">
+      <i class="anticon anticon-file-excel"></i>
+      <span>Выгрузить</span>
+    </button>
+    <button class="ant-btn ant-btn-primary" (click)="openConfiguration()">Открыть конфигуратор шаблонов</button>
+    <button (click)="resetFilter()" class="ant-btn ant-btn-primary">
+      <i class="anticon anticon-reload"></i>
+      <span>Сбросить все фильтры</span>
+    </button>
+  </div>
+</div>
+<div class="table-info">
+  <div class="table-info__total">Всего: {{pagination?.totalCount || 0}}</div>
+</div>
+<div #container>
+  <nz-table #nzTable [nzData]="reportTableSchema.rows"
+            [nzShowPagination]="false"
+            [ngClass]="{ hasScroll: scrollBarPadding, 'no-data': reportTableSchema.rows && reportTableSchema.rows.length == 0 }"
+            [nzLoading]="updatingList"
+            [nzPageSize]="reportTableSchema.rows?.length"
+            [nzScroll]="{ x: reportTableSchema.width + 'px', y: 'calc(93vh - 225px)'}">
+    <thead>
+    <tr>
+      <ng-container *ngFor="let header of reportTableSchema.headers">
+        <th [nzWidth]="header.width + 'px'">
+          <sl-report-filters [title]="header.title"
+                             [type]="header.filterType"
+                             [service]="header.filterService"
+                             [dataFactory]="header.filterDataFactory"
+                             [multi]="header.filterMulti"
+                             [valueField]="header.filterValueField"
+                             [(ngModel)]="filterMap[header.filterField]"
+                             (ngModelChange)="search($event)"
+                             *ngIf="header.filterType >= 0; else title">
+          </sl-report-filters>
+          <ng-template #title>{{header.title}}</ng-template>
+        </th>
+      </ng-container>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-template ngFor let-row [ngForOf]="nzTable.data" [ngForTrackBy]="trackByRow">
+      <tr>
+        <ng-container *ngFor="let cel of row; let i = index; trackBy: trackByCell">
+          <td height="35px" [innerHTML]="cel.formattedValue"></td>
+        </ng-container>
+      </tr>
+
+    </ng-template>
+    <tr *ngIf="reportTableSchema.rows && pagination.page <= pagination.pageCount - 1">
+      <td [attr.colspan]="reportTableSchema.rows[0].length">
+        <sl-infinity-scroll [rootContainer]="nzTable.tableBodyElement.nativeElement"
+                            (loadCallback)="getData(true)"></sl-infinity-scroll>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

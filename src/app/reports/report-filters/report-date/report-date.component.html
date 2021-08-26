@@ -1,0 +1,64 @@
+<nz-dropdown [nzPlacement]="'bottomCenter'" nzTrigger="click" [nzClickHide]="false" [(nzVisible)]="visible"
+             (nzVisibleChange)="visibleChange($event)">
+  <div nz-dropdown class="filter-icon-container">
+    <span class="filter-label"
+          [ngClass]="{ 'filter-label__selected': !!(filterQueryFrom.value || filterQueryTo.value) }">{{title}}</span>
+    <i class="anticon anticon-filter ant-table-filter-icon"
+       [ngClass]="{ 'ant-table-filter-selected': !!(filterQueryFrom.value || filterQueryTo.value) }"></i>
+  </div>
+  <div class="filter-dropdown" *ngIf="visible">
+    <nz-input-group>
+      <sl-date-picker #datepickerFrom
+                      nzSize="small"
+                      [nzDisabled]="[queryTypes.TO, queryTypes.CURRENT_MONTH].indexOf(queryType) >= 0"
+                      [ngModel]="filterQueryFrom.value" nzFormat="DD.MM.YYYY"></sl-date-picker>
+      <span [hidden]="queryType === queryTypes.EXACT" class="date-separator">&nbsp;</span>
+      <sl-date-picker #datepickerTo
+                      nzSize="small"
+                      [nzDisabled]="[queryTypes.FROM, queryTypes.EXACT, queryTypes.CURRENT_MONTH].indexOf(queryType) >= 0"
+                      [hidden]="queryType === queryTypes.EXACT"
+                      [ngModel]="filterQueryTo.value" nzFormat="DD.MM.YYYY"></sl-date-picker>
+    </nz-input-group>
+    <div class="query__type-buttons">
+      <nz-radio-group [(ngModel)]="queryType" (ngModelChange)="changeType($event)" nzSize="small">
+        <label nz-radio-button [nzValue]="queryTypes.FROM">
+          <nz-tooltip nzTitle="Дата от">
+            <i nz-tooltip class="anticon anticon-verticle-right"></i>
+          </nz-tooltip>
+        </label>
+        <label nz-radio-button [nzValue]="queryTypes.TO">
+          <nz-tooltip nzTitle="Дата до">
+            <i nz-tooltip class="anticon anticon-verticle-left"></i>
+          </nz-tooltip>
+        </label>
+        <label nz-radio-button [nzValue]="queryTypes.EXACT">
+          <nz-tooltip nzTitle="Точная дата">
+            <i nz-tooltip class="anticon anticon-schedule"></i>
+          </nz-tooltip>
+        </label>
+        <label nz-radio-button [nzValue]="queryTypes.RANGE">
+          <nz-tooltip nzTitle="Интервал">
+            <i nz-tooltip class="anticon anticon-swap"> </i>
+          </nz-tooltip>
+        </label>
+        <label  nz-radio-button [nzValue]="queryTypes.CURRENT_MONTH">
+          <nz-tooltip nzTitle="Текущий месяц">
+            <i nz-tooltip class="anticon anticon-calendar">
+            </i>
+          </nz-tooltip>
+        </label>
+      </nz-radio-group>
+    </div>
+    <div class="ant-table-filter-dropdown-btns">
+      <a class="ant-table-filter-dropdown-link confirm" (click)="applyFilter(
+        datepickerFrom?.nzValue?.nativeDate,
+        datepickerTo?.nzValue?.nativeDate
+        )">
+        <span>OK</span>
+      </a>
+      <a class="ant-table-filter-dropdown-link clear" (click)="resetFilter()">
+        <span>Сбросить</span>
+      </a>
+    </div>
+  </div>
+</nz-dropdown>

@@ -1,0 +1,30 @@
+<div [ngSwitch]="medicalServiceSysName">
+  <div *ngSwitchCase="'ProtezVK'"><ng-container *ngTemplateOutlet="protez"></ng-container></div>
+  <div *ngSwitchCase="'Corset'"><ng-container *ngTemplateOutlet="corset"></ng-container></div>
+  <div *ngSwitchDefault><ng-container *ngTemplateOutlet="corset"></ng-container></div>
+</div>
+
+<ng-template #corset>
+  <div [formGroup]="form">
+    <div>
+      <label>Рекомендуемое</label>
+      <nz-form-control>
+        <textarea nz-input formControlName="recommendedCorsetWearing" maxlength="128"></textarea>
+      </nz-form-control>
+    </div>
+    <div>
+      <label>Реальное</label>
+      <nz-form-control>
+        <textarea nz-input formControlName="actualCorsetWearing" maxlength="128"></textarea>
+      </nz-form-control>
+    </div>
+  </div>
+</ng-template>
+<ng-template #protez>
+  <div [formGroup]="form">
+    <label>Рекомендации по ношению</label>
+    <nz-form-control>
+      <textarea nz-input formControlName="recommendedCorsetWearing" maxlength="128"></textarea>
+    </nz-form-control>
+  </div>
+</ng-template>

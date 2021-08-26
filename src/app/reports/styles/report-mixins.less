@@ -1,0 +1,25 @@
+.report-table() {
+  sl-infinity-scroll {
+    position: sticky;
+    left: 10px;
+  }
+  :host ::ng-deep {
+    .ant-table-thead > tr > th {
+      white-space: normal;
+    }
+
+    nz-table:not(.no-data) .ant-table-fixed-header .ant-table-scroll .ant-table-header {
+      overflow: hidden !important;
+    }
+
+    .ant-table-fixed-header .ant-table-scroll .ant-table-header {
+      border-left: 1px solid #e8e8e8;
+    }
+
+    .hasScroll {
+      .ant-table-fixed-header .ant-table-scroll .ant-table-header {
+        margin-bottom: 0 !important;
+      }
+    }
+  }
+}

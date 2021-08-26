@@ -1,0 +1,47 @@
+@import "variables";
+
+.form{
+  margin-top: 14px;
+  &__title {
+    &__icon{
+      font-size: 22px;
+      color: darkslategrey;
+    }
+  }
+
+  .status-border-color() {
+    border-color: @gray-4;
+    color: @black;
+    box-shadow: -1px 0 0 0 @gray-4;
+  }
+  .task-new {
+    background: @taskNew;
+    .status-border-color;
+  }
+  .task-worked {
+    background: @taskWorked;
+    .status-border-color;
+  }
+  .task-done {
+    background: @taskDone;
+    .status-border-color;
+  }
+
+  &__body {
+    .ant-row {
+      margin-top: 3px;
+    }
+    .ant-row-flex {
+      margin-top: 3px;
+    }
+    &__btn {
+      margin-top: 24px !important;
+    }
+  }
+  &__close {
+    right: -10px;
+    top: -22px;
+    position: absolute;
+    cursor: pointer;
+  }
+}

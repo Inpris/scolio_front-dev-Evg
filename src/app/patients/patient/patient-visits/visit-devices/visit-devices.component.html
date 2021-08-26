@@ -1,0 +1,73 @@
+<nz-spin [nzSpinning]="isLoading">
+  <ng-template ngFor let-device [ngForOf]="existingDevices">
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col [nzSpan]="13" [nzXXl]="15">
+        <nz-popover>
+          <b nz-popover class="sl-detail-help">
+            {{ device.productType.name }}<span *ngIf="device.isCorrection"> коррекция</span>.
+          </b>
+          <ng-template #nzTemplate>
+            <ng-container *ngIf="!device.isCorrection">
+              <div>Статус изделия: <b>{{ getDeviceStatus(device) }}</b></div>
+              <nz-divider></nz-divider>
+            </ng-container>
+            <div nz-row nzType="flex" nzJustify="end">
+              <button type="button" nz-col nzSize="small" nz-button nzType="danger" (click)="deleteDevice(device)">
+                Удалить изделие
+              </button>
+            </div>
+          </ng-template>
+        </nz-popover>
+        <span>{{device.name}}</span>
+      </div>
+      <div nz-col>
+        <div *ngIf="device.number;then detail_link else add_link"></div>
+        <ng-template #detail_link>
+          <a (click)="showDevice(device)">{{device.number}}</a>
+        </ng-template>
+        <ng-template #add_link>
+          <a (click)="showDevice(device, true)">+ Бланк заказа</a>
+        </ng-template>
+      </div>
+    </div>
+    <nz-divider></nz-divider>
+  </ng-template>
+  <div nz-row nzType="flex" nzJustify="end">
+    <div nz-col>
+      <button type="button" nz-col nzSize="small" nz-button nzType="dashed" (click)="openAddDeviceModal()">+ Изделие
+      </button>
+    </div>
+  </div>
+</nz-spin>
+
+<ng-template #addDeviceModalContent>
+  <nz-spin [nzSpinning]="isLoading">
+    <div nz-row class="data-row">
+      <div nz-col nzSpan="8">
+        <nz-select class="data-row__nz-select" [(ngModel)]="selectedDevice" nzDropdownClassName="qaaDropdownDevices"
+                   qaaLocator="qaaSelectDevices">
+          <nz-option *ngFor="let device of devices" [nzLabel]="device.name" [nzValue]="device">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div nz-col nzSpan="15" nzOffset="1">
+        <input *ngIf="!purchaseId" nz-input placeholder="Наименование" [(ngModel)]="newDeviceText">
+        <nz-select *ngIf="purchaseId" class="data-row__nz-select" [(ngModel)]="purchaseDevice"
+                   nzDropdownClassName="qaaDropdownPurchaseDevice" qaaLocator="qaaSelectPurchaseDevice">
+          <nz-option *ngFor="let purchaseDevice of availableDevices" [nzLabel]="purchaseDevice.name" [nzValue]="purchaseDevice">
+          </nz-option>
+        </nz-select>
+      </div>
+    </div>
+    <div nz-row class="buttons-row">
+      <div nz-col nzSpan="12" nzOffset="8">
+        <button nz-button nzType="primary" (click)="addDevice()" [disabled]="newDeviceText.trim() === '' && !purchaseDevice">
+          <i class="anticon anticon-save"></i>Сохранить
+        </button>
+        <button nz-button nzType="default" (click)="closeAddDeviceModal()">
+          <i class="anticon anticon-close"></i>Отмена
+        </button>
+      </div>
+    </div>
+  </nz-spin>
+</ng-template>

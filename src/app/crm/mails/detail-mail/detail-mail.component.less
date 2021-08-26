@@ -1,0 +1,40 @@
+@import "variables";
+
+.detail-mail {
+  &__head {
+    &__left {
+      i {
+        cursor: pointer;
+        font-size: 22px;
+      }
+      &__title {
+        // margin-left: 10px;
+      }
+    }
+    &__right {}
+    margin-bottom: 10px;
+  }
+  &__body {
+    i {
+      font-size: 22px;
+      margin-right: 10px
+    }
+    &__entity-link {
+      margin-bottom: 10px;
+    }
+    &__to {
+      border-bottom: 1px solid @divider;
+      padding-bottom: 10px;
+    }
+    &__attachments {
+      border-top: 1px solid @divider;
+      &__file {
+        margin: 10px 10px 10px 0;
+        cursor: pointer;
+        i {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+}

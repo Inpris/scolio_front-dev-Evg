@@ -1,0 +1,75 @@
+@import "variables";
+
+.form{
+  &__title {
+    height: 100%;
+    .blue-color {
+      background-color: @blue-0;
+    }
+    .orange-color {
+      background-color: orange;
+    }
+    .green-color {
+      background-color: @green-3;
+    }
+    &__icon{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      i {
+        font-size: 22px;
+      }
+    }
+    &__text {
+      margin-left: 10px;
+    }
+  }
+  &__body {
+    .field-margin-bottom {
+      margin-bottom: 24px !important;
+    }
+    .ant-row {
+      margin-top: 3px;
+    }
+    .ant-row-flex {
+      margin-top: 3px;
+    }
+    &__contact {
+      margin: 10px 0px;
+      font-weight: bold;
+      &__text {}
+      &__btn {
+        cursor: pointer;
+        display: flex;
+        margin-left: 5px;
+      }
+    }
+    &__utm {
+      margin: 10px 0;
+      color: @gray-6;
+    }
+    &__info {
+      color: @gray-6;
+    }
+    &__btn.ant-row-flex {
+      margin-top: 0 !important;
+    }
+  }
+  &__close {
+    right: -10px;
+    top: -20px;
+    position: absolute;
+    cursor: pointer;
+  }
+}
+.mt12 {
+  position: relative;
+  margin-top: 12px;
+}
+
+:host ::ng-deep .ant-calendar-picker {
+  width: 100%;
+}

@@ -1,0 +1,18 @@
+<nz-timeline *ngIf="visits.length; else noData">
+  <nz-timeline-item *ngFor="let item of visits" [ngClass]="{selected: item.selected}">
+    <div class="date-item" (click)="item.opened = !item.opened">
+      <span>{{item.date | date : 'dd.MM.yyyy'}}</span>
+      <i class="anticon" [ngClass]="item.opened ? 'anticon-up' : 'anticon-down'"></i>
+    </div>
+    <div *ngIf="item.opened">
+      <div class="visit-item" *ngFor="let visit of item.visits" (click)="selectVisit(visit)">
+        <span class="visit-item-marker" [ngClass]="{selected: visit.id === selectedVisitId}"></span>
+        <span>{{visit.medicalService.name}}. {{visit.visitReason.name}}</span>
+        <i class="anticon anticon-close visit-item-delete" (click)="deleteVisit($event, visit)"></i>
+      </div>
+    </div>
+  </nz-timeline-item>
+</nz-timeline>
+<ng-template #noData>
+  У пациента нет посещений
+</ng-template>

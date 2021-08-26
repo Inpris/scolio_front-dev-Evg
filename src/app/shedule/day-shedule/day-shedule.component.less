@@ -1,0 +1,92 @@
+@import "variables";
+@import "mixins";
+
+.sl-infinity-table();
+
+@border-color: @gray-8;
+
+.window {
+  display: inherit;
+}
+
+h2 {
+  text-align: center;
+}
+
+@media print {
+  ::ng-deep {
+    .day-selector,
+    .printer,
+    .ant-modal-close-x {
+      display: none !important;
+    }
+
+    sl-root {
+      height: unset;
+      display: none;
+    }
+
+    .ant-modal-wrap  {
+      overflow: visible;
+    }
+
+    .ant-modal {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+
+  .window {
+    display: none;
+  }
+
+  .print-container {
+    display: flex !important;
+    flex-direction: column;
+  }
+}
+
+.day-selector {
+  background: @cyan-8;
+  border-left: 1px solid @border-color;
+  border-top: 1px solid @border-color;
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 16px 0;
+
+  .day {
+    border-bottom: 1px solid @border-color;
+    border-right: 1px solid @border-color;
+    color: @white;
+    cursor: pointer;
+    flex: auto;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    text-transform: uppercase;
+
+    &.active {
+      cursor: default;
+    }
+
+    &.active, &:hover {
+      background: @blue-3;
+    }
+  }
+}
+
+.printer {
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:active {
+    transform: translateY(2px);
+  }
+}
+
+.print-container {
+  display: none;
+}

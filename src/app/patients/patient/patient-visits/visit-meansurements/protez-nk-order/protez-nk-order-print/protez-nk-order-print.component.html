@@ -1,0 +1,175 @@
+<div nzType="block" class="print-form">
+  <div nz-row nzAlign="middle" class="print-form__header">Бланк заказа протеза НК № {{ device?.number }}</div>
+  <table class="print_table">
+    <tr>
+      <td [style.width]="'25%'">Дата посещения:</td>
+      <td colspan="4">{{ visit?.dateTime | date : 'dd.MM.yyyy' }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">ФИО:</td>
+      <td colspan="4">{{ contact?.lastName }} {{ contact?.firstName }} {{ contact?.secondName }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'20%'">Пол:</td>
+      <td colspan="2">{{ contact?.gender === 1 ? 'Женский' : 'Мужской' }}</td>
+      <td [style.width]="'20%'">Дата рождения:</td>
+      <td colspan="2">{{ contact?.birthDate | date : 'dd.MM.yyyy' }}</td>
+    </tr>
+    <tr>
+      <td>Телефон:</td>
+      <td colspan="4">{{ contact?.phone }}</td>
+    </tr>
+    <tr>
+      <td>Адрес:</td>
+      <td colspan="4">{{ contact?.address?.region?.name }} {{ contact?.address?.city }} {{ contact?.address?.house }} {{ contact?.address?.flat }}</td>
+    </tr>
+    <tr>
+      <td>Диагноз:</td>
+      <td colspan="4">{{ diagnosis?.name }}</td>
+    </tr>
+  </table>
+  <br>
+  <div nz-row nzAlign="middle" class="print-form__header">Анкета пациента</div>
+  <table class="print_table">
+    <tr>
+      <td [style.width]="'25%'">Дата ампутации:</td>
+      <td colspan="4">{{ device?.prothesisNkMeasurement?.amputationDate | date : 'dd.MM.yyyy' }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Причина ампутации:</td>
+      <td colspan="4">{{ device?.prothesisNkMeasurement?.amputationCause }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Сопутствующие заболевания:</td>
+      <td colspan="4">{{ device?.prothesisNkMeasurement?.accompanyingIllnesses }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Как долго пользуется протезом:</td>
+      <td colspan="4">{{ device?.prothesisNkMeasurement?.prothesisUseDuring }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Какие протезы были:</td>
+      <td colspan="4">{{ device?.prothesisNkMeasurement?.oldProthesis }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Каким протезом пользуется в настоящий момент:</td>
+      <td colspan="4">{{ device?.prothesisNkMeasurement?.currentProthesis }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">В какой организации протезировался до этого:</td>
+      <td colspan="4">{{ device?.prothesisNkMeasurement?.oldCompany }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Размер стопы:</td>
+      <td colspan="4">{{ device?.footSize }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Сторона ампутации:</td>
+      <td colspan="4">{{ device?.amputationSide ? amputationSides[device?.amputationSide] : '' }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Рост:</td>
+      <td colspan="4">{{ device?.growth }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Вес:</td>
+      <td colspan="4">{{ device?.weight }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Крепление протеза:</td>
+      <td colspan="4">{{ device?.prothesisNkMeasurement?.prothesisBracing }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Из чего изготовлена гильза:</td>
+      <td colspan="4">{{ device?.prothesisFastening }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Информация о работе:</td>
+      <td colspan="4">{{ device?.prothesisNkMeasurement?.additionalInfo }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Пользуется ТСР:</td>
+      <td colspan="4">{{ device?.prothesisNkMeasurement?.tcpUsing }}</td>
+    </tr>
+    <tr>
+      <td [style.width]="'25%'">Комплектующие протеза:</td>
+      <td colspan="4">{{ device?.prothesisNkMeasurement?.prothesisParts }}</td>
+    </tr>
+  </table>
+  <br>
+  <div nz-row nzAlign="middle" class="print-form__header">Исполнители и выдача</div>
+  <table class="manufactoring-table">
+    <tr>
+      <td>Принял</td>
+      <td colspan="2">{{ visit?.doctor?.name }}</td>
+    </tr>
+    <tr *ngIf="device.model3d">
+      <td>3D модель</td>
+      <td>{{ users.get(device?.model3dExecutor1) || '' }}</td>
+      <td>{{ users.get(device?.model3dExecutor2) || '' }}</td>
+    </tr>
+    <tr *ngIf="!device.model3d">
+      <td>Снятие слепка</td>
+      <td>{{ users.get(device?.impressionTakingExecutor1) || '' }}</td>
+      <td>{{ users.get(device?.impressionTakingExecutor2) || '' }}</td>
+    </tr>
+    <tr *ngIf="device.model3d">
+      <td>Создание 3D формы</td>
+      <td>{{ users.get(device?.createModel3dExecutor1) || '' }}</td>
+      <td>{{ users.get(device?.createModel3dExecutor2) || '' }}</td>
+    </tr>
+    <tr *ngIf="!device.model3d">
+      <td>Обработка слепка</td>
+      <td>{{ users.get(device?.impressionProcessingExecutor1) || '' }}</td>
+      <td>{{ users.get(device?.impressionProcessingExecutor2) || '' }}</td>
+    </tr>
+    <tr>
+      <td>Примерка пробной гильзы 1</td>
+      <td>{{ users.get(device?.firstFittingExecutor1) || '' }}</td>
+      <td>{{ users.get(device?.firstFittingExecutor2) || '' }}</td>
+    </tr>
+    <tr>
+      <td>Первичная сборка протеза</td>
+      <td>{{ users.get(device?.assemblyExecutor1) || '' }}</td>
+      <td>{{ users.get(device?.assemblyExecutor2) || '' }}</td>
+    </tr>
+    <tr>
+      <td>Примерка 2</td>
+      <td>{{ users.get(device?.secondFittingExecutor1) || '' }}</td>
+      <td>{{ users.get(device?.secondFittingExecutor2) || '' }}</td>
+    </tr>
+    <tr *ngIf="device.htv">
+      <td>HTV силикон</td>
+      <td>{{ users.get(device?.htvExecutor1) || '' }}</td>
+      <td>{{ users.get(device?.htvExecutor2) || '' }}</td>
+    </tr>
+    <tr *ngIf="device.lamination">
+      <td>Ламинация</td>
+      <td>{{ users.get(device?.laminationExecutor1) || '' }}</td>
+      <td>{{ users.get(device?.laminationExecutor2) || '' }}</td>
+    </tr>
+    <tr *ngIf="device.cosmeticCladding">
+      <td>Изготовление косметической облицовки</td>
+      <td>{{ users.get(device?.productionCosmeticCladdingExecutor1) || '' }}</td>
+      <td>{{ users.get(device?.productionCosmeticCladdingExecutor2) || '' }}</td>
+    </tr>
+    <tr *ngIf="device.lamination">
+      <td>Примерка 3</td>
+      <td>{{ users.get(device?.thirdFittingExecutor1) || '' }}</td>
+      <td>{{ users.get(device?.thirdFittingExecutor2) || '' }}</td>
+    </tr>
+    <tr>
+      <td>Выдача</td>
+      <td>{{ users.get(device?.issuer1?.id) || '' }}</td>
+      <td>{{ users.get(device?.issuer2?.id) || '' }}</td>
+    </tr>
+    <tr>
+      <td>Дата выдачи изделия</td>
+      <td colspan="2">{{ device?.dateOfIssue | date : 'dd.MM.yyyy' }}</td>
+    </tr>
+    <tr>
+      <td>Комментарий</td>
+      <td colspan="2">{{ device?.comment }}</td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,61 @@
+<nz-card class="form branches-card" nzTitle="Управление филиалами">
+  <div [formGroup]="form" class="branches">
+    <div class="branches__filter">
+      <div class="branches__filter-name">Филиалы</div>
+      <nz-select
+        class="branches__filter-field"
+        nzPlaceHolder="Выберите филиал"
+        [nzAllowClear]="true"
+        [formControl]="branchControl"
+      >
+        <nz-option *ngFor="let option of branches" [nzLabel]="option.name" [nzValue]="option"></nz-option>
+      </nz-select>
+    </div>
+    <div class="branches__container">
+      <div class="branches__filter">
+        <div class="branches__filter-name">Наименование</div>
+        <input nz-input formControlName="name" placeholder="Наименование" />
+      </div>
+      <div class="branches__filter">
+        <label nz-checkbox formControlName="isMain">
+          <span>Главный Филиал</span>
+        </label>
+      </div>
+    </div>
+    <nz-card class="branches__table" nzTitle="Кабинеты">
+      <nz-table
+        #nzTable
+        [nzScroll]="{ y: '300px' }"
+        [nzData]="rooms"
+        [nzLoading]="pendingRooms$ | async"
+        [nzShowPagination]="false"
+        [nzFrontPagination]="false"
+      >
+        <thead>
+          <tr>
+            <th>Наименование</th>
+            <th nzWidth="40px">
+              <nz-tooltip *ngIf="this.branchControl.value" nzTitle="Добавить">
+                <i class="anticon anticon-plus branches__icon" (click)="addRoom()"></i>
+              </nz-tooltip>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let room of nzTable.data">
+            <td>{{ room.name }}</td>
+            <td><nz-tooltip nzTitle="Редактировать">
+              <i class="anticon anticon-edit branches__icon" (click)="editRoom(room)"></i>
+            </nz-tooltip></td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>
+  </div>
+  <div class="branches__buttons">
+    <button nzType="danger" nzSize="large" nz-button [disabled]="disabledSave" (click)="cancel()">Отменить</button>
+    <button nzType="primary" nzSize="large" nz-button [disabled]="disabledSave" (click)="save()">
+      {{ branchControl.value ? 'Обновить' : 'Сохранить' }}
+    </button>
+  </div>
+</nz-card>

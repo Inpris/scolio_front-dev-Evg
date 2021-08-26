@@ -1,0 +1,64 @@
+@import 'variables';
+
+nz-card {
+  margin: 0 8px 16px;
+}
+
+:host ::ng-deep .patients-history {
+  &__remove {
+    cursor: pointer;
+  }
+  &__items {
+    margin-top: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-weight: bolder;
+    border-top: 1px solid @gray-4;
+  }
+}
+
+.visits-block {
+  margin: 8px;
+}
+
+.corset-order__add {
+  width: 100%;
+  button {
+    width: 100%;
+  }
+}
+
+.change-log {
+  font-size: 12px;
+}
+
+:host ::ng-deep .ant-spin-blur {
+  -webkit-transform: none;
+  pointer-events: none;
+  .ant-affix {
+    left: 0 !important;
+  }
+}
+
+.action__compare {
+  margin-left: 16px;
+}
+
+.visit-list-card {
+  height: 60vh;
+  overflow: auto;
+  > ::ng-deep div.ant-card-body  {
+    height: auto;
+  }
+}
+
+.visit__form-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: fade(@cyan-9, 50%);
+  transform: translateZ(0);
+  padding: 8px;
+  button { margin-right: 8px; }
+}

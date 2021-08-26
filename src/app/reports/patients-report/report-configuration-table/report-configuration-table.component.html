@@ -1,0 +1,42 @@
+<div class="buttons">
+  <button (click)="add()" class="ant-btn ant-btn-primary">
+    <i class="anticon anticon-plus"></i>
+    <span>Создать</span>
+  </button>
+</div>
+<div class="table-info">
+  <div class="table-info__total">Всего: {{ data.length }}</div>
+</div>
+<div #container>
+  <nz-table #nzTable [nzData]="data"
+            [nzShowPagination]="false"
+            [ngClass]="{ 'no-data': data.length === 0 }"
+            [nzLoading]="loading">
+    <thead>
+    <tr>
+      <th style="width: 150px;">Название</th>
+      <th>Колонки</th>
+      <th style="width: 50px;"></th>
+      <th style="width: 50px;"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-template ngFor let-row [ngForOf]="nzTable.data">
+      <tr class="row">
+        <td (click)="select(row.id)">{{ row.templateName }}</td>
+        <td (click)="select(row.id)">{{ getColumns(row.columns) }}</td>
+        <td class="actions">
+          <nz-tooltip nzTitle="Редактировать" nzPlacement="top" *slIfHasAccess="[ROLES_USERS.ADMIN];">
+            <i nz-tooltip class="anticon anticon-edit icon" (click)="edit(row)"></i>
+          </nz-tooltip>
+        </td>
+        <td class="actions">
+          <nz-tooltip nzTitle="Удалить" nzPlacement="top" *slIfHasAccess="[ROLES_USERS.ADMIN];">
+            <i nz-tooltip class="anticon anticon-delete icon" (click)="remove(row)"></i>
+          </nz-tooltip>
+        </td>
+      </tr>
+    </ng-template>
+    </tbody>
+  </nz-table>
+</div>

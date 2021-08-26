@@ -1,0 +1,27 @@
+<nz-card nzNoHovering="true" class="form add-access" nzTitle="Подтверждение доступа">
+  <form (ngSubmit)="submit($event)" [formGroup]="form">
+    <div class="add-access__item">
+      <label>Уникальный код пациента*:</label>
+      <input formControlName="codeValue" nz-input placeholder="Уникальный код" [class.error__code]="checkValid('codeValue')"/>
+    </div>
+    <div class="add-access__item add-access__item_upload">
+      <label>Подтверждающий доступ документ*:</label>
+      <nz-upload [nzBeforeUpload]="fileChosen" [(nzFileList)]="fileList">
+        <button nz-button nzType="dashed" type="button" [class.error__link]="checkValid('linkToFile')">
+          <i nzType="upload" class="anticon anticon-upload"></i>
+          Загрузить
+        </button>
+      </nz-upload>
+    </div>
+    <div class="button-container add-access__item">
+      <button type="submit" class="ant-btn ant-btn-primary">
+        Подтвердить доступ
+      </button>
+      <button type="button" nz-button (click)="closeModal()">
+        <i class="anticon anticon-close"></i>
+        Отмена
+      </button>
+    </div>
+  </form>
+</nz-card>
+

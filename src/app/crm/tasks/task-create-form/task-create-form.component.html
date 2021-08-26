@@ -1,0 +1,119 @@
+
+<nz-card nzNoHovering="true" class="form" [nzTitle]="title">
+  <ng-template #title>
+    <div nz-row [nzType]="'flex'" [nzGutter]="8" class="form__title"> 
+        <div nz-col class="form__title__icon">
+          <i class="anticon anticon-bell"></i>
+        </div>
+        <div nz-col class="form__title__text">
+          {{ this.form.value.subject }}
+        </div>
+        <i class="anticon anticon-close form__close" (click)="closeForm()"></i>
+      </div>
+  </ng-template>
+
+  <nz-spin [nzSpinning]="taskFormLoading" nzSize="large">
+    <div nz-row *ngIf="formType === 'edit'">
+      <nz-radio-group [(ngModel)]="taskStatusValue">
+        <label
+          [ngClass]="{'task-new': taskStatusValue === 'New'}"
+          nz-radio-button
+          [nzValue]="'New'"
+        >
+          <span>Новая</span>
+        </label>
+        <label
+          nz-radio-button
+          [ngClass]="{'task-worked': taskStatusValue === 'Worked'}"
+          [nzValue]="'Worked'"
+        >
+          <span>В работе</span>
+        </label>
+        <label
+          nz-radio-button
+          [ngClass]="{'task-done': taskStatusValue === 'Done'}"
+          [nzValue]="'Done'"
+        >
+          <span>Выполненная</span>
+        </label>
+      </nz-radio-group>
+    </div>
+    <form class="form__body" nz-form [formGroup]="form" novalidate (ngSubmit)="onSubmit(form)">
+
+
+      <div nz-row>
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="">
+          <label>Заголовок*</label>
+          <nz-form-control>
+            <input nz-input formControlName="subject">
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="24">
+          <label>Описание задачи*</label>
+          <nz-form-control>
+            <textarea nz-input formControlName="description" nzRows="4"></textarea>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row [nzGutter]="6" [nzType]="'flex'" [nzAlign]="'bottom'">
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="8">
+          <label>Крайний срок</label>
+          <nz-form-control>
+            <sl-date-picker formControlName="dueDateTime"
+                           nzFormat="DD.MM.YYYY"
+                           nzPlaceHolder
+                           [nzDisabledDate]="disabledDate"></sl-date-picker>
+          </nz-form-control>
+        </div>
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="8">
+          <nz-form-control>
+            <sl-time-picker formControlName="dueDateTime"
+                           [(ngModel)]="form.value.dueDateTime"
+                           [nzFormat]="'HH:mm'"
+                           [nzDisabled]="!form.value.dueDateTime"
+                           nzPlaceHolder="ЧЧ:MM"></sl-time-picker>
+          </nz-form-control>
+        </div>
+        <div class="sl-form-item--small" nz-form-item nz-col nzSpan="8">
+          <label>Ответственный*</label>
+          <nz-form-control>
+            <nz-select formControlName="assignedUserId"
+              nzPlaceHolder="<Не выбрано>"
+              nzShowSearch 
+              nzAllowClear
+            >
+              <nz-option *ngFor="let user of users"
+                         [nzLabel]="user.abbreviatedName"
+                         [nzValue]="user.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </div>
+      </div>
+
+      <div nz-row
+           class="form__body__btn"
+           [nzType]="'flex'"
+           [nzJustify]="'center'"
+           [nzGutter]="8">
+        <div nz-col>
+          <button type="submit" nz-button nzType="primary">
+            <i class="anticon anticon-save"></i>
+            <span>Сохранить</span>
+          </button>
+        </div>
+
+        <div nz-col>
+          <button type="button" nz-button (click)="closeForm()">
+            <i class="anticon anticon-close"></i>
+            <span>Отмена</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </nz-spin>
+</nz-card>

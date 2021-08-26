@@ -1,0 +1,129 @@
+@import "variables";
+
+.additional-info-block-editor {
+  color: @black;
+  overflow: hidden;
+
+  &__extra-button{
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: @blue-5;
+    cursor: pointer;
+    outline: none;
+  }
+
+  &__subtitle{
+    background: @cyan-8;
+    padding: 5px 26px;
+    color: @white;
+    margin-bottom: 20px;
+    margin-top: 5px;
+  }
+
+  &__form-block{
+    padding-bottom: 15px;
+
+    &--separated{
+      margin-bottom: 15px;
+      border-bottom: 1px solid @gray-2;
+    }
+
+    &__row{
+
+      &--extra-margin{
+        margin-bottom: 7px;
+      }
+
+      &__item{
+        &__custom-num-input {
+          input[type="number"] {
+            -webkit-appearance: textfield;
+              -moz-appearance: textfield;
+                    appearance: textfield;
+          }
+          input[type=number]::-webkit-inner-spin-button, 
+          input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+          }
+        }
+        /deep/ .ant-form-item{
+          margin-bottom: 7px;
+
+          label{
+            padding-top: 0px;
+            padding-bottom: 0px;
+          }
+
+          .ant-input-number{
+            width: 100%;
+          }
+        }
+
+        &--warning{
+          /deep/ .ant-form-item{
+            label {
+              display: flex;
+              align-items: center;
+              padding-bottom: 5px;
+
+              .anticon{
+                color: @red-5;
+                font-size: 25px;
+                margin-right: 10px;
+                margin-left: 1px;
+              }
+            }
+          }
+        }
+
+        &--info{
+          /deep/ .ant-form-item{
+            label {
+              display: flex;
+              align-items: center;
+
+              &:after{
+                display: none;
+              }
+
+              .anticon{
+                color: @blue-5;
+                font-size: 25px;
+                margin-right: 10px;
+                margin-left: 1px;
+              }
+            }
+          }
+        }
+      }
+
+      &__checkbox{
+        /deep/ .ant-form-item{
+          margin-bottom: 12px;
+
+          label{
+            padding-bottom: 0px;
+          }
+
+          .ant-checkbox-wrapper{
+            text-align: left;
+            padding-top: 3px;
+
+            span{
+              margin-left: 1px;
+              margin-top: 1.5px;
+              float: right;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__bottom-controls{
+    float: right;
+    padding-right: 24px;
+    padding-top: 15px;
+  }
+}

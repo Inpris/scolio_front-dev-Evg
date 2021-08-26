@@ -1,0 +1,35 @@
+<div class="col">
+  <nz-card nzNoHovering="true" bodyStyle="padding: 0">
+    <div class="col__head" [ngClass]="statusSysName == 'NotProcessed' ? 'blue-color' :
+    statusSysName == 'Processing' ? 'orange-color' : 'green-color'">
+      <div class="col__head__text" >
+        {{ statusName }} ({{ pageParams.totalCount }})
+      </div>
+      <div *ngIf="statusSysName == 'NotProcessed'" class="col__head__btn">
+        <nz-tooltip [nzTitle]="'Новая заявка'">
+          <button
+            nz-button
+            [nzType]="'default'"
+            (click)="clickCreateLeadBtn()"
+            nz-tooltip
+          >
+            <i class="anticon anticon-plus"></i>
+          </button>
+        </nz-tooltip>
+      </div>
+    </div>
+
+    <div class="col__body" (scroll)="onScroll($event)">
+      <div *ngFor="let leadData of colArr">
+        <sl-card [lead]="leadData"></sl-card>
+      </div>
+      <div *ngIf="loadingLeads" nz-row [nzType]="'flex'" [nzJustify]="'center'">
+        <nz-spin></nz-spin>
+      </div>
+    </div>
+  </nz-card>
+</div>
+
+<ng-template #formLeadModalContent>
+  <sl-form-lead [formType]="'create'" [data]="dataForLeadForm" (closeModal)="closeModal($event)"></sl-form-lead>
+</ng-template>

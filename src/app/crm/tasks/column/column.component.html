@@ -1,0 +1,28 @@
+<div nz-col class="col">
+  <nz-card nzNoHovering="true" bodyStyle="padding: 0">
+    <div class="col__head" [ngClass]="statusSysName == 'New' ? 'blue-color' :
+    statusSysName == 'Worked' ? 'green-color' : 'gray-color'">
+      <div class="col__head__text" >
+        {{ statusName }} ({{ pageParams.totalCount }})
+      </div>
+    </div>
+
+    <div class="col__body"
+      (scroll)="onScroll($event)"
+      [dragulaModel]="colArr"
+      [dragula]='"card"'
+      [attr.statusSysName]="statusSysName"
+    >
+      <div
+        [attr.id]="itemData.taskId"
+        [attr.index]="i"
+        *ngFor="let itemData of colArr; let i = index"
+      >
+        <sl-card [data]="itemData"></sl-card>
+      </div>
+      <div *ngIf="loadingLeads" nz-row [nzType]="'flex'" [nzJustify]="'center'">
+        <nz-spin></nz-spin>
+      </div>
+    </div>
+  </nz-card>
+</div>

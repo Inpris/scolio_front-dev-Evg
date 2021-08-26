@@ -1,0 +1,25 @@
+<nz-dropdown [nzPlacement]="'bottomCenter'" nzTrigger="click" [nzClickHide]="false" [(nzVisible)]="visible" (nzVisibleChange)="visibleChange($event)">
+  <div nz-dropdown class="filter-icon-container">
+    <span class="filter-label" [ngClass]="{ 'filter-label__selected': multi ? value && value.length : !!value}">{{title}}</span>
+    <i class="anticon anticon-filter ant-table-filter-icon"
+       [ngClass]="{ 'ant-table-filter-selected': multi ? value && value.length : !!value }"></i>
+  </div>
+  <div class="filter-dropdown" *ngIf="visible">
+    <sl-select
+      #selection
+      [service]="service"
+      [multi]="multi"
+      [dataFactory]="dataFactory"
+      [serverSearch]="true"
+      [pageParams]="{ pageSize: 15 }"
+      [ngModel]="value"></sl-select>
+    <div class="ant-table-filter-dropdown-btns">
+      <a class="ant-table-filter-dropdown-link confirm" (click)="applyFilter(selection.value)">
+        <span>OK</span>
+      </a>
+      <a class="ant-table-filter-dropdown-link clear" (click)="resetFilter()">
+        <span>Сбросить</span>
+      </a>
+    </div>
+  </div>
+</nz-dropdown>

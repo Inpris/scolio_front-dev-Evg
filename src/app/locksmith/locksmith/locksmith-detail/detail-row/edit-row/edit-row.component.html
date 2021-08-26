@@ -1,0 +1,90 @@
+<form [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+  <div nz-row nzType="flex" class="row" [nzGutter]="16">
+    <div nz-col nzSpan="4">
+      <sl-control-selection [control]="form.get('executor')"
+        size="small"
+        [options]="users"
+        nzDropdownClassName="qaaDropdownExecutor"
+        qaaLocator="qaaSelectExecutor"></sl-control-selection>
+    </div>
+    <div nz-col nzSpan="8">
+      <div nz-row nzType="flex" nzAlign="middle" class="model__dateTime">
+        <div nz-col class="model__dateTime-date">
+          <nz-form-control>
+            <sl-date-picker [nzDropdownClassName]="!data && 'sl-date-picker-up'"
+                            formControlName="start"
+                            nzFormat="DD.MM.YYYY"
+                            nzSize="small"
+                            [nzDisabledDate]="disabledStartDate"></sl-date-picker>
+          </nz-form-control>
+        </div>
+        <div nz-col class="model__dateTime-time">
+          <nz-form-control>
+            <sl-time-picker [nzPopupClassName]="!data && 'sl-date-picker-up'" [nzFormat]="'HH:mm'"
+              #startTimePicker
+              formControlName="start"
+              [ngModel]="form.get('start').value"
+              nzPlaceHolder="ЧЧ:MM" nzSize="small"
+              [nzDisabled]="!form.get('start').value"
+              [nzDisabledHours]="disabledStartHours"
+              [nzDisabledMinutes]="disableStartMinutes"
+              (ngModelChange)="checkStartTime($event)"></sl-time-picker>
+          </nz-form-control>
+        </div>
+        <div nz-col class="model__dateTime-button">
+          <button type="button" nz-button nzSize="small" (click)="start()">Начать</button>
+        </div>
+      </div>
+      <div nz-row nzType="flex" nzAlign="middle" class="model__dateTime">
+        <div nz-col class="model__dateTime-date">
+          <nz-form-control>
+            <sl-date-picker [nzDropdownClassName]="!data && 'sl-date-picker-up'"
+                            formControlName="end"
+                            nzFormat="DD.MM.YYYY"
+                            nzSize="small"
+                            [nzDisabled]="!form.get('start').value"
+                            [nzDisabledDate]="disabledEndDate"></sl-date-picker>
+          </nz-form-control>
+        </div>
+        <div nz-col class="model__dateTime-time">
+          <nz-form-control>
+            <sl-time-picker [nzPopupClassName]="!data && 'sl-date-picker-up'"
+              #endTimePicker
+              [nzFormat]="'HH:mm'"
+              formControlName="end"
+              [ngModel]="form.get('end').value"
+              nzPlaceHolder="ЧЧ:MM" nzSize="small"
+              [nzDisabled]="!form.get('start').value || !form.get('end').value"
+              [nzDisabledHours]="disabledEndHours"
+              [nzDisabledMinutes]="disableEndMinutes"
+              (ngModelChange)="checkEndTime($event)"></sl-time-picker>
+          </nz-form-control>
+        </div>
+        <div nz-col class="model__dateTime-button">
+          <button type="button" nz-button nzSize="small" (click)="finish()" [disabled]="!form.get('start').value">Закончить</button>
+        </div>
+      </div>
+    </div>
+    <div nz-col nzSpan="6">
+      <nz-form-control>
+        <textarea nz-input formControlName="note"></textarea>
+      </nz-form-control>
+    </div>
+    <div nz-col nzSpan="4"></div>
+    <div nz-col nzSpan="2" class="actions">
+      <button nz-button *ngIf="!data" nzType="primary">Сохранить</button>
+      <ng-container *ngIf="data">
+        <nz-tooltip nzTitle="Отмена">
+          <button nz-tooltip type="button" nz-button nzType="danger" nzShape="circle" (click)="cancel.next()">
+            <i class="anticon anticon-close"></i>
+          </button>
+        </nz-tooltip>
+        <nz-tooltip nzTitle="Сохранить">
+          <button nz-tooltip nz-button nzShape="circle" class="green">
+            <i class="anticon anticon-check"></i>
+          </button>
+        </nz-tooltip>
+      </ng-container>
+    </div>
+  </div>
+</form>

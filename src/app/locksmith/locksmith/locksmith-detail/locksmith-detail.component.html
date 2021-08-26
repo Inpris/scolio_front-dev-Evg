@@ -1,0 +1,27 @@
+<div nz-row nzType="flex" nzJustify="center" *ngIf="isLoading">
+  <nz-spin></nz-spin>
+</div>
+<div nz-row nzType="flex" [nzGutter]="16" class="operation-header" *ngIf="isData">
+  <div nz-col nzSpan="4" class="executor">
+    <span class="operation-header-label">Исполнитель</span>
+  </div>
+  <div nz-col nzSpan="4" class="period">
+    <span class="operation-header-label">Вр. нач - Вр. оконч</span>
+  </div>
+  <div nz-col nzSpan="4" class="duration">
+    <span class="operation-header-label">Продолжительность</span>
+  </div>
+  <div nz-col nzSpan="6">
+    <span class="operation-header-label">Комментарий</span>
+  </div>
+  <div nz-col nzSpan="4">
+    <span class="operation-header-label">Добавил/Изменил</span>
+  </div>
+</div>
+<sl-detail-row *ngIf="!isLoading" [productId]="productId" [visitId]="visitId" [data]="data" (save)="onSave($event)"></sl-detail-row>
+<div nz-row  *ngIf="isData" class="visit-info">
+  <label class="row-footer-label">Кабинет: {{room?.name}}   </label>
+  <label class="row-footer-label">Продолжительность работ: {{operationDuration}}</label>
+</div>
+
+

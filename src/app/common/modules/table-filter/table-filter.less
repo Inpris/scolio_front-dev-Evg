@@ -1,0 +1,41 @@
+@import "variables";
+
+.filter-dropdown {
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+  nz-input-group {
+    padding: 8px;
+  }
+  nz-select {
+    width: 200px;
+    z-index: 200;
+  }
+}
+
+.filter-label {
+  cursor: pointer;
+  &:hover {
+    color: black
+  }
+  &__selected {
+    color: @blue-5;
+
+    &:hover {
+      color: @blue-5;
+    }
+  }
+}
+
+.filter-icon-container {
+  cursor: pointer;
+  &:hover {
+    .filter-label {
+      color: black;
+      &__selected {
+        color: @blue-5;
+      }
+    }
+  }
+}
+

@@ -1,0 +1,10 @@
+<sl-control-selection
+  [control]="form.get('city')"
+  [title]="label"
+  [service]="cityService"
+  [dataFactory]="fromPaginationChunk"
+  [pageParams]="{ pageSize: 15 }"
+  [serverSearch]="true"
+  nzDropdownClassName="qaaDropdownCity"
+  qaaLocator="qaaSelectCity">
+</sl-control-selection>

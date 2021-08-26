@@ -1,0 +1,51 @@
+<nz-card [nzTitle]="title">
+  <ngx-charts-chart
+    [view]="[width, height]"
+    [showLegend]="false"
+    [animations]="animations"
+    class="timeline-filter-bar-chart">
+    <svg:g [attr.transform]="transform" class="chart">
+      <svg:g sl-robot-x-axis
+        [xScale]="xScale"
+        [dims]="dims"
+        [showLabel]="showXAxisLabel"
+        [labelText]="xAxisLabel"
+        [ticks]="results"
+        (clicked)="selected($event)"
+        (dimensionsChanged)="updateXAxisHeight($event)">
+      </svg:g>
+      <svg:g ngx-charts-y-axis
+        [yScale]="yScale"
+        [dims]="dims"
+        [showGridLines]="showGridLines"
+        [showLabel]="showYAxisLabel"
+        [labelText]="yAxisLabel"
+        (dimensionsChanged)="updateYAxisWidth($event)">
+      </svg:g>
+      <svg:g sl-robot-statistic-series-vertical
+        [xScale]="xScale"
+        [yScale]="yScale"
+        [colors]="colors"
+        [series]="results"
+        [dims]="dims"
+        [gradient]="gradient"
+        [animations]="animations"
+        (select)="selected($event)"
+        class="robot-statistic-chart"
+      >
+      </svg:g>
+    </svg:g>
+  </ngx-charts-chart>
+
+
+</nz-card>
+<ng-template #title>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col>
+      Загрузка производства
+    </div>
+    <div nz-col *slIfHasAccess="[ROLES_USERS.ADMIN, ROLES_USERS.USER, ROLES_USERS.USER_MANAGER];">
+      <button nz-button (click)="changeLimits()" nzSize="small" nzType="dashed">Изменить пороги</button>
+    </div>
+  </div>
+</ng-template>

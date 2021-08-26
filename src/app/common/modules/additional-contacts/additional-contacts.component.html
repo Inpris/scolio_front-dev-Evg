@@ -1,0 +1,63 @@
+<div nz-row nzJustify="space-between" [nzType]="'flex'"
+     *ngFor="let contact of form.controls['communications'].controls | byCommunicationType : communicationType">
+  <div nz-col nzSpan="11" nz-form-item>
+    <nz-form-control>
+      <nz-select [formControl]="contact.controls['name']" nzPlaceHolder="Тип контакта"
+       nzDropdownClassName="qaaDropdownContactType" qaaLocator="qaaSelectContactType">
+        <nz-option *ngFor="let type of names" [nzValue]="type" [nzLabel]="type"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </div>
+  <div nz-col nzSpan="11" nz-form-item>
+    <button [nzSize]="'small'" nz-button nzType="danger" nzShape="circle" type="button"
+            class="contact-remove" (click)="removeContactRow(contact)">
+      <i class="anticon anticon-minus"></i>
+    </button>
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group [nzSuffix]="comment">
+          <input  *ngIf="type === 'email'" nz-input [formControl]="contact.controls['value']">
+          <input  *ngIf="type === 'phone'" nz-input [formControl]="contact.controls['value']" slPhoneFormatter>
+
+          <nz-form-explain *ngIf="type === 'phone' && contact.controls['value'].dirty && contact.controls['value'].errors">
+            <ng-container *ngIf="contact.controls['value'].hasError('phoneRequired')">
+              Поле не должно быть пустым
+            </ng-container>
+            <ng-container *ngIf="contact.controls['value'].hasError('phoneMinLength')">
+              Номер введен не полностью
+            </ng-container>
+            <ng-container *ngIf="contact.controls['value'].hasError('phoneMaxLength')">
+              Некорректное количество символов
+            </ng-container>
+            <ng-container *ngIf="contact.controls['value'].hasError('phoneNan')">
+              Номер должен состоять только из цифр
+            </ng-container>
+          </nz-form-explain>
+
+          <nz-form-explain *ngIf="type === 'email' && contact.controls['value'].dirty && contact.controls['value'].errors">
+            <ng-container *ngIf="contact.controls['value'].hasError('required')">
+                Поле не должно быть пустым
+              </ng-container>
+              <ng-container *ngIf="contact.controls['value'].hasError('email')">
+                Не верный формат email
+              </ng-container>
+          </nz-form-explain>
+
+        </nz-input-group>
+        <ng-template #comment>
+          <nz-popover nzTitle="Комментарий">
+            <i nz-popover class="anticon anticon-exception comment-icon"
+              [ngClass]="{ empty: !contact.controls['comment'].value}"></i>
+            <ng-template #nzTemplate>
+              <nz-form-control>
+                <input nz-input [formControl]="contact.controls['comment']" maxlength="250">
+              </nz-form-control>
+            </ng-template>
+          </nz-popover>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+
+

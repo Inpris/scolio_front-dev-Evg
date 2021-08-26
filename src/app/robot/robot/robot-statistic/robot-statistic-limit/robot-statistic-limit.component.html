@@ -1,0 +1,42 @@
+<nz-card nzNoHovering="true" class="form" [nzTitle]="title">
+  <nz-spin [nzSpinning]="pending">
+    <ng-template #title>
+      <div nz-row [nzType]="'flex'" nzJustify="space-between" class="form__title">
+        <div nz-col class="form__title__text">
+          Настройки
+        </div>
+        <i class="anticon anticon-close form__close" (click)="close()"></i>
+      </div>
+    </ng-template>
+
+    <div class="header" nz-row nzType="flex">
+      <div nz-col nzSpan="8" class="stage-name stage-name-title">Этап</div>
+      <div nz-col [nzOffset]="3" nzSpan="6" class="optimal-count-title">Оптимальное количество</div>
+      <div nz-col [nzOffset]="1" nzSpan="6" class="critical-percent-title">Критичный %</div>
+    </div>
+
+    <div nz-row nzType="flex" *ngFor="let limit of limits">
+      <div nz-col nzSpan="8" class="stage-name">{{limit.stageName}}</div>
+      <div nz-col nzOffset="3" nzSpan="6" class="optimal-count" [attr.qaaLocator]="limit.stageName">
+        <nz-form-control>
+          <nz-input-number nzSize="small" [nzMin]="0" [nzMax]="maxOptimalCount" [nzParser]="maxSumOptimalCount" [(ngModel)]="limit.optimalCount"></nz-input-number>
+        </nz-form-control>
+      </div>
+      <div nz-col nzOffset="1" nzSpan="6" class="critical-percent" [attr.qaaLocator]="limit.stageName">
+        <nz-form-control>
+          <nz-input-number nzSize="small" [nzMin]="0" [nzMax]="maxPercent" [nzParser]="maxSumCriticalPercent" [(ngModel)]="limit.criticalPercent"></nz-input-number>
+        </nz-form-control>
+      </div>
+    </div>
+
+    <div nz-row nzType="flex" class="actions" nzJustify="space-between">
+      <div nz-col nzSpan="8" class="stage-name stage-name-end">&nbsp;</div>
+      <div nz-col [nzOffset]="3" nzSpan="7" class="btn-save">
+        <button nz-button (click)="save()" nzType="primary">
+          <i class="anticon anticon-save"></i>
+          <span>Сохранить</span>
+        </button>
+      </div>
+    </div>
+  </nz-spin>
+</nz-card>

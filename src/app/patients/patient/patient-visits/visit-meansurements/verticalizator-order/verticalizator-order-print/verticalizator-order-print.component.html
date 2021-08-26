@@ -1,0 +1,424 @@
+<div [formGroup]="form" nzType="flex" class="print-form">
+    <div nz-row nzAlign="middle" class="print-form__header">Бланк заказа вертикализотора № {{device?.number}}</div>
+    <table class="print_table">
+      <tr>
+        <td [style.width]="'25%'">ФИО:</td>
+        <td colspan="4">{{ contact?.lastName }} {{ contact?.firstName }} {{ contact?.secondName }}</td>
+      </tr>
+      <tr>
+        <td>Телефон:</td>
+        <td colspan="4">{{ contact?.phone }}</td>
+      </tr>
+      <tr>
+        <td>Диагноз:</td>
+        <td colspan="4">{{ diagnosis?.name }}</td>
+      </tr>
+      <tr>
+        <td>Принял:</td>
+        <td [style.width]="'40%'" colspan="2">{{ visit?.doctor?.name}}</td>
+        <td [style.width]="'20%'">Дата приема:</td>
+        <td [style.width]="'20%'">{{ visit?.dateTime | date : 'dd.MM.yyyy' }}</td>
+      </tr>
+      <tr>
+        <td>Провел примерку 1:</td>
+        <td [style.width]="'20%'"></td>
+        <td [style.width]="'20%'"></td>
+        <td [style.width]="'20%'">Дата примерки 1:</td>
+        <td [style.width]="'20%'"></td>
+      </tr>
+      <tr>
+        <td>Провел примерку 2:</td>
+        <td></td>
+        <td></td>
+        <td>Дата примерки 2:</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Выдал:</td>
+        <td>{{ issueData?.issuer1?.name }}</td>
+        <td>{{ issueData?.issuer2?.name }}</td>
+        <td>Дата выдачи:</td>
+        <td>{{ corsetData?.dateOfIssue | date : 'dd.MM.yyyy' }}</td>
+      </tr>
+    </table>
+    <table class="info-table withot_border">
+      <tr class="withot_border">
+        <td [style.width]="'50%'" class="withot_border">
+          <img src="/assets/apparatus_measurements.png">
+        </td>
+        <td [style.width]="'50%'" class="info-table__param-col">
+          <table>
+            <tr>
+              <td [style.width]="'30%'">Рост:</td>
+              <td>{{growth}}</td>
+            </tr>
+            <tr>
+              <td [style.width]="'30%'">Вес:</td>
+              <td>{{weight}}</td>
+            </tr>
+            <tr>
+              <td [style.width]="'30%'" [style.height]="'120px'">Примечание:</td>
+              <td>{{comment}}</td>
+            </tr>
+            <tr>
+              <td [style.width]="'30%'">ТБ:</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td [style.width]="'30%'">КП:</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td [style.width]="'30%'">Размер:</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td [style.width]="'30%'">Сторона:</td>
+              <td></td>
+            </tr>
+          </table>
+          <br/>
+          <table>
+            <tr>
+              <td [style.width]="'30%'">Дата выдачи Турнера:</td>
+              <td>{{corsetData?.dateOfIssueTurner}}</td>
+            </tr>
+            <tr>
+              <td [style.width]="'30%'">Дата отправки в филиал:</td>
+              <td>{{corsetData?.dateSendingToBranch}}</td>
+            </tr>
+            <tr>
+              <td [style.width]="'30%'">Филиал:</td>
+              <td>{{corsetData?.branch?.name}}</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <table class="apparatus-kontr-angle-table page-break">
+      <tr>
+        <td></td>
+        <td colspan="2">контрактура</td>
+        <td colspan="2">угол деформации</td>
+      </tr>
+      <tr>
+        <td [style.width]="'30%'"></td>
+        <td [style.width]="'20%'">правый</td>
+        <td [style.width]="'20%'">левый</td>
+        <td [style.width]="'10%'">правый</td>
+        <td [style.width]="'10%'">левый</td>
+      </tr>
+      <tr>
+        <td [style.width]="'30%'" class="left-align">Тазобедренный сустав</td>
+        <td [style.width]="'20%'"></td>
+        <td [style.width]="'20%'"></td>
+        <td [style.width]="'10%'"></td>
+        <td [style.width]="'10%'"></td>
+      </tr>
+      <tr>
+        <td [style.width]="'30%'" class="left-align">Колленный сустав</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="left-align">Голеностопный сустав</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="left-align">Материал</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="left-align">Вкладная гильза</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>правый</td>
+        <td>левый</td>
+        <td>правый</td>
+        <td>левый</td>
+      </tr>
+      <tr>
+        <td class="left-align">Тазобедренный шарнир</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="left-align">Коленный шарнир</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="left-align">Голеностопный шарнир</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="left-align">Крепление</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="left-align">Компенсация укорочения</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <div class="print-form__row after-break">
+      <sl-corset-device-measurement  formControlName="measurementData"></sl-corset-device-measurement>
+    </div>
+    <table class="print_table">
+      <tr>
+        <td [style.width]="'20%'">Тип корсета:</td>
+        <td [style.width]="'20%'">{{ corsetData?.corsetType?.name }}</td>
+        <td [style.width]="'20%'">Исполнитель:</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.carcassExecutor1?.name }}</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.carcassExecutor2?.name }}</td>
+      </tr>
+      <tr>
+        <td colspan="2"></td>
+        <td [style.width]="'20%'">Блоковка:</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.blockingExecutor1?.name }}</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.blockingExecutor2?.name }}</td>
+      </tr>
+      <tr>
+        <td [style.width]="'20%'">Тип пластика:</td>
+        <td [style.width]="'20%'">{{ corsetData?.plasticType?.name }}</td>
+        <td [style.width]="'20%'">Спиливание:</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.cuttingExecutor1?.name }}</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.cuttingExecutor2?.name }}</td>
+      </tr>
+      <tr>
+        <td [style.width]="'20%'">Цвет корсета:</td>
+        <td [style.width]="'20%'">{{ corsetData?.color }}</td>
+        <td [style.width]="'20%'">Обточка:</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.turningExecutor1?.name }}</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.turningExecutor2?.name }}</td>
+      </tr>
+      <tr>
+        <td colspan="2"></td>
+        <td [style.width]="'20%'">Уст.креплений:</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.fastenersInstallExecutor1?.name }}</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.fastenersInstallExecutor2?.name }}</td>
+      </tr>
+      <tr>
+        <td colspan="2"></td>
+        <td [style.width]="'20%'">Сборка:</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.assemblyExecutor1?.name }}</td>
+        <td [style.width]="'20%'">{{ manufacturingData?.assemblyExecutor2?.name }}</td>
+      </tr>
+      <tr>
+        <td>Комментарий: </td>
+        <td colspan="4">{{ manufacturingData?.comment }}</td>
+      </tr>
+    </table>
+    <br>
+    <table class="manufactoring-table page-break">
+      <tr>
+        <td>Сторона</td>
+        <td class="center-align" colspan="2">ПРАВАЯ</td>
+        <td class="center-align" colspan="2">ЛЕВАЯ</td>
+      </tr>
+      <tr>
+        <td [style.width]="'20%'">Снятие слепка</td>
+        <td [style.width]="'20%'"></td>
+        <td [style.width]="'20%'"></td>
+        <td [style.width]="'20%'"></td>
+        <td [style.width]="'20%'"></td>
+      </tr>
+      <tr>
+        <td>Обработка слепка</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Блоковка</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Ламинация</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Сборка</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Примерка</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Спиливание</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Обточка</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Выдача</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Дата выдачи изделия</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <br>
+    <table style="text-align: left;" class="after-break">
+      <tr>
+        <td [style.width]="'40%'" class="center-align">Название размера</td>
+        <td [style.width]="'30%'" class="center-align">правая</td>
+        <td [style.width]="'30%'" class="center-align">левая</td>
+      </tr>
+      <tr>
+        <td>Носок</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Головки плюсневых</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Пятка</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Над лодыжками</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Голень (максимально выступающая часть)</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Колено</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Середина бедра</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Промежность</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Лодыжки</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Головки плюсневых</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Длины стопы</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Над лодыжками</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Голень</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Колено</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Середина бедра</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Промежность</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Вертел</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Контрактура колена</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Контрактура голеностопа</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Контрактура тазобедренного</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <span>Примечание:</span>
+  </div>

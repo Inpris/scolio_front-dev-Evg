@@ -1,0 +1,136 @@
+<div class="protez-nk-measurement" [formGroup]="form">
+  <div class="protez-nk-measurement__row">
+    <div class="protez-nk-measurement__col">
+      <div>Дата ампутации</div>
+      <nz-form-control>
+        <sl-date-picker
+          formControlName="amputationDate"
+          nzFormat="DD.MM.YYYY"
+          nzClassName="sl-date-picker-full-row"
+        ></sl-date-picker>
+      </nz-form-control>
+    </div>
+  </div>
+  <div class="protez-nk-measurement__row">
+    <div class="protez-nk-measurement__col">
+      <div>Причина ампутации</div>
+      <nz-form-control>
+        <textarea
+          formControlName="amputationCause"
+          nz-input
+          rows="5"
+        ></textarea>
+      </nz-form-control>
+    </div>
+    <div class="protez-nk-measurement__col">
+      <div>Сопутствующие заболевания</div>
+      <nz-form-control>
+        <textarea
+          formControlName="accompanyingIllnesses"
+          nz-input
+          rows="5"
+        ></textarea>
+      </nz-form-control>
+    </div>
+  </div>
+  <div class="protez-nk-measurement__row">
+    <div class="protez-nk-measurement__col">
+      <div>Как долго пользуется протезом (год, по времени в день)</div>
+      <nz-form-control>
+        <textarea
+          formControlName="prothesisUseDuring"
+          nz-input
+          rows="5"
+        ></textarea>
+      </nz-form-control>
+    </div>
+    <div class="protez-nk-measurement__col">
+      <div>Какие протезы были, на чем ходил раньше</div>
+      <nz-form-control>
+        <textarea
+          formControlName="oldProthesis"
+          nz-input
+          rows="5"
+        ></textarea>
+      </nz-form-control>
+    </div>
+  </div>
+  <div class="protez-nk-measurement__row">
+    <div class="protez-nk-measurement__col">
+      <div>Каким протезом пользуется в настоящий момент (модули, если знает плюсы и минусы протеза, на котором ходит или которые были)</div>
+      <nz-form-control>
+        <textarea
+          formControlName="currentProthesis"
+          nz-input
+          rows="5"
+        ></textarea>
+      </nz-form-control>
+    </div>
+  </div>
+  <div class="protez-nk-measurement__row">
+    <div class="protez-nk-measurement__col">
+      <div>В какой организации протезировался до этого</div>
+      <nz-form-control>
+        <textarea
+          formControlName="oldCompany"
+          nz-input
+          rows="5"
+        ></textarea>
+      </nz-form-control>
+    </div>
+    <div class="protez-nk-measurement__col">
+      <div>Крепление протеза (лайнр,наколенник,бандаж и т.д.)</div>
+      <nz-form-control>
+        <textarea
+          formControlName="prothesisBracing"
+          nz-input
+          rows="5"
+        ></textarea>
+      </nz-form-control>
+    </div>
+  </div>
+  <div class="protez-nk-measurement__row">
+    <div class="protez-nk-measurement__col">
+      <div>Инфорамация о работе, водит ли машину (автомат или механика)</div>
+      <nz-form-control>
+        <textarea
+          formControlName="additionalInfo"
+          nz-input
+          rows="5"
+        ></textarea>
+      </nz-form-control>
+    </div>
+    <div class="protez-nk-measurement__col">
+      <div>Пользуется ТСР (костыли, трость, ходунки, кресло-коляска)</div>
+      <nz-form-control>
+        <textarea
+          formControlName="tcpUsing"
+          nz-input
+          rows="5"
+        ></textarea>
+      </nz-form-control>
+    </div>
+  </div>
+  <div class="protez-nk-measurement__row">
+    <div class="protez-nk-measurement__col">
+      <div>Из чего изготовлена гильза (кожа, ортокрил, и т.д.)</div>
+      <nz-form-control>
+        <textarea
+          formControlName="sleeveMaterial"
+          nz-input
+          rows="5"
+        ></textarea>
+      </nz-form-control>
+    </div>
+    <div class="protez-nk-measurement__col">
+      <div>Комплектующие протеза</div>
+      <nz-form-control>
+        <textarea
+          formControlName="prothesisParts"
+          nz-input
+          rows="5"
+        ></textarea>
+      </nz-form-control>
+    </div>
+  </div>
+</div>

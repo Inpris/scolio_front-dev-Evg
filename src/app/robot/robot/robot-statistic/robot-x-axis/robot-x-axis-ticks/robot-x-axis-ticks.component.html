@@ -1,0 +1,25 @@
+<svg:g #ticksel>
+  <svg:g *ngFor="let tick of tickValues" class="tick"
+         [attr.transform]="tickTransform(tick.name)">
+    <title>{{tickFormat(tick.name)}}</title>
+    <svg:text
+      stroke-width="0.01"
+      [ngClass]="{ selected: tick.selected}"
+      [attr.text-anchor]="textAnchor"
+      [attr.transform]="textTransform"
+      (click)="clicked.next(tick)"
+    >
+      {{trimLabel(tickFormat(tick.name))}}
+    </svg:text>
+  </svg:g>
+</svg:g>
+<svg:g *ngFor="let tick of ticks"
+       [attr.transform]="tickTransform(tick.name)">
+  <svg:g *ngIf="showGridLines"
+         [attr.transform]="gridLineTransform()">
+    <svg:line
+      class="gridline-path gridline-path-vertical"
+      [attr.y1]="-gridLineHeight"
+      y2="0" />
+  </svg:g>
+</svg:g>

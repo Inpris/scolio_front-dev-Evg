@@ -1,0 +1,20 @@
+<nz-dropdown [nzClickHide]="false" [(nzVisible)]="visible">
+  <a nz-dropdown>
+    Смотреть историю <i class="anticon anticon-down"></i>
+  </a>
+  <ul nz-menu class="visit-history__list">
+    <nz-checkbox-wrapper (nzOnChange)="onSelect($event)" *ngIf="visible && _visits.length; else noData">
+      <li *ngFor="let visit of _visits" nz-menu-item>
+        <label nz-checkbox [nzDisabled]="isHistoryEmpty(visit)"
+               [title]="isHistoryEmpty(visit) && 'Данные отсутствуют'"
+               [nzChecked]="isSelected(visit.id)"
+               [nzValue]="visit">{{visit.dateTime | date: 'dd-MM-yyyy'}}</label>
+      </li>
+    </nz-checkbox-wrapper>
+    <ng-template #noData>
+      <li nz-menu-item [nzDisabled]="true">
+        Предыдущие посещения данного типа отсутствуют
+      </li>
+    </ng-template>
+  </ul>
+</nz-dropdown>

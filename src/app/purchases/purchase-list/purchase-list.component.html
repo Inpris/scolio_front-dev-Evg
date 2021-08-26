@@ -1,0 +1,175 @@
+<div class="purchase-list-page">
+
+  <div nz-row
+    nzType="flex"
+    nzJustify="end"
+    class="purchase-list-page__filter"
+  >
+    <div nz-col [nzSpan]="5" class="purchase-list-page__filter__year">
+      <nz-select style="width: 100%;" [formControl]="selectedProduct" nzAllowClear nzPlaceHolder="Выберите изделие">
+        <nz-option *ngFor="let product of productKinds" [nzLabel]="product.productKindName" [nzValue]="product.productKindName"></nz-option>
+      </nz-select>
+    </div>
+    <div nz-col [nzSpan]="5" class="purchase-list-page__filter__year">
+      <input placeholder="Введите год срока исполнения контракта"
+        nz-input type="text"
+        slYear
+        [(ngModel)]="filterMap.year"
+        (ngModelChange)="searchInteractive($event)"
+      >
+    </div>
+    <div nz-col [nzSpan]="5" class="purchase-list-page__filter__patient">
+      <input placeholder="Введите ФИО пациента"
+        nz-input
+        type="text"
+        [(ngModel)]="filterMap.patientFio"
+        (ngModelChange)="searchInteractive($event)"
+      >
+    </div>
+    <div nz-col class="purchase-list-page__filter__btn">
+      <label></label>
+      <button nz-button class="ant-btn ant-btn-primary" (click)="export()">
+        <i class="anticon anticon-file-excel"></i>
+        <span>Выгрузить таблицу</span>
+      </button>
+    </div>
+    <div nz-col class="purchase-list-page__filter__btn">
+      <label></label>
+      <button (click)="resetFilter()" class="ant-btn ant-btn-primary">
+        <i class="anticon anticon-reload"></i>
+        <span>Сбросить все фильтры</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="table-info">
+    <div class="table-info__total">Всего: {{pageParams?.totalCount || 0}}</div>
+  </div>
+  <nz-table #nzTable
+    class="sl-list purchase-table"
+    [nzData]="data"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false"
+    [nzLoading]="loading"
+    [nzTotal]="pageParams.totalCount"
+    [(nzPageIndex)]="pageParams.page"
+    [nzPageSize]="pageParams.pageSize"
+  >
+    <thead>
+      <tr>
+        <th nzShowExpand></th>
+        <th nzShowSort  [nzSort]="sortMap.sortBy === 'noticeNumber' && sortMap.sortType" (nzSortChange)="sort('noticeNumber',$event)" [nzWidth]="'12%'">
+          <sl-table-filter-text [placeholder]="'Поиск по последним трем символам'" [substring]="3" [(ngModel)]="filterMap.noticeNumber" (filterChange)="search($event)" [label]="'№ Извещения'"></sl-table-filter-text>
+        </th>
+        <th nzShowSort [nzSort]="sortMap.sortBy === 'contractNumber' && sortMap.sortType" (nzSortChange)="sort('contractNumber',$event)" [nzWidth]="'10%'">
+          <sl-table-filter-text [placeholder]="'Поиск по №'" [(ngModel)]="filterMap.contractNumber" (filterChange)="search($event)" [label]="'№ договора'"></sl-table-filter-text>
+        </th>
+        <th nzShowSort [nzSort]="sortMap.sortBy === 'contractDate' && sortMap.sortType" (nzSortChange)="sort('contractDate',$event)" [nzWidth]="'11%'">
+          <sl-table-filter-date-range [(ngModel)]="filterMap.contractDate" (filterChange)="search($event)" [label]="'Дата  договора'"></sl-table-filter-date-range>
+        </th>
+        <th nzShowSort [nzSort]="sortMap.sortBy === 'purchaseStatus.name' && sortMap.sortType" (nzSortChange)="sort('purchaseStatus.name',$event)" [nzWidth]="'8%'">
+          <sl-table-filter-multiple [(ngModel)]="filterMap.purchaseStatusIds" [filters]="purchaseStatuses" (filterChange)="search($event)" [label]="'Статус'">
+          </sl-table-filter-multiple>
+        </th>
+        <th nzShowSort [nzSort]="sortMap.sortBy === 'customer.company.region.name' && sortMap.sortType" (nzSortChange)="sort('customer.company.region.name',$event)" [nzWidth]="'10%'">
+          <sl-table-filter-select
+            [label]="'Регион'"
+            [placeholder]="'Поиск по региону'"
+            [(ngModel)]="filterMap.region"
+            [filters]="regions"
+            (filterChange)="search($event)"
+            (searchValueChange)="onRegionSearch($event)"
+          ></sl-table-filter-select>
+        </th>
+        <th nzShowSort [nzSort]="sortMap.sortBy === 'customer.company.city.name' && sortMap.sortType" (nzSortChange)="sort('customer.company.city.name',$event)" [nzWidth]="'10%'">
+          <sl-table-filter-select
+            [label]="'Город'"
+            [placeholder]="'Поиск по городу'"
+            [(ngModel)]="filterMap.city"
+            [filters]="cities"
+            (filterChange)="search($event)"
+            (searchValueChange)="onCitySearch($event)"
+          ></sl-table-filter-select>
+        </th>
+        <th nzShowSort [nzSort]="sortMap.sortBy === 'purchaseChapters[0].name' && sortMap.sortType" (nzSortChange)="sort('purchaseChapters[0].name',$event)" [nzWidth]="'9%'">
+          <sl-table-filter-multiple [(ngModel)]="filterMap.purchaseChapterIds" [filters]="purchaseChapters" (filterChange)="search($event)" [label]="'Раздел'">
+          </sl-table-filter-multiple>
+        </th>
+        <th nzShowSort [nzSort]="sortMap.sortBy === 'finalContractPrice' && sortMap.sortType" (nzSortChange)="sort('finalContractPrice',$event)" [nzWidth]="'12%'">
+          <sl-table-filter-range [(ngModel)]="filterMap.finalContractPrice" (filterChange)="search($event)" [label]="'Цена итоговая'"></sl-table-filter-range>
+        </th>
+        <th nzShowSort [nzSort]="sortMap.sortBy === 'tenderPlatform.name' && sortMap.sortType" (nzSortChange)="sort('tenderPlatform.name',$event)" [nzWidth]="'10%'">
+          <sl-table-filter-select
+            [label]="'Площадка'"
+            [placeholder]="'Поиск по названию'"
+            [(ngModel)]="filterMap.tenderPlatform"
+            [filters]="tenders"
+            (filterChange)="search($event)"
+          ></sl-table-filter-select>
+        </th>
+        <th nzShowSort [nzSort]="sortMap.sortBy === 'purchaseType.name' && sortMap.sortType" (nzSortChange)="sort('purchaseType.name',$event)" [nzWidth]="'14%'">
+          <sl-table-filter-select
+            [label]="'Способ размещения'"
+            [placeholder]="'Поиск по названию'"
+            [(ngModel)]="filterMap.purchaseTypeId"
+            [filters]="purchaseTypes"
+            (filterChange)="search($event)"
+          ></sl-table-filter-select>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-data [ngForOf]="nzTable.data">
+        <tr [ngClass]="{ 'row-expanded': data.expand}">
+          <td nzShowExpand (nzExpandChange)="expandChange(data, $event)" [(nzExpand)]="data.expand"></td>
+          <td>
+            <a [routerLink]="['/purchases/', data.id, 'general-info']">{{ data.noticeNumber }}</a>
+          </td>
+          <td>{{ data.contractNumber }}</td>
+          <td>{{ data.contractDate | date: 'dd.MM.yyyy'}}</td>
+          <td>
+            <div class="purchase__status" [style.background-color]="statusColors[data.purchaseStatus.sysName]">
+              <span>
+                {{ data.purchaseStatus.name }}
+              </span>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="data.customer && data.customer.company && data.customer.company.region">
+              {{ data.customer.company.region.name }}
+            </div>
+          </td>
+          <td>
+            <div *ngIf="data.customer && data.customer.company && data.customer.company.city">
+              {{ data.customer.company.city.name }}
+            </div>
+          </td>
+          <td>
+            <div *ngIf="data.purchaseChapters">
+              <div *ngFor="let chapter of data.purchaseChapters">
+                {{ chapter.name }}
+              </div>
+            </div>
+          </td>
+          <td>{{ data.finalContractPrice | currency:'RUB':'symbol-narrow'}}</td>
+          <td>{{ data.tenderPlatform.name }}</td>
+          <td>{{ data.purchaseType.name }}</td>
+        </tr>
+        <tr [nzExpand]="data.expand">
+          <td></td>
+          <td colspan="10" class="purchase-list__patients">
+            <div *ngIf="data.expand">
+              <sl-purchase-patients-list [purchaseId]="data.id"></sl-purchase-patients-list>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <tr class="infinity-container" *ngIf="data && pageParams.page < pageParams.pageCount">
+        <td colspan="100">
+          <sl-infinity-scroll #infinityScroll [rootContainer]="scrollContainer" (loadCallback)="getPurchases(true)"></sl-infinity-scroll>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

@@ -1,0 +1,29 @@
+<div class="purchase">
+  <div nz-row [nzType]="'flex'">
+    <nz-layout>
+      <nz-content class="purchase__content">
+        <div nz-col>
+          <div class="purchase__row">
+            <div nz-col class="purchase__field">
+              <div>Номер извещения:</div>
+            </div>
+            <div nz-col>
+              <div><a (click)="setActiveTab(0)">{{purchase.noticeNumber}}</a></div>
+            </div>
+          </div>
+        </div>
+      </nz-content>
+      <nz-sider nzWidth="300" class="purchase__sider">
+        <div nz-col [style.height]="'100%'">
+          <div nz-row nzType="flex" nzJustify="end" nzAlign="bottom" [style.height]="'50%'" class="action-button__container">
+            <button nz-button nzType="primary" (click)="action.next($event)">{{actionButtonText}}</button>
+            <button *ngIf="resetButtonText" (click)="resetFilters()" class="ant-btn ant-btn-primary btn-reset-filter">
+              <i class="anticon anticon-reload"></i>
+              <span>{{resetButtonText}}</span>
+            </button>
+          </div>
+        </div>
+      </nz-sider>
+    </nz-layout>
+  </div>
+</div>

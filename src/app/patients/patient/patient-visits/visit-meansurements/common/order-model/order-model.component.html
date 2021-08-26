@@ -1,0 +1,102 @@
+<form [formGroup]="form">
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col [nzSpan]="11">
+      <div nz-row nzType="flex" nzAlign="middle">
+        <div nz-col nzSpan="11">
+          <h4>Исполнитель</h4>
+        </div>
+        <div nz-col nzSpan="11" nzOffset="1">
+          <h4>Участие, %</h4>
+        </div>
+      </div>
+      <div nz-row nzType="flex" nzAlign="middle">
+        <div nz-col nzSpan="11">
+          <sl-control-selection [control]="form.get('model3DExecutor1')"
+                                [options]="users"
+                                [disabled]="!!form.get('is3DModelReady').value"
+                                nzDropdownClassName="qaaDropdownModelExecutor1"
+                                qaaLocator="qaaSelectModelExecutor1"></sl-control-selection>
+        </div>
+        <div nz-col nzSpan="11" nzOffset="1">
+          <nz-input-number  [nzMin]="0"
+                            [nzMax]="100"
+                            [formControl]="form.get('participationPercent1')"
+                            [nzDisabled]="true"></nz-input-number>
+        </div>
+      </div>
+      <div nz-row nzType="flex" nzAlign="middle">
+        <div nz-col nzSpan="11">
+          <sl-control-selection [control]="form.get('model3DExecutor2')"
+                                [options]="users"
+                                [disabled]="!!form.get('is3DModelReady').value || statusSelectionDisabled()"
+                                nzDropdownClassName="qaaDropdownModelExecutor2"
+                                qaaLocator="qaaSelectModelExecutor2"></sl-control-selection>
+        </div>
+        <div nz-col nzSpan="11" nzOffset="1">
+          <nz-input-number  [nzMin]="0"
+                            [nzMax]="100"
+                            [formControl]="form.get('participationPercent2')"
+                            [nzDisabled]="!!form.get('is3DModelReady').value || statusSelectionDisabled(2)"></nz-input-number>
+        </div>
+      </div>
+    </div>
+    <div nz-col>
+      <div nz-row nzType="flex" nzAlign="middle" class="model__dateTime">
+        <div nz-col class="model__dateTime-label">Начало</div>
+        <div nz-col class="model__dateTime-date">
+          <sl-date-picker formControlName="execution3DModelStart" 
+                          nzFormat="DD.MM.YYYY"
+                          nzSize="small"
+                          [nzDisabled]="!!form.get('is3DModelReady').value"></sl-date-picker>
+        </div>
+        <div nz-col class="model__dateTime-time">
+          <sl-time-picker [nzFormat]="'HH:mm'"
+                          formControlName="execution3DModelStart"
+                          [ngModel]="form.get('execution3DModelStart').value"
+                          [nzDisabled]="!form.get('execution3DModelStart').value || !!form.get('is3DModelReady').value"
+                          nzPlaceHolder="ЧЧ:MM" nzSize="small"></sl-time-picker>
+        </div>
+        <div nz-col class="model__dateTime-button">
+          <button nz-button
+                  nzSize="small"
+                  (click)="start()"
+                  [disabled]="!!form.get('is3DModelReady').value">Начать</button>
+        </div>
+      </div>
+      <div nz-row nzType="flex" nzAlign="middle" class="model__dateTime">
+        <div nz-col class="model__dateTime-label">Окончание</div>
+        <div nz-col class="model__dateTime-date">
+          <sl-date-picker formControlName="execution3DModelEnd"
+                          nzFormat="DD.MM.YYYY"
+                          nzSize="small"
+                          [nzDisabled]="!!form.get('is3DModelReady').value"></sl-date-picker>
+        </div>
+        <div nz-col class="model__dateTime-time">
+          <sl-time-picker [nzFormat]="'HH:mm'"
+                          formControlName="execution3DModelEnd"
+                          [ngModel]="form.get('execution3DModelEnd').value"
+                          nzPlaceHolder="ЧЧ:MM"
+                          nzSize="small"
+                          [nzDisabled]="!form.get('execution3DModelEnd').value || !!form.get('is3DModelReady').value"></sl-time-picker>
+        </div>
+        <div nz-col class="model__dateTime-button">
+          <button nz-button
+                  nzSize="small"
+                  (click)="finish()"
+                  [disabled]="!!form.get('is3DModelReady').value">Закончить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="model__status">
+    <div *ngIf="!form.get('is3DModelReady').value; else modeldone">
+      <button type="button" nz-button nzType="primary" [disabled]="modelReadyButtonDisabled()" (click)="modelReadyClick()">Модель готова</button>
+    </div>
+    <ng-template #modeldone>
+      <div class="model__ready">
+        <span>Модель готова</span>
+        <i class="anticon anticon-check-circle"></i>
+      </div>
+    </ng-template>
+  </div>
+</form>

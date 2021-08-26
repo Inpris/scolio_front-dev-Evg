@@ -1,0 +1,62 @@
+@import "variables";
+
+sl-sidebar {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.sl-sidebar__avatar {
+  align-items: center;
+  background: @white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  height: 40px;
+  margin: 12px 0 11px;
+  width: 40px;
+}
+
+.sl-sidebar__avatar-icon {
+  color: @cyan-9;
+  font-size: @font-size-xxl;
+}
+
+.sl-sidebar__link {
+  align-self: stretch;
+  align-items: center;
+  background: none;
+  color: @white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-size: @font-size-xs;
+  line-height: 1;
+  margin: 1px 0;
+  outline: none;
+  padding: 8px 2px;
+  text-align: center;
+  &:link, &:visited, &:hover, &:active {
+    color: @white;
+    text-decoration: none;
+  }
+}
+
+.sl-sidebar__link--active {
+  cursor: default;
+}
+
+.sl-sidebar__link:hover,
+.sl-sidebar__link--active {
+  background: @blue-3;
+}
+
+.sl-sidebar__icon {
+  font-size: @font-size-xl;
+}
+
+.sl-sidebar__text {
+  font-size: @font-size-xxs;
+  font-weight: 300;
+  margin: 4px 0 0;
+}

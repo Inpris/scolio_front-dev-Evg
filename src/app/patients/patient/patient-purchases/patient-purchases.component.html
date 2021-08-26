@@ -1,0 +1,22 @@
+<nz-table #nzTable [nzData]="data" [nzShowPagination]="false" [nzLoading]="!data" [nzPageSize]="data?.length">
+  <thead>
+  <tr>
+    <th>№ Извещения</th>
+    <th>Статус закупки</th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-template ngFor let-data [ngForOf]="nzTable.data">
+    <tr>
+      <td>
+        <a [routerLink]="['/purchases/', data.id, 'general-info']" target="_blank">{{ data.noticeNumber }}</a>
+      </td>
+      <td>
+        <span class="purchase__status" [style.background-color]="statusColors[data.purchaseStatus.sysName]">
+          {{ data.purchaseStatus.name }}
+        </span>
+      </td>
+    </tr>
+  </ng-template>
+  </tbody>
+</nz-table>

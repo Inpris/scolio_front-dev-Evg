@@ -1,0 +1,212 @@
+<nz-card nzNoHovering="true" class="additional-info-block-viewer" [nzTitle]="title" [nzExtra]="extra">
+  <ng-template #title>
+    <div>
+      Дополнительно
+    </div>
+  </ng-template>
+  <ng-template #extra>
+    <button class="additional-info-block-viewer__extra-button" (click)="toEditMode()">
+      Изменить
+    </button>
+  </ng-template>
+  <ng-container *ngIf="customerData; then body"></ng-container>
+  <ng-template #body>
+    <div class="additional-info-block-viewer__subtitle">
+      Заказчик
+    </div>
+
+    <div class="additional-info-block-viewer__form">
+      <div nz-row class="additional-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="additional-info-block-viewer__form__row__label">
+          ИНН:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaCompanyInn">
+          {{ customerData.company.inn }}
+        </div>
+      </div>
+    </div>
+
+    <div class="additional-info-block-viewer__form">
+      <div nz-row class="additional-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="additional-info-block-viewer__form__row__label">
+          Наименование:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaCompanyName">
+          {{ customerData.company.name }}
+        </div>
+      </div>
+    </div>
+
+    <div class="additional-info-block-viewer__form">
+      <div nz-row class="additional-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="additional-info-block-viewer__form__row__label">
+          Регион:
+        </div>
+        <div nz-col nzSpan="12" *ngIf="customerData.company.region" qaaLocator="qaaRegion">
+          {{ customerData.company.region.name }}
+        </div>
+      </div>
+      <div nz-row class="additional-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="additional-info-block-viewer__form__row__label">
+          Город:
+        </div>
+        <div nz-col nzSpan="12" *ngIf="customerData.company.city" qaaLocator="qaaCity">
+          {{ customerData.company.city.name }}
+        </div>
+      </div>
+      <div nz-row class="additional-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="additional-info-block-viewer__form__row__label">
+          Адрес:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaAddress">
+          {{ customerData.company.address }}
+        </div>
+      </div>
+    </div>
+
+    <nz-collapse [nzBordered]="true" class="additional-info-block-viewer__collapse">
+      <nz-collapse-panel [nzHeader]="'Подробнее'">
+        <div class="additional-info-block-viewer__form additional-info-block-viewer__form--separated">
+          <div nz-row class="additional-info-block-viewer__form__row">
+            <div nz-col nzSpan="12" class="additional-info-block-viewer__form__row__label">
+              Директор:
+            </div>
+            <div nz-col nzSpan="12" qaaLocator="qaaDirectorFullName">
+              {{ customerData.director.fullName }}
+            </div>
+          </div>
+          <div nz-row class="additional-info-block-viewer__form__row">
+            <div nz-col nzSpan="12" class="additional-info-block-viewer__form__row__label">
+              Данные для связи:
+            </div>
+            <div nz-col nzSpan="12">
+              <div class="additional-info-block-viewer__form__row__icon-container" qaaLocator="qaaDirectorPhone">
+                <i class="anticon anticon-phone"></i>
+                {{ customerData.director.phone }}
+              </div>
+              <div class="additional-info-block-viewer__form__row__icon-container" qaaLocator="qaaDirectorEmail">
+                <i class="anticon anticon-mail"></i>
+                {{ customerData.director.email }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="additional-info-block-viewer__form additional-info-block-viewer__form--separated">
+          <div nz-row class="additional-info-block-viewer__form__row">
+            <div nz-col nzSpan="12" class="additional-info-block-viewer__form__row__label">
+              Отдел торгов (ФИО):
+            </div>
+            <div nz-col nzSpan="12" qaaLocator="qaaTenderDepartmentContactFullName">
+              {{ customerData.tenderDepartmentContact.fullName }}
+            </div>
+          </div>
+          <div nz-row class="additional-info-block-viewer__form__row">
+            <div nz-col nzSpan="12" class="additional-info-block-viewer__form__row__label">
+              Данные для связи:
+            </div>
+            <div nz-col nzSpan="12">
+              <div class="additional-info-block-viewer__form__row__icon-container"
+                   qaaLocator="qaaTenderDepartmentContactPhone">
+                <i class="anticon anticon-phone"></i>
+                {{ customerData.tenderDepartmentContact.phone }}
+              </div>
+              <div class="additional-info-block-viewer__form__row__icon-container"
+                   qaaLocator="qaaTenderDepartmentContactEmail">
+                <i class="anticon anticon-mail"></i>
+                {{ customerData.tenderDepartmentContact.email }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="additional-info-block-viewer__form additional-info-block-viewer__form--separated">
+          <div nz-row class="additional-info-block-viewer__form__row">
+            <div nz-col nzSpan="12" class="additional-info-block-viewer__form__row__label">
+              Отдел ТСР (ФИО):
+            </div>
+            <div nz-col nzSpan="12" qaaLocator="qaaTsrDepartmentContactFullName">
+              {{ customerData.tsrDepartmentContact.fullName }}
+            </div>
+          </div>
+          <div nz-row class="additional-info-block-viewer__form__row">
+            <div nz-col nzSpan="12" class="additional-info-block-viewer__form__row__label">
+              Данные для связи:
+            </div>
+            <div nz-col nzSpan="12">
+              <div class="additional-info-block-viewer__form__row__icon-container"
+                   qaaLocator="qaaTsrDepartmentContactPhone"> 
+                <i class="anticon anticon-phone"></i>
+                {{ customerData.tsrDepartmentContact.phone }}
+              </div>
+              <div class="additional-info-block-viewer__form__row__icon-container"
+                   qaaLocator="qaaTsrDepartmentContactEmail">
+                <i class="anticon anticon-mail"></i>
+                {{ customerData.tsrDepartmentContact.email }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="additional-info-block-viewer__form">
+          <div nz-row class="additional-info-block-viewer__form__row">
+            <div nz-col nzSpan="12" class="additional-info-block-viewer__form__row__label">
+              Разница во времени:
+            </div>
+            <div nz-col nzSpan="12" qaaLocator="qaaDiffHours">
+              {{ customerData.diffHours }}
+            </div>
+          </div>
+          <div nz-row class="additional-info-block-viewer__form__row">
+            <div nz-col nzSpan="12" class="additional-info-block-viewer__form__row__label">
+              Местное время заказчика:
+            </div>
+            <div nz-col nzSpan="12">
+              {{ customerDateTime }}
+            </div>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+
+    <div class="additional-info-block-viewer__form additional-info-block-viewer__form--comment">
+      <div nz-row class="additional-info-block-viewer__form__row">
+        <div nz-col nzSpan="24" class="additional-info-block-viewer__form__row__label">
+          Комментарии:
+        </div>
+        <div nz-col nzSpan="24" qaaLocator="qaaComment">
+          {{ customerData.comment }}
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="customerData.warningText" class="additional-info-block-viewer__form additional-info-block-viewer__form--warning">
+      <div nz-row class="additional-info-block-viewer__form__row">
+        <div nz-col nzSpan="24" class="additional-info-block-viewer__form__row__label">
+          <div class="additional-info-block-viewer__form__row__label--icon-wrapper">
+            <i class="anticon anticon-info-circle-o"></i>
+            ВНИМАНИЕ
+          </div>
+        </div>
+        <div nz-col nzSpan="24" qaaLocator="qaaWarningText">
+          {{ customerData.warningText }}
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="customerData.isStacionar" class="additional-info-block-viewer__form additional-info-block-viewer__form--info">
+      <div nz-row class="additional-info-block-viewer__form__row">
+        <div nz-col nzSpan="24" class="additional-info-block-viewer__form__row__label">
+          <div class="additional-info-block-viewer__form__row__label--icon-wrapper">
+            <i class="anticon anticon-medicine-box"></i>
+            СТАЦИОНАР
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</nz-card>
+<div>
+  <div>Создал: {{ customerData.createdBy.name }} {{ customerData.createdDate | date: 'dd.MM.yyyy HH:mm:ss' }}</div>
+  <div *ngIf="customerData.lastModifiedBy">Изменил: {{ customerData.lastModifiedBy?.name }} {{ customerData.lastModifiedDate | date: 'dd.MM.yyyy HH:mm:ss' }}</div>
+</div>

@@ -1,0 +1,20 @@
+<nz-spin [nzSpinning]="fileLoading">
+  <div class="files__items">
+    <div *ngFor="let file of visitFiles" nz-row nzType="flex" nzJustify="space-between" nzAlign="middle">
+      <div nz-col [nzSpan]="21" class="files__item">
+        <a [href]="file.contentURI" target="_blank" [title]="file.fileName" download>{{file.fileName}}</a>
+      </div>
+      <div nz-col class="files__item-actions">
+        <i class="anticon anticon-close-circle file__remove" (click)="deleteFile(file)"></i>
+      </div>
+    </div>
+  </div>
+  <div nz-row nzType="flex" nzJustify="end">
+    <nz-upload
+      [(nzFileList)]="fileList"
+      [nzBeforeUpload]="onFileChosen">
+      <button type="button" nzSize="small" nz-button nzType="dashed">+ Файл
+      </button>
+    </nz-upload>
+  </div>
+</nz-spin>

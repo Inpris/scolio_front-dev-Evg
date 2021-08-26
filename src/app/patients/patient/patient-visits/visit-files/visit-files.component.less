@@ -1,0 +1,47 @@
+@import "variables";
+
+.file {
+  &__remove {
+    cursor: pointer;
+    transition: color 0.2s ease;
+    &:hover {
+      color: @red-5;
+    }
+  }
+  &__edit {
+    cursor: pointer;
+    transition: color 0.2s ease;
+    &:hover {
+      color: @blue-5;
+    }
+  }
+  &__add {
+    input {
+      display: none;
+    }
+  }
+}
+
+.files {
+  &__item {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    &-actions {
+      font-size: 14px;
+      i:last-child {
+        margin-left: 6px;
+      }
+    }
+  }
+  &__items {
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: @sl-media-1600px) {
+  :host {
+    font-size: 12px;
+  }
+}

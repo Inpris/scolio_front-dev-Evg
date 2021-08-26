@@ -1,0 +1,38 @@
+@import "variables";
+
+.msg {
+  &__title {
+    &__icon {
+      font-size: 22px;
+    }
+
+    &__text {
+    }
+  }
+
+  &__body {
+    &__logo {
+      border-bottom: 1px solid @divider;
+
+      &__img {
+        width: 65px;
+      }
+
+      margin-bottom: 24px;
+    }
+
+    &__form {
+      &__from {
+        margin-bottom: 3px;
+      }
+      textarea {
+        resize: none;
+      }
+
+      .editor-error {
+        border: 1px solid red;
+        border-radius: 5px;
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+@import "variables";
+
+.model {
+  &__dateTime {
+    &-date ::ng-deep .ant-calendar-picker {
+      width: 134px;
+    }
+    &-time sl-time-picker {
+      width: 84px;
+    }
+    &-button button {
+      width: 84px;
+    }
+    &-label {
+      width: 84px;
+    }
+    > div {
+      margin-left: 4px;
+      margin-bottom: 4px;
+    }
+  }
+  &__ready {
+    color: @green-5;
+  }
+  &__status {
+    float: right;
+  }
+}

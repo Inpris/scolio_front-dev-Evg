@@ -1,0 +1,48 @@
+<form [formGroup]="form">
+  <div nz-row  [nzGutter]="8">
+    <div nz-col [nzSpan]="8" >
+      <nz-form-label>Тип пластика<span style="color:red;">*</span></nz-form-label>
+    </div>
+    <div nz-col [nzSpan]="9">
+      <nz-form-control>
+        <sl-control-selection
+          [control]="form.get('plasticType')"
+          [service]="plasticTypesService"
+          [dataFactory]="fromPaginationChunk"
+          nzDropdownClassName="qaaDropdownPlasticType"
+          qaaLocator="qaaSelectPlasticType">
+        </sl-control-selection>
+      </nz-form-control>
+    </div>
+  </div>
+  <div nz-row [nzGutter]="8" nzType="flex">
+    <div nz-col [nzSpan]="8">
+      <nz-form-label>Вкладная гильза<span style="color:red;">*</span></nz-form-label>
+    </div>
+    <div nz-col [nzSpan]="9">
+      <nz-form-control nzType="flex">
+        <input nz-input formControlName="adapterSleeve"/>
+      </nz-form-control>
+    </div>
+  </div>
+  <div nzType="flex" *ngFor="let row of schema" class="operation-row">
+    <div nz-row  [nzGutter]="8" *ngIf="row.visible">
+      <div nz-col [nzSpan]="8">
+        <nz-form-label>{{row.name}}</nz-form-label>
+      </div>
+      <div nz-col [nzSpan]="9">
+        <nz-form-control>
+          <input *ngIf="row.type === 'input'" nz-input [formControlName]="row.field"/>
+          <sl-control-selection *ngIf="row.type === 'select'"
+                                [options]="row.dictionary"
+                                [control]="form.get(row.field)">
+          </sl-control-selection>
+          <input *ngIf="row.hasOther" nz-input placeholder="Введите новый тип" [formControlName]="getOther(row.field)"/>
+        </nz-form-control>
+      </div>
+      <div nz-col [nzSpan]="7">
+        <label *ngIf="row.hasUnilateral" nz-checkbox [formControlName]="getUnilateral(row.field)">Унилатеральный</label>
+      </div>
+    </div>
+  </div>
+</form>

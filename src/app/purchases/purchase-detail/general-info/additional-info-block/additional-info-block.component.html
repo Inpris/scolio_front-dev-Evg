@@ -1,0 +1,9 @@
+<sl-additional-info-block-viewer
+  *ngIf="!isEditMode"
+  (changeMode)="onChangeMode($event)"
+></sl-additional-info-block-viewer>
+<sl-additional-info-block-editor
+  *ngIf="isEditMode"
+  [componentType]="componentType"
+  (changeMode)="onChangeMode($event)"
+></sl-additional-info-block-editor>

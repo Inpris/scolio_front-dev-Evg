@@ -1,0 +1,89 @@
+@import "variables";
+
+.preview {
+  width: 140px;
+  position: relative;
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: @gray-1;
+  border: solid 1px @gray-5;
+  border-radius: 5px;
+  box-sizing: content-box;
+  &__name {
+    position: absolute;
+    top: 0;
+    background: rgba(38, 38, 38, .5);
+    width: 100%;
+    color: white;
+    font-weight: bolder;
+    text-align: center;
+    display: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 2;
+  }
+  &__image {
+    max-width: 140px;
+    max-height: 140px;
+  }
+  &__actions {
+    position: absolute;
+    display: none;
+    top: 0;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    background: rgba(38, 38, 38, .5);
+    color: white;
+    font-size: 28px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  &__action {
+    margin: 5px;
+    &.delete {
+      position: absolute;
+      right: 0;
+      bottom: -6px;
+      font-size: 16px;
+      &:hover {
+        color: @red-5;
+      }
+    }
+  }
+  &__select {
+    z-index: 2;
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    ::ng-deep {
+      .ant-checkbox {
+        display: none;
+      }
+      .ant-checkbox.ant-checkbox-checked {
+        display: inline-block;
+      }
+    }
+  }
+  &:hover {
+    .preview {
+      &__name {
+        display: inline;
+      }
+      &__actions {
+        display: flex;
+      }
+      &__select {
+        ::ng-deep {
+          .ant-checkbox {
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+}

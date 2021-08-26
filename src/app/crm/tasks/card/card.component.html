@@ -1,0 +1,44 @@
+<div class="card" 
+  [ngClass]="{ 'failed': data.failed }"
+>
+  <div class="card__title">
+    <div nz-row 
+      [nzType]="'flex'" 
+      [nzJustify]="'space-between'"
+    >
+      <div nz-col >
+        <div (click)="openModalTaskForm()">
+          <a class="card__title__name">{{ data.subject }}</a>
+        </div>
+        <div>
+          {{ data.dueDateTime | date: 'dd.MM.yyyy' }} срок исполнения<b>, {{ data.assignedUser.name }}</b>
+        </div>
+      </div>
+
+      <div nz-col>
+        <a [routerLink]="getPath(data)">{{ data.entity.name }}</a>
+        <div *ngIf="data.failed" class="failed-msg">Просрочена</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card__content">
+    <div>
+      <b>{{ data.contact.fullName }} {{ data.contact.birthday | date: 'dd.MM.yyyy' }}</b> 
+    </div>
+    <div>
+      {{ data.description }}
+    </div>
+    <div *ngIf="data.contact.phone">
+      Телефон: {{ data.contact.phone }}
+    </div>
+    <div *ngIf="!data.contact.phone && data.contact.email">
+      Email: {{ data.contact.email }}
+    </div>
+  </div>
+</div>
+
+<ng-template #formTaskModalContent>
+  <sl-task-create-form [formType]="'edit'" [data]="data" (closeModal)="closeModalTaskForm($event)"></sl-task-create-form>
+</ng-template>

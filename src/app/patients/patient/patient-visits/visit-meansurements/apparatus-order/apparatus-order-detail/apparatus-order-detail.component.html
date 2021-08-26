@@ -1,0 +1,82 @@
+<form [formGroup]="form" novalidate #apparatForm slScrollToFirstInvalid [slForm]="form" slScrollContainer=".ant-modal-wrap">
+  <nz-card [nzTitle]="title" [nzExtra]="extra">
+    <ng-template #title>
+      <div nz-row [nzType]="'flex'" [nzGutter]="8" class="form__title">
+        <div nz-col class="form__title__icon">
+          <i class="anticon anticon-schedule"></i>
+        </div>
+        <div nz-col class="form__title__text">
+          Изготовление {{orderName}} № {{device.number}}
+        </div>
+        <i class="anticon anticon-close form__close" (click)="closeForm()"></i>
+      </div>
+    </ng-template>
+    <ng-template #extra>
+      <div>
+        Дата приема: {{ visitsManager.selected.dateTime | date : 'dd.MM.yyyy' }}
+      </div>
+      <div>
+        Принял: {{ visitsManager.selected.doctor?.name  || '-' }}
+      </div>
+    </ng-template>
+    <nz-spin [nzSpinning]="isBusy">
+      <sl-order-progress [currentStep]="getCurrentStep()"
+                         [manufacturing]="manufacturingProgress"
+                         [schema]="schema"
+                         [is3DModel]="is3DModel"></sl-order-progress>
+    </nz-spin>
+  </nz-card>
+  <nz-spin [nzSpinning]="isBusy">
+    <nz-card class="form">
+      <div nz-row class="row-container">
+        <div nz-col [nzSpan]="7">Вариант изготовления<span style="color:red;">*</span></div>
+        <sl-apparatus-production-method [disabled]="true" formControlName="productionMethod"></sl-apparatus-production-method>
+      </div>
+      <div nz-row nzJustify="start" [nzGutter]="16">
+        <div nz-col [nzSpan]="10">
+          <sl-apparatus-order formControlName="corsetData" [device]="device"></sl-apparatus-order>
+        </div>
+        <div nz-col [nzSpan]="14">
+          <sl-hinge-measurement formControlName="hingeParameters" [orderType]="device?.productType?.sysName"></sl-hinge-measurement>
+        </div>
+      </div>
+    </nz-card>
+    <nz-card>
+      <sl-apparatus-device-measurement formControlName="apparatLegMeasurement"></sl-apparatus-device-measurement>
+    </nz-card>
+    <nz-card *ngIf="is3DModel">
+      <sl-order-model formControlName="modelData"
+                      (deviceReadyEvent)="deviceReadyEventHandler($event)"
+                      (makingEvent)="makingEventEventHandler($event)">
+      </sl-order-model>
+    </nz-card>
+    <nz-card>
+      <sl-order-manufacturing (deviceControlledEvent)="deviceControlledEventHandler($event)" *ngIf="isShema"
+                              formControlName="manufacturingData"
+                              [schema]="schema"
+                              [is3DModelReady]="form.value.modelData?.is3DModelReady">
+      </sl-order-manufacturing>
+    </nz-card>
+    <nz-card [hidden]="!form.value.manufacturingData?.isControlled">
+      <sl-order-issue (deviceIssuedEvent)="deviceIssuedEventHandler($event)"
+                      formControlName="issueData">
+      </sl-order-issue>
+    </nz-card>
+    <nz-card>
+      <div nz-row nzType="flex" style.width="100%">
+        <div nz-col [nzSpan]="6">
+          <button type="button" nz-button target="_blank" (click)="openPrintOrder()"  nzType="primary">
+            <i class="anticon anticon-printer"></i>
+          </button>
+        </div>
+        <div nz-col [nzSpan]="18">
+          <div nz-row nzJustify="end" class="form__actions">
+            <span class="save-message" *ngIf="isImported">Нельзя сохранить импортированный бланк</span>
+            <button [nzSize]="'large'" nzType="primary" nz-button (click)="saveData()" [disabled]="isImported">Сохранить</button>
+            <button type="button" [nzSize]="'large'" nzType="default" nz-button (click)="closeForm()">Отмена</button>
+          </div>
+        </div>
+      </div>
+    </nz-card>
+  </nz-spin>
+</form>

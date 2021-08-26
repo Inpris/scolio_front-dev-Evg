@@ -1,0 +1,55 @@
+<div class="representative">
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col>
+      <h2>Список представителей</h2>
+    </div>
+    <div nz-col>
+      <button (click)="openModalRepresentativeForm()" class="ant-btn ant-btn-primary">
+        <i class="anticon anticon-user-add"></i>
+        <span>+ Новый представитель</span>
+      </button>
+    </div>
+  </div>
+
+  <nz-table #nzTable [nzData]="data" [nzShowPagination]="false" [nzLoading]="!data" [nzPageSize]="data?.length">
+    <thead>
+    <tr>
+      <th>Фамилия</th>
+      <th>Имя</th>
+      <th>Отчество</th>
+      <th>Основной телефон</th>
+      <th>Основной Email</th>
+      <th>Кем приходится пациенту</th>
+      <th>По умолчанию</th>
+      <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-template ngFor let-data [ngForOf]="nzTable.data">
+      <tr>
+        <td>
+          <a (click)="openModalRepresentativeForm(data)">{{ data.lastName }}</a>
+        </td>
+        <td>{{ data.firstName }}</td>
+        <td>{{ data.secondName }}</td>
+        <td>{{ data.phone }}</td>
+        <td>{{ data.email }}</td>
+        <td>{{ data.patientAffiliation }}</td>
+        <td>{{ data.defaultAgent | booleanFormatter}}</td>
+        <td>
+          <div nz-row nzType="flex" nzJustify="space-between" class="representative__action">
+            <nz-popover>
+              <i nz-popover (click)="confirmRemove(data.id, i)" class="anticon anticon-delete device__action"></i>
+              <ng-template #nzTemplate>Удалить представителя</ng-template>
+            </nz-popover>
+            <nz-popover>
+              <i nz-popover (click)="openModalRepresentativeForm(data)" class="anticon anticon-edit device__action"></i>
+              <ng-template #nzTemplate>Изменить данные о представителе</ng-template>
+            </nz-popover>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    </tbody>
+  </nz-table>
+</div>

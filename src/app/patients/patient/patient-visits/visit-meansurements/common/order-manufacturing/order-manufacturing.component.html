@@ -1,0 +1,92 @@
+<form [formGroup]="form">
+  <div class="manufacturing__row" nz-row nzType="flex" nzAlign="middle">
+    <div class="manufacturing__row-label" nz-col [nzSpan]="4"></div>
+    <div class="manufacturing__row-value" nz-col [nzSpan]="5" [nzOffset]="1"><h4>Исполнитель 1</h4></div>
+    <div class="manufacturing__row-value" nz-col [nzSpan]="5" [nzOffset]="1"><h4>Исполнитель 2</h4></div>
+    <div class="manufacturing__row-status" nz-col [nzSpan]="7" [nzOffset]="1"></div>
+  </div>
+  <ng-template ngFor let-data [ngForOf]="schema" let-i="index">
+    <div class="manufacturing__row" nz-row nzType="flex" nzAlign="middle" [attr.qaaLocator]="'qaaRow' + data.field">
+      <div class="manufacturing__row-label" nz-col [nzSpan]="4">{{data.name}}</div>
+      <div class="manufacturing__row-value" nz-col [nzSpan]="5" [nzOffset]="1">
+        <sl-control-selection [control]="form.get(data.field + 'Executor1')"
+                              [options]="users"
+                              [allowClear]="allowClear(i)"
+                              [nzDropdownClassName]="'qaaDropdownExecutor1' + i"
+                              qaaLocator="qaaSelectExecutor1"></sl-control-selection>
+
+      </div>
+      <div class="manufacturing__row-value" nz-col [nzSpan]="5" [nzOffset]="1">
+        <sl-control-selection [control]="form.get(data.field + 'Executor2')"
+                              [options]="users"
+                              [disabled]="statusSelectionDisabled(i)"
+                              [nzDropdownClassName]="'qaaDropdownExecutor2' + i"
+                              qaaLocator="qaaSelectExecutor2"></sl-control-selection>
+      </div>
+      <div class="manufacturing__row-status" nz-col [nzSpan]="6" [nzOffset]="2">
+        <nz-radio-group [formControlName]="data.field + 'Status'" (ngModelChange)="changeRowStatusHandler($event, i)">
+          <label nz-radio-button
+                 [nzValue]="manufacturingStatus.WAITING"
+                 [nzDisabled]="statusButtonDisabled(i)">Ожидает</label>
+          <label nz-radio-button
+                 class="sl-button__green"
+                 [nzValue]="manufacturingStatus.DONE"
+                 [nzDisabled]="statusButtonDisabled(i)">Выполнено</label>
+        </nz-radio-group>
+      </div>
+    </div>
+    <div class="manufacturing__defects" nz-row *ngIf="hasDefects && data.defects">
+      <ng-template ngFor let-defect [ngForOf]="data.defects">
+        <div nz-col [nzSpan]="12" nzOffset="5">
+          <label nz-checkbox
+                 [formControl]="form.get(defect.formControl)">
+            {{ defect.label }}
+          </label>
+        </div>
+      </ng-template>
+    </div>
+    <nz-divider *ngIf="hasDefects && data.defects"></nz-divider>
+  </ng-template>
+  <div class="manufacturing__row manufacturing__control" nz-row nzType="flex">
+    <ng-template #comment>
+      <div class="manufacturing__row-label" nz-col [nzSpan]="4">Комментарий</div>
+      <div class="manufacturing__row-value" nz-col [nzSpan]="11" [nzOffset]="1">
+        <textarea nz-input formControlName="comment" maxlength="1000"></textarea>
+      </div>
+    </ng-template>
+    <ng-template #empty>
+      <div nz-col nzSpan="16"></div>
+    </ng-template>
+    <ng-container *ngTemplateOutlet="disableComment ? empty : comment"></ng-container>
+    <div class="manufacturing__row-status" nz-col [nzSpan]="6" [nzOffset]="2">
+      <div *slIfHasAccess="[ROLES_USERS.WORKER_MANAGER, ROLES_USERS.ADMIN];">
+        <div *ngIf="!form?.get('isControlled').value; else deviceControlled">
+          <button nz-button type="button" nzType="primary" style="width:100%"
+                  (click)="deviceControlledClick()"
+                  [disabled]="!isAllProductStatesDone()">
+            Изделие проконтролировано
+          </button>
+        </div>
+      </div>
+      <ng-template #deviceControlled>
+        <div *slIfHasAccess="[ROLES_USERS.WORKER_MANAGER, ROLES_USERS.ADMIN];">
+          <nz-radio-group *ngIf="defectChoseEnabled"
+                          [(ngModel)]="hasDefects"
+                          [ngModelOptions]="{standalone: true}"
+                          (ngModelChange)="defectStatusChange($event)"
+                          >
+            <label class="sl-button__red" nz-radio-button [nzValue]="true">Брак</label>
+            <label class="sl-button__green" nz-radio-button [nzValue]="false">Без брака</label>
+          </nz-radio-group>
+        </div>
+
+        <div class="manufacturing__controlled">
+          <span>
+            Изделие проконтролировано{{form.get('controlledBy').value ? ': ' + form.get('controlledBy').value?.name : ''}}
+            <i class="anticon anticon-check-circle"></i>
+          </span>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</form>

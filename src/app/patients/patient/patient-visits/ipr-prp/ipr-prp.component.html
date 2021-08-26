@@ -1,0 +1,23 @@
+<div [formGroup]="form">
+  <div>
+    <sl-control-selection [control]="form.get('iprPrp')"
+                          [options]="dictionary"
+                          nzDropdownClassName="qaaDropdownIprPrp"
+                          qaaLocator="qaaSelectIprPrp"></sl-control-selection>
+  </div>
+  <div>
+    <label>Срок действия</label>
+    <div>
+      <sl-date-picker formControlName="iprPrpActualDate"
+                          nzFormat="DD.MM.YYYY"
+                          nzPlaceHolder>
+      </sl-date-picker>
+    </div>
+  </div>
+  <div>
+    <label>Комментарий</label>
+    <nz-form-control>
+      <textarea nz-input formControlName="iprPrpComment"></textarea>
+    </nz-form-control>
+  </div>
+</div>

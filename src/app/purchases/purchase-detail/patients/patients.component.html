@@ -1,0 +1,168 @@
+<sl-purchase-short-description
+        [purchase]="purchase"
+        actionButtonText="+ Новый пациент"
+        (action)="openModalLeadForm()"
+        resetButtonText="Сбросить все фильтры"
+        (reset)="resetFilters()">
+</sl-purchase-short-description>
+<div class="patients">
+  <div class="table-info">
+    <div class="table-info__total">Всего: {{pageParams?.totalCount || 0}}</div>
+  </div>
+  <nz-table #table
+    [nzData]="patients"
+    [nzLoading]="loading"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false"
+
+    [nzTotal]="pageParams.totalCount"
+    [(nzPageIndex)]="pageParams.page"
+    [nzPageSize]="pageParams.pageSize"
+  >
+    <thead>
+    <tr>
+      <th nzWidth="50px" nzShowExpand></th>
+      <th nzWidth="240px" nzShowSort [(nzSort)]="sortMap.sortBy" (nzSortChange)="sort('contact.fullName',$event)">
+        <sl-table-filter-text [placeholder]="'Фамилия Имя Отчество'" [(ngModel)]="filterMap.fullName" [label]="'ФИО'"
+                              (ngModelChange)="filterChanged()"></sl-table-filter-text>
+      </th>
+      <th nzWidth="160px"
+        nzShowSort
+        [(nzSort)]="sortMap.sortBy"
+        (nzSortChange)="sort('contact.address.region.name',$event)"
+      >Регион</th>
+      <th nzWidth="180px">Запись на прием</th>
+      <th nzWidth="240px">Изделие, количество, срок</th>
+      <th nzWidth="320px">Примечание</th>
+      <th nzWidth="180px">История изменений</th>
+      <th nzWidth="120px">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-template ngFor let-data let-index="index" [ngForOf]="table.data">
+      <tr [ngClass]="{ 'row-expanded': data.expand, 'row-canceled': data.isCanceled}">
+        <td nzShowExpand (nzExpandChange)="expandChange(data, $event)" [(nzExpand)]="data.expand"
+            qaaLocator="qaaExpandInformation"></td>
+        <td qaaLocator="qaaFullName">
+          <a target="_blank" [routerLink]="['/patients/', data.contact.id]">
+            {{data.contact.fullName}}
+          </a>
+        </td>
+        <td qaaLocator="qaaRegion">
+          <div *ngIf="data.contact.address && data.contact.address.region">
+            {{ data.contact.address.region.name }}
+          </div>
+        </td>
+        <td>
+          <nz-popover nzTitle="Записи на прием" *ngIf="data.appointment && data.appointment.length > 0">
+            <div nz-popover><span class="sl-detail-help">Записи на прием</span>
+            </div>
+            <ng-template #nzTemplate>
+              <div *ngFor="let appointment of data.appointment" >
+                <table class="appointment-table">
+                  <tr>
+                    <td [style.width]="'30%'" qaaLocator="qaaMedicalService">{{appointment.medicalService}}</td>
+                    <td [style.width]="'35%'" qaaLocator="qaaVisitReason">{{appointment.visitReason}}</td>
+                    <td [style.width]="'35%'" qaaLocator="qaaDateTime">{{appointment.dateTime | date: 'dd.MM.yyyy HH:mm'}}</td>
+                  </tr>
+                </table>
+              </div>
+            </ng-template>
+          </nz-popover>
+        </td>
+        <td>
+          <ng-template ngFor let-product [ngForOf]="data.purchaseDevices">
+            <nz-popover [nzTitle]="product.name">
+              <div nz-popover><span class="sl-detail-help">{{product.name}}</span></div>
+              <ng-template #nzTemplate>
+                <div>Количество:
+                  <sl-product-count-field [countData]="createProductCountData(product)"></sl-product-count-field>
+                  <sup>*</sup></div>
+                <div>Срок: - - - </div>
+                <br>
+                <div><sup>*</sup>
+                  <sl-product-count-field></sl-product-count-field>
+                </div>
+              </ng-template>
+            </nz-popover>
+          </ng-template>
+        </td>
+        <td>{{data.contact.comment}}</td>
+        <td>
+          <div *ngIf="data.createdDate || data.lastModifiedDate; then modified else created"></div>
+          <ng-template #created>
+            <div>Создал {{ data.contact.createdBy.name }}</div>
+            <div>{{ data.contact.createdDate | date: 'dd.MM.yyyy' }}</div>
+          </ng-template>
+          <ng-template #modified>
+            <div *ngIf="data.createdDate">
+              <div>Добавил {{ data.createdBy.name }}</div>
+              <div>{{ data.createdDate | date: 'dd.MM.yyyy' }}</div>
+            </div>
+            <div *ngIf="data.lastModifiedDate">
+              <div>Изменил {{ data.lastModifiedBy.name }}</div>
+              <div>{{ data.lastModifiedDate | date: 'dd.MM.yyyy' }}</div>
+            </div>
+          </ng-template>
+        </td>
+        <td>
+          <div nz-row [nzType]="'flex'" nzJustify="space-between" class="device__actions">
+            <nz-popover>
+              <i nz-popover (click)="print()" class="anticon anticon-printer device__action"></i>
+              <ng-template #nzTemplate>Распечатать информацию о пациенте</ng-template>
+            </nz-popover>
+            <nz-popover>
+              <i nz-popover (click)="removePatient(data.contact.id, index)" class="anticon anticon-delete device__action"></i>
+              <ng-template #nzTemplate>Удалить пациента</ng-template>
+            </nz-popover>
+            <nz-popover *ngIf="!data.isCanceled">
+              <i nz-popover (click)="cancelPatient(data.contact.id, purchase?.id, data)" class="anticon anticon-rollback device__action"></i>
+              <ng-template #nzTemplate>Отказ пациента из закупки</ng-template>
+            </nz-popover>
+            <nz-popover>
+              <i nz-popover (click)="openModalLeadForm(data)" class="anticon anticon-edit device__action"></i>
+              <ng-template #nzTemplate>Изменить данные о пациенте</ng-template>
+            </nz-popover>
+          </div>
+        </td>
+      </tr>
+      <tr [nzExpand]="data.expand">
+        <td></td>
+        <td colspan="7">
+          <nz-tabset nzType="card">
+            <nz-tab nzTitle="Изделия">
+              <sl-patient-devices *ngIf="data.expand" [patient]="data" (save)="onAddDevice($event)"></sl-patient-devices>
+            </nz-tab>
+            <nz-tab nzTitle="Запись на прием">
+              <sl-purchase-patient-appointments [availableServices] = "availableServices"
+                                                [contact]="data.contact"
+                                                [purchaseId]="purchase?.id"
+                                                [appointments]="appointments"
+                                                [deviceCount]="deviceCount">
+              </sl-purchase-patient-appointments>
+            </nz-tab>
+          </nz-tabset>
+        </td>
+      </tr>
+    </ng-template>
+    <tr class="infinity-container" *ngIf="patients && pageParams.page < pageParams.pageCount">
+      <td colspan="100">
+        <sl-infinity-scroll #infinityScroll
+          [rootContainer]="scrollContainer"
+          (loadCallback)="getPatientsData(true)"
+        ></sl-infinity-scroll>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+
+</div>
+
+<ng-template #pacientModalContent>
+  <sl-create-purchase-patient
+    [data]="pacientData"
+    [formType]="formType"
+    [fromPurchase]="true"
+    (actionPurchaseCallback)="actionPurchase($event)"
+  ></sl-create-purchase-patient>
+</ng-template>

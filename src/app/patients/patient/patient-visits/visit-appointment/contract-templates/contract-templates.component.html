@@ -1,0 +1,9 @@
+<nz-dropdown [nzClickHide]="false">
+  <a nz-dropdown
+     nz-button
+     nzType="primary" nzSize="small" title="Скачать договор"
+     [href]="'/api/v1.0/contracts/' + visitsManager.selected.deal.contractId + '/file'"
+  >
+    <i class="anticon anticon-download"></i>
+  </a>
+</nz-dropdown>

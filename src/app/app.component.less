@@ -1,0 +1,139 @@
+@import "variables";
+
+body {
+  font-size: 12px;
+  overflow: hidden;
+  // TODO: remove after https://github.com/NG-ZORRO/ng-zorro-antd/issues/1516
+  padding-right: 0 !important;
+}
+
+@page{
+  size: auto;
+  margin: 0mm;
+}
+
+sl-root {
+  display: block;
+  height: 100%;
+}
+
+@media print {
+  .ant-modal-content {
+    box-shadow: none !important;
+  }
+
+  body {
+    overflow: visible !important;
+  }
+
+  sl-root {
+    height: unset;
+  }
+}
+
+@page{
+  size: auto;
+  margin: 0mm;
+}
+
+.sl-link {
+  color: @blue-5;
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover, &:active {
+    color: @blue-4;
+    text-decoration: underline;
+  }
+}
+
+.sl-link--orange {
+  color: @gold-5;
+
+  &:hover, &:active {
+    color: @gold-4;
+    text-decoration: underline;
+  }
+}
+
+.sl-page__header {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 0 0 16px;
+}
+
+.ant-form label {
+  font-size: 12px;
+}
+
+.ant-form-item.sl-form-item--small {
+  margin-bottom: 0;
+
+  & > label {
+    padding: 0;
+  }
+}
+
+.ant-form-item > .sl-label-small {
+  padding: 0;
+}
+
+.sl-detail-help {
+  border-bottom: 1px dashed #8c8c8c;
+  cursor: help;
+}
+
+.sl-breadcrumb {
+  .sl-breadcrumb-item:not(:last-child):after {
+    content: '/';
+  }
+  .sl-breadcrumb-item:last-child {
+    font-weight: bold;
+  }
+  .sl-breadcrumb-item-link {
+    cursor: pointer;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    outline: none;
+    &:hover {
+      color: @blue-5;
+    }
+  }
+}
+
+.sl-date-picker-up {
+  .ant-calendar-date-panel, .ant-time-picker-panel-combobox {
+    position: absolute;
+    background: white;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  .ant-calendar-date-panel {
+    top: -308px;
+  }
+  .ant-time-picker-panel-combobox {
+    top: -192px;
+  }
+  .ant-time-picker-panel-inner {
+    overflow: inherit;
+  }
+}
+
+.sl-date-picker-full-row {
+  width: 100%;
+}
+
+nz-spin {
+  height: 100%;
+
+  ::ng-deep .ant-spin-nested-loading,
+  ::ng-deep .ant-spin-container {
+    height: 100%;
+  }
+}
+
+// https://sim-track.simbirsoft/projects/75/tasks/9804
+.ant-input-number-handler-wrap {
+  display: none;
+}

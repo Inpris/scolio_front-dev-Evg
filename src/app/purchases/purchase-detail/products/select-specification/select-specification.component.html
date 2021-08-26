@@ -1,0 +1,130 @@
+<nz-card nzNoHovering="true" class="specification" [nzTitle]="title">
+  <ng-template #title>
+    <div class="specification__title">
+      <div *ngIf="formType === 'edit'; then edit; else create"></div>
+      <ng-template #edit>
+        <div>Изменение данных спецификации</div>
+      </ng-template>
+      <ng-template #create>
+        <div>Добавление новой спецификации</div>
+      </ng-template>
+      <i class="anticon anticon-close form__close" (click)="closeForm()"></i>
+    </div>
+  </ng-template>
+
+  <form class="specification__form__body" nz-form [formGroup]="form" novalidate (ngSubmit)="onSubmit(form)">
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col nzSpan="6">
+        <nz-form-item>
+          <nz-form-label>Шифр*</nz-form-label>
+          <nz-form-control>
+            <nz-input-group [nzSuffix]="suffixTemplate">
+              <input nz-input
+                #codeInput
+                formControlName="code"
+                [nzAutocomplete]="auto"
+                (input)="onSearch($event.target?.value)"
+              >
+            </nz-input-group>
+            <ng-template #suffixTemplate>
+              <nz-popover>
+                <i nz-popover class="anticon anticon-file-text dictionary" (click)="openSpecificationList()"></i>
+                <ng-template #nzTemplate>Выбрать из справочника</ng-template>
+              </nz-popover>
+            </ng-template>
+
+            <nz-autocomplete #auto>
+              <ng-container *ngFor="let option of specificationList">
+                <nz-auto-option  *ngIf="!loading" [nzValue]="option.code">
+                  {{option.code}}
+                </nz-auto-option>
+              </ng-container>
+              <nz-auto-option *ngIf="loading" nzDisabled>
+                <i class="anticon anticon-loading anticon-spin loading-icon"></i> Загрузка
+              </nz-auto-option>
+            </nz-autocomplete>
+
+            <nz-form-explain *ngIf="form.get('code').dirty && form.get('code').errors">
+              Введите код
+            </nz-form-explain>
+            
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="17">
+        <nz-form-item>
+          <nz-form-label>Наименование спецификации*</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="name">
+            <nz-form-explain *ngIf="form.get('name').dirty && form.get('name').errors">
+              Введите название
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Производитель</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="manufacturer">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col>
+        <nz-form-item>
+          <nz-form-label>Количество</nz-form-label>
+          <nz-form-control>
+            <nz-input-number nz-input formControlName="count" [nzMin]="0"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col>
+        <nz-form-item>
+          <nz-form-label>Цена</nz-form-label>
+          <nz-form-control>
+            <nz-input-number nz-input formControlName="price" [nzMin]="0"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Заметка</nz-form-label>
+          <nz-form-control>
+            <textarea nz-input formControlName="note" rows="4"></textarea>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row
+        class="specification__form__body__btn"
+        [nzType]="'flex'"
+        [nzJustify]="'center'"
+        [nzGutter]="8"
+    >
+      <div nz-col>
+        <button type="submit" nz-button nzType="primary">
+          <i class="anticon anticon-save"></i>
+          <span *ngIf="formType === 'create'">Сохранить</span>
+          <span *ngIf="formType === 'edit'">Обновить</span>
+        </button>
+      </div>
+      
+      <div nz-col>
+        <button type="button" nz-button (click)="closeForm()">
+          <i class="anticon anticon-close"></i>
+          <span>Отмена</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</nz-card>

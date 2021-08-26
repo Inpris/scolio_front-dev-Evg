@@ -1,0 +1,49 @@
+<nz-spin [nzSpinning]="isBusy">
+  <div class="row" *ngFor="let row of data">
+    <div nz-row nzType="flex" [nzGutter]="16" class="edit-container" [@collapse]="!row.edit ? 'opened' : 'closed'">
+      <div nz-col nzSpan="4" class="executor">
+        <i class="anticon anticon-clock-circle"></i>
+        <span>{{row.executor?.name}}</span>
+      </div>
+      <div nz-col nzSpan="4" qaaLocator="qaaDateStartEnd">
+        <div nz-row>{{row.start | date: 'dd.MM HH:mm'}}
+          <span *ngIf="row.end">- {{row.end | date: 'dd.MM HH:mm'}}</span>
+        </div>
+      </div>
+      <div nz-col nzSpan="4" qaaLocator="qaaDuration">
+        <div nz-row>
+          <span *ngIf="row.end">{{getRange(row.start, row.end)}}</span>
+        </div>
+      </div>
+      <div nz-col nzSpan="6" qaaLocator="qaaNote">
+        <div class="note">{{row.note}}</div>
+      </div>
+      <div nz-col nzSpan="4" class="updated">
+        <span>{{row.createdBy.name}} </span><span>{{row.createdDate | date: 'dd.MM.yyyy'}}</span>
+        <div *ngIf="row.lastModifiedBy"> / 
+          <span>{{row.lastModifiedBy.name}} </span><span>{{row.lastModifiedDate | date: 'dd.MM.yyyy'}}</span>
+        </div>
+      </div>
+      <div nz-col nzSpan="2" class="actions">
+        <nz-tooltip nzTitle="Удалить">
+          <i class="anticon anticon-delete device__action" (click)="delete(row)"></i>
+        </nz-tooltip>
+        <nz-tooltip nzTitle="Редактировать">
+          <i class="anticon anticon-edit device__action" (click)="editRow(row)"></i>
+        </nz-tooltip>
+      </div>
+    </div>
+    <div class="edit-container" *ngIf="row.edit" @ngIfCollapse>
+      <sl-edit-row [data]="row" (cancel)="row.edit = false" (save)="onEdit(row, $event)"></sl-edit-row>
+    </div>
+  </div>
+  <nz-divider></nz-divider>
+  <div class="edit-container" *ngIf="addMode" @ngIfCollapse>
+    <sl-edit-row (cancel)="addMode = false" (save)="onAdd($event)"></sl-edit-row>
+  </div>
+  <div *ngIf="!addMode" class="save-button-container" nz-row nzType="flex" nzJustify="end">
+    <button nz-tooltip type="button" nz-button nzType="dashed" (click)="addMode = true; editRow(false)">
+      Добавить
+    </button>
+  </div>
+</nz-spin>

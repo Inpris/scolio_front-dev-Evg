@@ -1,0 +1,50 @@
+@import "variables";
+@import "mixins";
+.sl-infinity-table();
+.purchase-list-page {
+  position: relative;
+  .table-info {
+    position: absolute;
+    top: 23px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  &__filter {
+    &__year {
+      margin: 10px 10px 10px 0px;
+    }
+
+    &__patient {
+      margin: 10px 10px 10px 0px;
+    }
+
+    &__btn {
+      margin: 10px 10px 10px 0;
+    }
+  }
+
+  ::ng-deep {
+    .ant-table-pagination {
+      margin-right: 16px;
+    }
+
+    .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+      margin-left: 0;
+    }
+  }
+}
+
+.ant-table-expand-icon-th, .ant-table-row-expand-icon-cell {
+  min-width: 10px;
+  width: 10px;
+}
+
+.purchase__status {
+  opacity: 0.65;
+  padding: 3px;
+  border-radius: 3px;
+  span {
+    color: rgba(0,0,0,1);
+  }
+}

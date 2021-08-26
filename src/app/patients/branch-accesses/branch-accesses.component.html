@@ -1,0 +1,43 @@
+<div>
+  <nz-table #nzTable [nzData]="accessTableData" [nzShowPagination]="false" [nzLoading]="pending" [nzPageSize]="50" class="sl-list">
+    <thead>
+    <tr>
+      <th [nzWidth]="'20%'" nzShowSort [(nzSort)]="sortMap.sortFullName" (nzSortChange)="sort()">
+        <sl-table-filter-text [placeholder]="'ФИО Пациента'" [label]="'ФИО Пациента'"
+                              [(ngModel)]="filterMap.fullName" (filterChange)="search()">
+
+        </sl-table-filter-text>
+      </th>
+      <th [nzWidth]="'20%'" nzShowSort [(nzSort)]="sortMap.sortBranchName" (nzSortChange)="sort()">
+        <sl-table-filter-text [placeholder]="'Филиал откуда пришел запрос'" [label]="'Филиал откуда пришел запрос'"
+                              [(ngModel)]="filterMap.branchName" (filterChange)="search()">
+        </sl-table-filter-text>
+      </th>
+      <th [nzWidth]="'20%'">Телефон</th>
+      <th [nzWidth]="'20%'">Email</th>
+      <th [nzWidth]="'20%'">Ссылка на документ</th>
+      <th [nzWidth]="'20%'"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-template ngFor let-data [ngForOf]="nzTable.data">
+      <tr [attr.qaaLocator]="data.fullName">
+        <td qaaLocator="qaaPatientVisitDate">{{ data.fullName }}</td>
+        <td qaaLocator="qaaBranchName">{{ data.branchName }}</td>
+        <td qaaLocator="qaaBranchName">{{ data.phone }}</td>
+        <td qaaLocator="qaaBranchName">{{ data.eMail }}</td>
+        <td qaaLocator="qaaAcceptedBy">
+          <a *ngIf="data.consentProcess" [attr.href]="linkToFile(data.consentProcess)" target="_blank" nzType="link">Ссылка на документ</a>
+          <span *ngIf="!data.consentProcess">-</span>
+        </td>
+        <td>
+          <button (click)="access(data)" class="ant-btn ant-btn-primary">
+            <span>{{ accessButtonName(+data.hasAccess) }}</span>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+    </tbody>
+  </nz-table>
+</div>
+

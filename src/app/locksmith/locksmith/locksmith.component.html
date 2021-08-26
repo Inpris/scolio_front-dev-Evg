@@ -1,0 +1,92 @@
+<h2>Слесарка</h2>
+<div nz-row nzType="flex" nzJustify="space-between">
+  <div>
+    <nz-form-control class="date-from-to-filter-container">
+      <label class="date-from-to-filter-label">Дата посещения:</label>
+      <sl-range-picker [(ngModel)]="filterMap.dateFromTo" nzFormat="DD.MM.YYYY" (ngModelChange)="search($event)"></sl-range-picker>
+    </nz-form-control>
+  </div>
+  <div nz-col>
+    <button *slIfHasAccess="[ROLES_USERS.ADMIN];"
+      class="ant-btn ant-btn-primary" (click)="showReport()">
+      <span>Выгрузить отчет</span>
+    </button>
+    <label></label>
+    <button [disabled]="pending" (click)="resetFilter()" class="ant-btn ant-btn-primary">
+      <i class="anticon anticon-reload"></i>
+      <span>Сбросить все фильтры</span>
+    </button>
+  </div>
+</div>
+<div class="table-info">
+  <div class="table-info__total">Всего: {{pagination?.totalCount || 0}}</div>
+</div>
+<nz-table #nzTable [nzData]="data" [nzShowPagination]="false" [nzLoading]="pending" [nzPageSize]="data?.length" class="sl-list">
+  <thead>
+  <tr>
+    <th nzShowExpand></th>
+    <th nzShowSort [nzSort]="sortMap.sortBy === 'dateVisit' && sortMap.sortType" (nzSortChange)="sort('dateVisit', $event)"> Дата</th>
+    <th nzShowSort [nzSort]="sortMap.sortBy === 'dateVisit' && sortMap.sortType" (nzSortChange)="sort('dateVisit', $event)"> Время</th>
+    <th> Исполнитель</th>
+    <th nzShowSort [nzSort]="sortMap.sortBy === 'productType.name' && sortMap.sortType" (nzSortChange)="sort('productType.name', $event)">
+      <sl-table-filter-multiple [(ngModel)]="filterMap.productTypes" [label]="'Вид изделия'"
+        (filterChange)="search($event)" [filters]="productTypes"></sl-table-filter-multiple>
+    </th>
+    <th nzShowSort [nzSort]="sortMap.sortBy === 'visitReason.name' && sortMap.sortType" (nzSortChange)="sort('visitReason.name', $event)">
+      <sl-table-filter-multiple [(ngModel)]="filterMap.visitReasons" [label]="'Тип'"
+        (filterChange)="search($event)" [filters]="visitReasons"></sl-table-filter-multiple>
+    </th>
+    <th nzShowSort [nzSort]="sortMap.sortBy === 'patientFio' && sortMap.sortType" (nzSortChange)="sort('patientFio', $event)">
+      <sl-table-filter-text placeholder="Поиск по ФИО" [label]="'ФИО'"
+        [(ngModel)]="filterMap.fullName" (filterChange)="search($event)"></sl-table-filter-text>
+    </th>
+    <th nzShowSort [nzSort]="sortMap.sortBy === 'notes' && sortMap.sortType" (nzSortChange)="sort('notes', $event)">
+      <sl-table-filter-text placeholder="Поиск по заметке" [label]="'Заметки'"
+        [(ngModel)]="filterMap.note" (filterChange)="search($event)"></sl-table-filter-text>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-template ngFor let-data [ngForOf]="nzTable.data">
+    <tr>
+      <td nzShowExpand (nzExpandChange)="expandChange(data, $event)"  [(nzExpand)]="data.expand"></td>
+      <td>{{ data.visitDate | date: 'dd.MM.yyyy' }}</td>
+      <td>{{ data.visitDate | date: 'HH:mm' }}</td>
+      <td>
+        <div *ngIf="data.lockSmithExecutions">
+          <div *ngFor="let executorRow of data.lockSmithExecutions">
+            <div>{{executorRow.executor?.name }} ({{getRange(executorRow.start, executorRow.end)}})</div>
+          </div>
+        </div>
+      </td>
+      <td>{{ data.productType?.name }}</td>
+      <td>{{ data.visitReason?.name }}</td>
+      <td>
+        <a target="_blank" [routerLink]="['/patients/', data.patientId]" *slIfHasAccess="patientLinkAccessOnRoles; fallBack patientFioLabel">{{ data.fullName }}</a>
+        <ng-template #patientFioLabel>
+          <label>{{ data.fullName }}</label>
+        </ng-template>
+      </td>
+      <td>{{ data.note }}</td>
+    </tr>
+     <tr [nzExpand]="data.expand">
+      <td></td>
+      <td colspan="100" *ngIf="data.expand">
+        <sl-locksmith-detail [productId]="data.productId"
+                           [visitId]="data.visitId"
+                           [data]="data.operations"
+                           [isLoading]="data.isLoading"
+                           [room]="data.room"
+                           (save)="updateRow($event, data)">
+        </sl-locksmith-detail>
+      </td>
+    </tr>
+  </ng-template>
+  <tr class="infinity-container" *ngIf="data && pagination.page <= pagination.pageCount - 1">
+    <td colspan="100">
+      <sl-infinity-scroll #infinityScroll [rootContainer]="scrollContainer"
+        (loadCallback)="getData(true)"></sl-infinity-scroll>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

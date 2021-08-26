@@ -1,0 +1,21 @@
+@import "mixins";
+
+.sl-infinity-table();
+
+@import "../styles/report-mixins";
+
+.report-table();
+
+.filters {
+  display: flex;
+  align-items: center;
+
+  & > *:not(:last-child) {
+    margin-right: 10px;
+  }
+}
+
+.branches_combo,
+.templates {
+  width: 300px;
+}

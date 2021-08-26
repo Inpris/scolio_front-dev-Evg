@@ -1,0 +1,18 @@
+  <div class="shedule-table">
+    <div class="shedule-column" *ngFor="let day of weekShedule">
+      <div class="shedule-cell">
+        <div class="shedule-record header">
+          <span>{{day.date|date:'E'}}</span>
+          <span>{{day.date|date:'dd'}}</span><span *ngIf="multiMonthWeek">.{{day.date|date:'MM'}}</span>
+        </div>
+      </div>
+      <div class="shedule-cell" *ngFor="let sheduleCell of day.records">
+        <div class="shedule-record"
+             [ngClass]="sheduleCell.status"
+             [class.selected]="isSelectedDate(sheduleCell.dateTimeStart)"
+             (click)="onSelectRecord(sheduleCell)">
+          {{sheduleCell.dateTimeStart|date:'H:mm'}}
+        </div>
+      </div>
+    </div>
+  </div>

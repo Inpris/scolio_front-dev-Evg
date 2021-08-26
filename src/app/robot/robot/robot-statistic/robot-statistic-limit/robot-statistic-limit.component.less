@@ -1,0 +1,69 @@
+@import "variables";
+
+.btn-save {
+  padding-top: 15px;
+  justify-content: flex-start;
+  display: flex;
+}
+
+.header {
+  padding: 0;
+  border-bottom: 1px solid @gray-3;
+}
+
+.stage-name {
+  text-align: right;
+  font-weight: bold;
+  border-right: 1px solid @gray-3;
+  padding-right: 15px;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  &-title {
+    padding: 24px 0;
+    padding-right: 15px;
+  }
+  &-end {
+    padding: 22px 0;
+  }
+}
+
+.optimal-count {
+  padding: 0;
+  padding-top: 15px;
+  &-title {
+    padding: 24px 0;
+    font-weight: bold;
+    padding-bottom: 10px;
+    line-height: 16px;
+  }
+}
+
+.critical-percent {
+  padding: 0;
+  padding-top: 15px;
+  &-title {
+    padding: 24px 0;
+    font-weight: bold;
+  }
+}
+
+.form {
+  &__close {
+    cursor: pointer;
+  }
+}
+
+:host ::ng-deep {
+  .ant-card-body {
+    padding: 0;
+  }
+  .ant-form-item-control {
+    line-height: 22px;
+  }
+  .ant-input-number-input { 
+    text-align: center;
+  }
+  .ant-col-offset-3 {
+    margin-left: 11%;
+  }
+}

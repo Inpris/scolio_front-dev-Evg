@@ -1,0 +1,51 @@
+<div [formGroup]="form">
+  <ng-container [ngSwitch]="type">
+    <sl-corset-device-measurement *ngSwitchCase="'Corset'" formControlName="corsetMeasurement"
+                                  [visitsManager]="visitsManager"></sl-corset-device-measurement>
+
+    <sl-protez-vk-device-measurement *ngSwitchCase="'ProtezVK'" formControlName="prothesisVkMeasurement"
+                                     [visitsManager]="visitsManager"></sl-protez-vk-device-measurement>
+
+    <sl-swosh-device-measurement *ngSwitchCase="'Apparatus'" formControlName="corsetMeasurement"
+                                 [visitsManager]="visitsManager"></sl-swosh-device-measurement>
+
+    <sl-apparatus-device-measurement *ngSwitchCase="'ApparatusLeg'" class="history__offset"
+                                     formControlName="apparatLegMeasurement"></sl-apparatus-device-measurement>
+
+    <sl-protez-nk-device-measurement
+      *ngSwitchCase="'ProtezNK'"
+      class="history__offset"
+      formControlName="prothesisNkMeasurement"
+    ></sl-protez-nk-device-measurement>
+
+  </ng-container>
+  <div class="measurements__history">
+    <sl-visit-history-selection [visits]="visitsManager.visitsRelative | visitBySysName : visitsManager.selected.medicalService.sysName"
+                                [(ngModel)]="selectedMeasurements"
+                                [ngModelOptions]="{standalone: true}"
+    ></sl-visit-history-selection>
+  </div>
+</div>
+<ng-template ngFor let-data let-i="index" [ngForOf]="selectedMeasurements">
+  <div class="patients-history__items" nz-row nzType="flex" nzJustify="space-between">
+    <div>{{data.dateTime | date : 'dd.MM.yyyy'}}</div>
+    <div (click)="hideSelection(i)" class="patients-history__remove">
+      <i class="anticon anticon-close"></i>
+      Скрыть из истории
+    </div>
+  </div>
+  <ng-container [ngSwitch]="type">
+    <sl-corset-device-measurement *ngSwitchCase="'Corset'" [ngModel]="data.corsetMeasurement" [readonly]="true"
+                                  [visitsManager]="visitsManager"></sl-corset-device-measurement>
+
+    <sl-protez-vk-device-measurement *ngSwitchCase="'ProtezVK'" [ngModel]="data.prothesisVkMeasurement"
+                                     [readonly]="true"
+                                     [visitsManager]="visitsManager"></sl-protez-vk-device-measurement>
+    <sl-swosh-device-measurement *ngSwitchCase="'Apparatus'" [ngModel]="data.corsetMeasurement" [readonly]="true"
+                                 [visitsManager]="visitsManager"></sl-swosh-device-measurement>
+
+    <sl-apparatus-device-measurement *ngSwitchCase="'ApparatusLeg'"
+                                     [ngModel]="data.apparatLegMeasurement" [readonly]="true"></sl-apparatus-device-measurement>
+  </ng-container>
+</ng-template>
+<!--(ngModelChange)="updateAttachmentsSelection($event)"-->

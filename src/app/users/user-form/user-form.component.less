@@ -1,0 +1,22 @@
+@import "variables";
+@import "mixins";
+
+.sl-modal-form();
+.form__row {
+  margin: 12px 0;
+}
+
+.show-password {
+  margin-right: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  &.anticon {
+    &:hover {
+      color: @blue-5;
+    }
+  }
+}
+
+:host ::ng-deep .ant-calendar-picker {
+  width: 100%;
+}

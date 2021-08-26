@@ -1,0 +1,35 @@
+<nz-card [nzTitle]="title" [nzExtra]="extra">
+  <ng-template #title>
+    <div nz-row [nzType]="'flex'" [nzGutter]="8" class="form__title">
+      <div nz-col class="form__title__icon">
+        <i class="anticon anticon-schedule"></i>
+      </div>
+      <div nz-col class="form__title__text">
+        Создание бланка заказа 
+      </div>
+      <i class="anticon anticon-close form__close" (click)="closeForm()"></i>
+    </div>
+  </ng-template>
+  <ng-template #extra>
+    <div>
+      Дата приема: {{ visitsManager.selected.dateTime | date : 'dd.MM.yyyy' }}
+    </div>
+    <div>
+      Принял: {{ visitsManager.selected.doctor?.name  || '-' }}
+    </div>
+  </ng-template>
+  <nz-spin [nzSpinning]="isBusy" nzSize="large">
+    <div nz-row>
+      <div nz-col [nzSpan]="12">
+        <sl-corset-device-measurement [(ngModel)]="measurementData" [readonly]=false></sl-corset-device-measurement>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <sl-corset-order [(ngModel)]="corsetData" [device]="device"></sl-corset-order>
+      </div>
+    </div>
+    <div class="form__actions">
+      <button type="button" [nzSize]="'large'" nzType="primary" nz-button (click)="saveClick()">Сформировать</button>
+      <button type="button" [nzSize]="'large'" nzType="default" nz-button (click)="closeForm()">Отмена</button>
+    </div>
+  </nz-spin>
+</nz-card>

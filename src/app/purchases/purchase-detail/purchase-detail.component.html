@@ -1,0 +1,72 @@
+<div class="purchase-detail" *ngIf="!isLoading && purchaseData">
+  <div nz-row
+       class="purchase-detail__header"
+       [nzType]="'flex'"
+       [nzAlign]="'middle'"
+       nzJustify="space-between"
+  >
+    <div nz-col class="purchase-detail__header__title">
+      <div nz-row nzType="flex" nzAlign="middle">
+        <div nz-col class="purchase-detail__header__title__btn-back">
+          <a [routerLink]="['/purchases']">
+            <i class="anticon anticon-left"></i>
+          </a>
+        </div>
+        <div nz-col>
+          <h2 class="sl-breadcrumb" nz-row nzType="flex">
+            <span class="sl-breadcrumb-item">Закупки</span>
+            <span class="sl-breadcrumb-item">
+              <span class="sl-breadcrumb-item-link" [routerLink]="['/purchases/']">
+                Реестр закупок
+              </span>
+            </span>
+            <span class="sl-breadcrumb-item">{{ purchaseData.noticeNumber }}</span>
+          </h2>
+        </div>
+        <div nz-col class="purchase-detail__header__title__status">
+          <h3 [style.background-color]="statusColors[purchaseData.purchaseStatus.sysName]">
+            {{ purchaseData.purchaseStatus.name }}
+          </h3>
+        </div>
+      </div>
+    </div>
+    <div nz-row nzType="flex">
+        <div nz-col class="purchase-detail__header__icons">
+          <div nz-row nzType="flex">
+            <i *ngIf="customerData.isStacionar" class="anticon anticon-medicine-box"></i>
+            <i *ngIf="customerData.warningText" class="anticon anticon-info-circle-o"></i>
+          </div>
+        </div>
+
+      <div nz-col
+        class="purchase-detail__header__btn-remove"
+        (click)="confirmRemove()"
+      >
+        <nz-tooltip nzTitle="Удалить закупку">
+          <i class="anticon anticon-delete" nz-tooltip ></i>
+        </nz-tooltip>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="purchase-detail__tabs">
+    <nz-tabset [nzSelectedIndex]="selectedTabIndex" (nzSelectedIndexChange)="onTabChange($event)">
+      <nz-tab [nzTitle]="'Общая информация'">
+        <sl-purchase-general-info *ngIf="selectedTabIndex === 0"></sl-purchase-general-info>
+      </nz-tab>
+      <nz-tab [nzTitle]="title">
+        <ng-template #title>
+          Изделия и спецификации
+          <!--<nz-badge [nzCount]="2"></nz-badge>-->
+        </ng-template>
+        <sl-purchase-products-specification [purchase]="purchaseData" *ngIf="selectedTabIndex === 1"></sl-purchase-products-specification>
+      </nz-tab>
+      <nz-tab [nzTitle]="'Пациенты'">
+        <sl-purchase-patients [purchase]="purchaseData" *ngIf="selectedTabIndex === 2"></sl-purchase-patients>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+
+</div>

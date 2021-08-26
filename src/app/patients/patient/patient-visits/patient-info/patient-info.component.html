@@ -1,0 +1,56 @@
+<div [formGroup]="form">
+  <div nz-row nzType="flex">
+    <div nz-col nzSpan="6">
+      <label>Рост, см.</label>
+      <nz-form-control>
+        <nz-input-number formControlName="growth" [nzMin]="0" [nzMax]="999"></nz-input-number>
+      </nz-form-control>
+    </div>
+    <div nz-col nzSpan="6">
+      <label>Вес, кг.</label>
+      <nz-form-control>
+        <nz-input-number formControlName="weight" [nzMin]="0" [nzMax]="999"></nz-input-number>
+      </nz-form-control>
+    </div>
+    <div nz-col nzSpan="12">
+      <sl-control-selection [control]="form.get('disabilityGroup')"
+                            title="Инвалидность"
+                            [options]="disabilityGroups"
+                            nzDropdownClassName="qaaDropdownDisabilityGroup"
+                            qaaLocator="qaaSelectDisabilityGroup"></sl-control-selection>
+    </div>
+  </div>
+  <div>
+    <label>Анамнез</label>
+    <nz-form-control>
+      <textarea nz-input formControlName="anamnesis"></textarea>
+    </nz-form-control>
+  </div>
+  <ng-container *ngIf="sysName === 'ProtezNK'">
+    <div class="protez-nk">
+      <div class="protez-nk__col_first">
+        <div class="protez-nk__label">Размер стопы</div>
+        <nz-form-control>
+          <nz-input-number formControlName="footSize" [nzMin]="0" [nzMax]="999"></nz-input-number>
+        </nz-form-control>
+      </div>
+      <div class="protez-nk__col_second">
+        <div class="protez-nk__label">Сторона ампутации</div>
+        <nz-radio-group formControlName="amputationSide">
+          <label nz-radio-button [nzValue]="'l'"><span>Левая</span></label>
+          <label nz-radio-button [nzValue]="'lr'"><span>Левая и Правая</span></label>
+          <label nz-radio-button [nzValue]="'r'"><span>Правая</span></label>
+        </nz-radio-group>
+      </div>
+    </div>
+  </ng-container>
+  <div>
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="'Жалобы:'" [nzActive]="form.get('complaints').value">
+        <nz-form-control>
+          <textarea nz-input formControlName="complaints" maxlength="1024"></textarea>
+        </nz-form-control>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </div>
+</div>

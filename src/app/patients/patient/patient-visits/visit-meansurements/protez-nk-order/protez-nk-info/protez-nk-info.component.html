@@ -1,0 +1,71 @@
+<div [formGroup]="form" class="protez-nk-info">
+  <div class="protez-nk-info__block">
+    <div class="protez-nk-info__row">
+      <div class="protez-nk-info__col">
+        <div class="form__required">Изделие</div>
+          <nz-form-control>
+            <input nz-input formControlName="name" disabled>
+          </nz-form-control>
+      </div>
+    </div>
+    <div class="protez-nk-info__row">
+      <div class="protez-nk-info__col">
+        <div class="form__required">Дата выдачи</div>
+          <nz-form-control>
+            <sl-date-picker nzClassName="sl-date-picker-full-row" formControlName="dateOfIssue"></sl-date-picker>
+          </nz-form-control>
+      </div>
+    </div>
+    <div class="protez-nk-info__row">
+      <div class="protez-nk-info__col">
+        <div class="form__required">Гарантия</div>
+          <nz-form-control>
+            <sl-date-picker nzClassName="sl-date-picker-full-row" formControlName="guarantee"></sl-date-picker>
+          </nz-form-control>
+      </div>
+    </div>
+    <div class="protez-nk-info__row">
+      <div class="protez-nk-info__col">
+        <div class="form__required">Крепление протеза</div>
+        <input formControlName="prothesisFastening" nz-input maxlength="50">
+      </div>
+    </div>
+    <div class="protez-nk-info__row">
+      <div class="protez-nk-info__col">
+        <div class="form__required">Материал гильзы</div>
+        <input formControlName="sleeveMaterial" nz-input maxlength="50">
+      </div>
+    </div>
+    <div class="protez-nk-info__row">
+      <div class="protez-nk-info__col">
+        <div class="form__required">Комплектующие протеза</div>
+        <textarea
+          formControlName="prothesisParts"
+          nz-input
+          rows="5"
+        ></textarea>
+      </div>
+    </div>
+    <div class="protez-nk-info__row">
+      <div class="protez-nk-info__col">
+        <div class="form__required">Дата отправки в филиал</div>
+        <sl-date-picker
+          formControlName="dateSendingToBranch"
+          nzClassName="sl-date-picker-full-row"
+        ></sl-date-picker>
+      </div>
+    </div>
+    <div class="protez-nk-info__row">
+      <div class="protez-nk-info__col">
+        <div class="form__required">Филиал</div>
+        <sl-control-selection
+          [control]="form.get('branch')"
+          [service]="branchService"
+          [dataFactory]="fromPaginationChunk"
+          nzDropdownClassName="qaaDropdownBranch"
+          qaaLocator="qaaSelectBranch"
+        ></sl-control-selection>
+      </div>
+    </div>
+  </div>
+</div>

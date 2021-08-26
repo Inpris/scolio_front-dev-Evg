@@ -1,0 +1,26 @@
+@import "../protez-nk-order-short/protez-nk-order-short.component.less";
+@import "../../common/model/order-detail-component.less";
+
+.prothesis-nk-order-detail {
+  &__row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+}
+
+.close {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+}

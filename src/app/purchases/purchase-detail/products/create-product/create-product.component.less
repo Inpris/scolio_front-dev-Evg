@@ -1,0 +1,23 @@
+@import "variables";
+
+.product {
+  
+  :host ::ng-deep .ant-form-item-label {
+    line-height: 16px;
+  }
+  
+  nz-input-number {
+    width: 100%;
+  }
+
+  position: relative;
+  margin-top: 14px;
+  &__title {
+    i {
+      right: -10px;
+      top: -20px;
+      position: absolute;
+      cursor: pointer;
+    }
+  }
+}

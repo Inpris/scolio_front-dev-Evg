@@ -1,0 +1,12 @@
+<div nz-row class="report-page">
+  <div class="report-page__tabs">
+    <nz-tabset [nzSelectedIndex]="selectedTabIndex" (nzSelectedIndexChange)="onTabChange($event)">
+      <nz-tab nzTitle="Пациенты">
+        <sl-patients-report></sl-patients-report>
+      </nz-tab>
+      <nz-tab nzTitle="Посещения">
+        <sl-visits-report></sl-visits-report>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</div>

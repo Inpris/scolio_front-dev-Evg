@@ -1,0 +1,29 @@
+@import "variables";
+
+.mail-page {
+  ::ng-deep .ant-table-wrapper {
+    background-color: @gray-0;
+  }
+  &__header {
+    margin-bottom: 10px;
+    &__title {
+    }
+    &__filter {
+      &__text {
+      }
+      .active {
+        a {
+          color: @gray-8;
+        }
+      }
+    }
+    &__update {
+      &__text {
+        margin-right: 10px;
+      }
+    }
+  }
+  &__total-mails {
+    margin-top: 10px;
+  }
+}

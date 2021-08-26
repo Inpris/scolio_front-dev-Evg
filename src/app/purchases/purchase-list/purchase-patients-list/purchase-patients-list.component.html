@@ -1,0 +1,43 @@
+<nz-table #table
+  [nzData]="patients"
+  [nzShowPagination]="false"
+  [nzFrontPagination]="false"
+
+>
+  <thead>
+  <tr>
+    <th nzWidth="50px" nzShowExpand ></th>
+    <th nzWidth="500px" class="patient-detail-table__header" >ФИО</th>
+    <th nzWidth="250px" class="patient-detail-table__header">Дата приезда</th>
+    <th class="header__total">Пациентов всего: {{table.data.length}}</th>
+  </tr>
+  </thead>
+  
+  <tbody>
+  <ng-template ngFor let-data [ngForOf]="table.data">
+    <tr [ngClass]="{ 'row-expanded': data.expand }">
+      <td nzShowExpand (nzExpandChange)="expandChange(data, $event)"  [(nzExpand)]="data.expand"></td>
+      <td class="patient-name">{{ data.contact.fullName }}</td>
+      <td>
+        <div *ngIf="data.appointment && data.appointment[0]">{{ data.appointment[0].dateTime | date: 'dd.MM.yyyy' }}</div>
+      </td>
+      <td></td>
+    </tr>
+    <tr [nzExpand]="data.expand">
+      <td></td>
+      <td colspan="2">
+        <table class="medical-equipment__list">
+          <tbody>
+            <tr *ngFor="let product of data.purchaseDevices">
+              <td nzWidth="500px">{{ product.name }}</td>
+              <td><b>{{ product.totalAmount  | currency:'RUB':'symbol-narrow'}}</b></td>
+            </tr>
+            <tr *ngIf="!data.purchaseDevices?.length"><td>Изделий нет</td></tr>
+          </tbody>
+        </table>
+      </td>
+      <td></td>
+    </tr>
+  </ng-template>
+  </tbody>
+</nz-table>

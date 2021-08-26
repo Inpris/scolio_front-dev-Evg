@@ -1,0 +1,54 @@
+@import "variables";
+
+.actions > span {
+  font-size: 16px;
+  cursor: pointer;
+  &:hover {
+    color: @blue-5;
+  }
+  &.delete {
+    &:hover {
+      color: @red-5;
+    }
+  }
+}
+.actions {
+  nz-tooltip {
+    margin-right: 10px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+:host ::ng-deep .ant-form-item-control {
+  line-height: 14px;
+}
+
+.row {
+  background-color: #ffffff;
+  border-top: 1px solid #E8E8E8;
+  padding: 7px 0;
+  .executor {
+    i {
+      color: @yellow-5
+    }
+  }
+}
+
+.row:hover {
+  background-color: #E6F7FF;
+}
+
+.edit-container {
+  overflow: hidden;
+}
+
+.save-button-container {
+  margin-top: 16px;
+}
+
+.device__action {
+  cursor: pointer;
+  font-size: 18px;
+}

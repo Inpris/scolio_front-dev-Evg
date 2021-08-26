@@ -1,0 +1,68 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div nz-row nzType="flex">
+    <div class="order-params">
+      <div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle">
+        <div nz-col [nzSpan]="7">Изделие</div>
+        <nz-form-control nz-col [nzSpan]="15">
+          <input nz-input formControlName="name" disabled>
+        </nz-form-control>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle">
+        <div nz-col [nzSpan]="7">Дата выдачи<span style="color:red;">*</span></div>
+        <nz-form-control nz-col [nzSpan]="15">
+          <sl-date-picker formControlName="dateOfIssue"></sl-date-picker>
+        </nz-form-control>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle">
+        <div nz-col [nzSpan]="7">Тип корсета<span style="color:red;">*</span></div>
+        <sl-control-selection nz-col [nzSpan]="15"
+                              [control]="form.get('corsetType')"
+                              [service]="corsetTypesService"
+                              [dataFactory]="fromPaginationChunk"
+                              nzDropdownClassName="qaaDropdownCorsetType"
+                              qaaLocator="qaaSelectCorsetType"
+                              ></sl-control-selection>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle">
+        <div nz-col [nzSpan]="7">Тип пластика<span style="color:red;">*</span></div>
+        <sl-control-selection nz-col [nzSpan]="15"
+                              [control]="form.get('plasticType')"
+                              [service]="plasticTypesService"
+                              [dataFactory]="fromPaginationChunk"
+                              nzDropdownClassName="qaaDropdownPlasticType"
+                              qaaLocator="qaaSelectPlasticType"
+        ></sl-control-selection>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle">
+        <div nz-col [nzSpan]="7">Цвет корсета<span style="color:red;">*</span></div>
+        <nz-form-control nz-col [nzSpan]="15">
+          <input nz-input formControlName="color" maxlength="50">
+        </nz-form-control>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle">
+        <div nz-col [nzSpan]="7">Дата выдачи Турнера</div>
+        <nz-form-control nz-col [nzSpan]="15">
+          <sl-date-picker formControlName="dateOfIssueTurner"
+                          [nzDisabled]="form.get('dateSendingToBranch').value"></sl-date-picker>
+        </nz-form-control>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle">
+        <div nz-col [nzSpan]="7">Дата отправки в филиал</div>
+        <nz-form-control nz-col [nzSpan]="15">
+          <sl-date-picker formControlName="dateSendingToBranch"
+                          [nzDisabled]="form.get('dateOfIssueTurner').value"></sl-date-picker>
+        </nz-form-control>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle">
+        <div nz-col [nzSpan]="7">Филиал<span style="color:red;">*</span></div>
+        <sl-control-selection nz-col [nzSpan]="15"
+                              [control]="form.get('branch')"
+                              [service]="branchService"
+                              [dataFactory]="fromPaginationChunk"
+                              nzDropdownClassName="qaaDropdownBranch"
+                              qaaLocator="qaaSelectBranch"
+        ></sl-control-selection>
+      </div>
+    </div>
+  </div>
+</form>

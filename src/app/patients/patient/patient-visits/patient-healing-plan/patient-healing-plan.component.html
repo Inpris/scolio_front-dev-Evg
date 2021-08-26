@@ -1,0 +1,34 @@
+<div [formGroup]="form">
+  <div>
+    <nz-timeline>
+      <nz-timeline-item>
+        <label>План ведения пациента</label>
+        <nz-form-control>
+          <textarea nz-input formControlName="healingPlan"></textarea>
+        </nz-form-control>
+      </nz-timeline-item>
+      <ng-template ngFor let-data [ngForOf]="filteredVisits | slice : 0 : 2">
+        <nz-timeline-item>
+          <ng-container *ngTemplateOutlet="comment; context: { data: data}"></ng-container>
+        </nz-timeline-item>
+      </ng-template>
+      <nz-timeline-item *ngIf="filteredVisits.length > 2">
+        <button nz-button type="button" nzType="dashed" nzSize="small" (click)="showMore = !showMore">
+          {{showMore ? 'Скрыть' : '...Показать все'}}
+        </button>
+      </nz-timeline-item>
+      <ng-container *ngIf="showMore">
+        <ng-template ngFor let-data [ngForOf]="filteredVisits | slice : 2">
+          <nz-timeline-item>
+            <ng-container *ngTemplateOutlet="comment; context: { data: data}"></ng-container>
+          </nz-timeline-item>
+        </ng-template>
+      </ng-container>
+    </nz-timeline>
+  </div>
+</div>
+
+<ng-template let-data="data" #comment>
+  <b>{{data.dateTime | date: 'dd.MM.yyyy'}} {{data.doctor?.name}}:</b>
+  <div class="plan-comment" [ngClass]="{ 'plan-comment__empty': !data.healingPlan }">{{data.healingPlan || 'Запись отсутствует'}}</div>
+</ng-template>

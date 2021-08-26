@@ -1,0 +1,123 @@
+@import "../../../common/variables";
+
+@border: 1px solid @gray-8;
+
+:host {
+  font-size: 12px;
+}
+
+.week-selector {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  height: 48px;
+
+  .link {
+    color: @gray-6;
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+      color: @gray-5;
+    }
+  }
+
+  .date-range {
+    color: @gray-7;
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+
+.shedule-table {
+  border-top: @border;
+  border-left: @border;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.shedule-column {
+  display: flex;
+  flex: 1;
+  flex-flow: column nowrap;
+}
+
+.shedule-cell {
+  align-items: stretch;
+  border-bottom: @border;
+  border-right: @border;
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.separator {
+  border-left: @border;
+  flex: none;
+  width: 0;
+}
+
+.shedule-record {
+  background: @gray-2;
+  border: 2px solid transparent;
+  color: @gray-5;
+  cursor: default;
+  flex: 1;
+  height: 26px;
+  line-height: 22px;
+  text-align: center;
+
+  &.header {
+    background: @cyan-8;
+    color: @white;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+
+    &:hover {
+      background: @blue-3;
+    }
+  }
+
+  &.unavailable {
+    background: @gray-2;
+    color: @gray-6;
+    cursor: default;
+  }
+
+  &.empty {
+    background: @green-3;
+    color: @white;
+    cursor: pointer;
+    font-weight: bold;
+
+    &:hover, &.selected {
+      background: @green-2;
+    }
+  }
+
+  &.busy {
+    background: @gold-5;
+    color: @white;
+    cursor: pointer;
+
+    &:hover, &.selected {
+      background: @gold-4;
+    }
+
+    &.confirmed {
+      background: @blue-0;
+      color: @green-6;
+      font-weight: bold;
+    }
+  }
+
+  &.selected {
+    border: 2px solid @red-5;
+    border-spacing: unset;
+    cursor: default;
+    opacity: 1;
+  }
+}

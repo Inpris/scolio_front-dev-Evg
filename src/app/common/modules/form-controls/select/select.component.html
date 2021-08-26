@@ -1,0 +1,62 @@
+<div>
+  <label>{{title}}</label>
+  <nz-form-control>
+    <div title="{{showTitle? showTitle && labelField && value ? value[labelField] : value?.name : ''}}">
+      <nz-select [(ngModel)]="value"
+                 nzPlaceHolder="<Не выбрано>"
+                 nzShowSearch
+                 [nzAllowClear]="allowClear"
+                 nzDropdownClassName="sl-select-dropdown"
+                 [nzDisabled]="disabled"
+                 [nzSize]="size"
+                 #selectComponent
+                 [nzServerSearch]="serverSearch"
+                 [nzMode]="multi ? 'multiple' : 'default'"
+                 [compareWith]="compareWith"
+                 (nzOnSearch)="serverSearch && onSearch($event)"
+                 (nzScrollToBottom)="loadNext()"
+      >
+        <ng-template *ngIf="!isLoading" ngFor let-data [ngForOf]="options">
+          <nz-option
+            nzCustomContent
+            [nzValue]="valueField ? data[valueField] : data"
+            [nzLabel]="labelField ? data[labelField] : data.name"
+            [nzDisabled]="data.disabled">
+            <nz-tooltip [nzTitle]="labelField ? data[labelField] : data.name" nzPlacement="left">
+              <div *ngIf="isShowTooltip" nz-tooltip="false" title="{{showTitle? showTitle && labelField ? data[labelField] : data.name : ''}}">
+                {{labelField ? data[labelField] : data.name}}
+              </div>
+              <div *ngIf="!isShowTooltip" title="{{showTitle? showTitle && labelField ? data[labelField] : data.name : ''}}">
+                {{labelField ? data[labelField] : data.name}}
+              </div>
+            </nz-tooltip>
+          </nz-option>
+        </ng-template>
+        <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+          <i class="anticon anticon-loading anticon-spin loading-icon"></i> Загрузка...
+        </nz-option>
+        <nz-option *ngIf="!isLoading && !options?.length" nzDisabled nzCustomContent>
+          Ничего не найдено
+        </nz-option>
+        <nz-option nzDisabled nzCustomContent *ngIf="!isLoading && totalOptionsCount > options?.length">
+          <nz-spin [nzSize]="'small'"></nz-spin>
+        </nz-option>
+        <ng-container *ngIf="isLoading">
+          <ng-container *ngIf="!multi; else multiTemplate">
+            <nz-option nzCustomContent nzDisabled
+                       [nzValue]="valueField && value ? value[valueField] : value"
+                       [nzLabel]="labelField && value ? value[labelField] : value?.name"
+            ></nz-option>
+          </ng-container>
+          <ng-template #multiTemplate>
+            <nz-option nzCustomContent nzDisabled
+                       *ngFor="let option of value"
+                       [nzValue]="valueField ? option[valueField] : option"
+                       [nzLabel]="labelField ? option[labelField] : option.name"
+            ></nz-option>
+          </ng-template>
+        </ng-container>
+      </nz-select>
+    </div>
+  </nz-form-control>
+</div>

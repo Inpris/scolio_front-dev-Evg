@@ -1,0 +1,45 @@
+<form nz-form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+  <img class="logo" src="/assets/logo.png">
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group [nzPrefix]="userPrefixTemplate">
+        <input nz-input placeholder="Логин" formControlName="userName">
+      </nz-input-group>
+      <ng-template #userPrefixTemplate>
+        <i class="anticon anticon-user"></i>
+      </ng-template>
+      <nz-form-explain *ngIf="loginForm.controls.userName.dirty && loginForm.controls.userName.hasError('required')">
+        Введите логин
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group nzClass="sc-form__control" [nzPrefix]="passwordPrefixTemplate">
+        <input nz-input placeholder="Пароль" type="password" formControlName="password">
+      </nz-input-group>
+      <ng-template #passwordPrefixTemplate>
+        <i class="anticon anticon-lock"></i>
+      </ng-template>
+      <nz-form-explain *ngIf="loginForm.controls.password.dirty && loginForm.controls.password.hasError('required')">
+        Введите пароль
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <label nz-checkbox formControlName="rememberMe">
+        <span>Запомнить меня на этом устройстве</span>
+      </label>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <div class="buttons" nz-row nzType="flex" nzAlign="middle" nzJustify="end">
+        <button type="submit" nz-button nzType="primary" [nzLoading]="loginInProgress">
+          <span>Войти</span>
+        </button>
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+</form>

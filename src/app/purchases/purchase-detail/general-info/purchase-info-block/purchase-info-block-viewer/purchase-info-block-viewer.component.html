@@ -1,0 +1,262 @@
+<nz-card nzNoHovering="true" class="purchase-info-block-viewer" [nzTitle]="title" [nzExtra]="extra">
+  <ng-template #title>
+    <div>
+      Закупка
+    </div>
+  </ng-template>
+  <ng-template #extra>
+    <button class="purchase-info-block-viewer__extra-button" (click)="toEditMode()">
+      Изменить
+    </button>
+  </ng-template>
+  <ng-container *ngIf="purchaseData; then body"></ng-container>
+  <ng-template #body>
+    <div class="purchase-info-block-viewer__form">
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          № извещения:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaNoticeNumber">
+          {{ purchaseData.noticeNumber }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Способ размещения:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaPurchaseType">
+          {{ purchaseData.purchaseType?.name }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          № гос.контракта:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaContractNumber">
+          {{ purchaseData.contractNumber }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Площадка:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaTenderPlatform">
+          {{ purchaseData.tenderPlatform?.name }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          ИКЗ:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaPurchaseCode">
+          {{ purchaseData.purchaseCode }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          URL:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaPurchaseUrl">
+          <a [attr.href]="purchaseData.purchaseUrl" class="purchase-info-block-viewer__form__row__link" target="_blank">
+            {{ purchaseData.purchaseUrl }}
+          </a>
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Раздел:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaPurchaseChapter">
+          <div *ngIf="purchaseData.purchaseChapters">
+            <div *ngFor="let chapter of purchaseData.purchaseChapters">
+              {{ chapter.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Комментарий:
+        </div>
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__text-container"
+             qaaLocator="qaaPurchaseOrganizationRequisites">{{ purchaseData.note }}</div>
+      </div>
+    </div>
+
+    <div class="purchase-info-block-viewer__subtitle">
+      Этапы
+    </div>
+
+    <div class="purchase-info-block-viewer__form">
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Срок выполнения работ:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaPurchaseDeadline">
+          {{ purchaseData.deadline | date: 'dd.MM.yyyy' }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Дата исполнения контракта:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaPurchaseContractCompleteDate">
+          {{ purchaseData.contractCompleteDate | date: 'dd.MM.yyyy' }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Нач. (макс.) цена контракта:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaPurchaseStartMaxContractPrice">
+          {{ purchaseData.startMaxContractPrice | currency:'RUB':'symbol-narrow' }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Снижение %:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaPurchaseContractPriceDeclinePercent">
+          {{ purchaseData.contractPriceDeclinePercent }}
+        </div>
+      </div>
+    </div>
+
+    <nz-collapse [nzBordered]="true" class="purchase-info-block-viewer__collapse">
+      <nz-collapse-panel [nzHeader]="'Подача заявок'">
+        <div class="purchase-info-block-viewer__form">
+          <div nz-row class="purchase-info-block-viewer__form__row">
+            <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+              Дата заключения договора:
+            </div>
+            <div nz-col nzSpan="12" qaaLocator="qaaPurchaseContractDate">
+              {{ purchaseData.contractDate | date: 'dd.MM.yyyy' }}
+            </div>
+          </div>
+          <div nz-row class="purchase-info-block-viewer__form__row">
+            <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+              Срок оконч. подачи заявок:
+            </div>
+            <div nz-col nzSpan="12" qaaLocator="qaaPurchaseBidDateTimeEnd">
+              {{ purchaseData.bidDateTimeEnd | date: 'dd.MM.yyyy' }}
+            </div>
+          </div>
+          <div nz-row class="purchase-info-block-viewer__form__row">
+            <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+              Окончание рассм. заявки:
+            </div>
+            <div nz-col nzSpan="12" qaaLocator="qaaPurchaseBidReviewDateTimeEnd">
+              {{ purchaseData.bidReviewDateTimeEnd | date: 'dd.MM.yyyy' }}
+            </div>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+
+    <div class="purchase-info-block-viewer__form purchase-info-block-viewer__form--separated">
+      <div nz-row class="purchase-info-block-viewer__form__row purchase-info-block-viewer__form__row--highlited">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Дата проведения аукциона (Москва):
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaPurchaseAuctionDate">
+          {{ moscowDateTime | date: 'dd.MM.yyyy HH:mm' }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Дата проведения аукциона (местн.):
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaPurchaseAuctionDateLocal">
+          {{ purchaseData.auctionDateLocal | date: 'dd.MM.yyyy HH:mm' }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row purchase-info-block-viewer__form__row--highlited">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Цена после аукциона:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaPurchaseFinalContractPrice">
+          {{ purchaseData.finalContractPrice | currency:'RUB':'symbol-narrow' }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Предел падения:
+        </div>
+        <div nz-col nzSpan="12" qaaLocator="qaaPurchaseIncludeResidenceCompensationSum">
+          {{ purchaseData.includeResidenceCompensationSum | currency:'RUB':'symbol-narrow' }}
+        </div>
+      </div>
+    </div>
+
+    <div class="purchase-info-block-viewer__form purchase-info-block-viewer__form--separated">
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Банковская гарантия:
+        </div>
+        <div nz-col nzSpan="12"  qaaLocator="qaaPurchaseIsReturnProvision">
+          {{ purchaseData.isReturnProvision ? 'Да' : 'Нет' }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Обеспечение контракта:
+        </div>
+        <div nz-col nzSpan="12"  qaaLocator="qaaPurchaseContractProvision">
+          {{ purchaseData.contractProvision | currency:'RUB':'symbol-narrow' }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          № ПП:
+        </div>
+        <div nz-col nzSpan="12"  qaaLocator="qaaPurchasePaymentOrderNumber">
+          {{ purchaseData.paymentOrderNumber }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Дата платежа:
+        </div>
+        <div nz-col nzSpan="12"  qaaLocator="qaaPurchasePaymentDate">
+          {{ purchaseData.paymentDate | date: 'dd.MM.yyyy' }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Дата возврата:
+        </div>
+        <div nz-col nzSpan="12"  qaaLocator="qaaPurchaseReturnDate">
+          {{ purchaseData.returnDate | date: 'dd.MM.yyyy' }}
+        </div>
+      </div>
+      <div nz-row class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Дата письма по возврату обеспечения:
+        </div>
+        <div nz-col nzSpan="12"  qaaLocator="qaaPurchaseReturnProvisionNotificationDate">
+          {{ purchaseData.returnProvisionNotificationDate | date: 'dd.MM.yyyy' }}
+        </div>
+      </div>
+    </div>
+
+    <div nz-row class="purchase-info-block-viewer__form">
+      <div class="purchase-info-block-viewer__form__row">
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__label">
+          Реквизиты для обеспечения исполнения контракта:
+        </div>
+        <div nz-col nzSpan="12" class="purchase-info-block-viewer__form__row__text-container"
+             qaaLocator="qaaPurchaseOrganizationRequisites">
+          {{ purchaseData.organizationRequisites }}
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</nz-card>
+<div>
+  <div>
+  Создал: {{ purchaseData.createdBy.name }} {{ purchaseData.createdDate | date: 'dd.MM.yyyy HH:mm:ss' }}
+  </div>
+  <div *ngIf="purchaseData.lastModifiedBy">
+  Изменил: {{ purchaseData.lastModifiedBy?.name }} {{ purchaseData.lastModifiedDate | date: 'dd.MM.yyyy HH:mm:ss' }}
+  </div>
+</div>

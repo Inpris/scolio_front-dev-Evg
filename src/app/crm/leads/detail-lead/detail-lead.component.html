@@ -1,0 +1,36 @@
+<div class="detail-edit-lead">
+
+  <div nz-row *ngIf="leadData"
+    class="detail-edit-lead__header"
+    [nzType]="'flex'" 
+    [nzAlign]="middle"
+    [nzJustify]="center"
+  >
+
+    <div nz-col 
+      class="detail-edit-lead__header__icon"
+      (click)="back()"
+    >
+      <i class="anticon anticon-left"></i>
+    </div>
+    <div nz-col class="detail-edit-lead__title__text">
+      <h2>CRM/<b>{{ leadData.title }}</b></h2>
+    </div>
+
+  </div>
+
+  <div [nzGutter]="12" nz-row [nzType]="'flex'">
+    <div nz-col [nzSpan]="12">
+      <sl-form-lead 
+        *ngIf="leadData"
+        [formType]="'edit'" 
+        [data]="leadData" 
+        (closeModal)="callbackFromForm($event)"
+      ></sl-form-lead>
+    </div>
+    <div nz-col [nzSpan]="12">
+      <sl-time-line *ngIf="leadData" [entity]="leadData" [entityType]="'lead'" [checkAccept]="false" (eventUpdated)="onEventUpdate($event)"></sl-time-line>
+    </div>
+  </div>
+
+</div>

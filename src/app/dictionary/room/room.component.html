@@ -1,0 +1,25 @@
+<nz-spin [nzSpinning]="loading" nzSize="large">
+  <nz-card class="form room-card" [nzTitle]="form.value.id ? 'Редактирование кабинета' : 'Создание кабинета'">
+    <div [formGroup]="form" class="room">
+      <div class="room__filter">
+        <div class="room__filter-name">Наименование</div>
+        <input nz-input formControlName="name">
+      </div>
+    </div>
+    <div class="room__buttons">
+      <button
+        nzType="danger"
+        nzSize="large"
+        nz-button
+        (click)="close()"
+      >Отменить</button>
+      <button
+        nzType="primary"
+        nzSize="large"
+        nz-button
+        [disabled]="disabledButton"
+        (click)="save()"
+      >{{ form.value.id ? 'Обновить' : 'Сохранить' }}</button>
+    </div>
+  </nz-card>
+</nz-spin>

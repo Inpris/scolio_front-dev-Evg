@@ -1,0 +1,47 @@
+<div class="calendar" *ngIf="showCalendar">
+  <nz-spin [nzSpinning]="!purchaseDataLoaded">
+  <nz-calendar nzCard #slCalendar>
+    <ng-container *nzDateCell="let date" >
+      <div *ngIf="purchaseDataLoaded">
+        <nz-popover 
+          [(nzVisible)]="sortedItemsByDate[+date] && sortedItemsByDate[+date].visible"
+          class="popover" 
+          [nzTrigger]="'click'" 
+          [nzPlacement]="'bottomLeft'"
+          *ngIf="sortedItemsByDate[+date] && sortedItemsByDate[+date]['items']"
+        >
+          <div nz-popover [ngClass]="{'need-day': sortedItemsByDate[+date] && sortedItemsByDate[+date]['items']}">{{ date.getDate() }}</div>
+          <ng-template #nzTemplate>
+            <div class="calendar__modal">
+              <div class="calendar__modal__head" 
+                nz-row 
+                [nzType]="'flex'" 
+                [nzJustify]="'space-between'">
+                <div nz-col  class="calendar__modal__head__date" >
+                  {{ date | date: 'MM.dd.yyyy'}}
+                </div>
+                <div nz-col (click)="closeModal(date)"  class="calendar__modal__head__icon">
+                  <a>
+                    <i class="anticon anticon-close"></i>
+                  </a>
+                </div>
+              </div>
+          
+              <div class="calendar__modal__body">
+                <div nz-row 
+                  [nzType]="'flex'" 
+                  *ngFor="let item of sortedItemsByDate[+date]['items']"
+                  [nzJustify]="'space-between'"
+                >
+                  <div nz-col *ngIf="item">{{ item.auctionDate | date: 'hh:mm' }} - <b>{{ item.noticeNumber | substr : (item.noticeNumber.length -3) : '3' }}</b> {{ item.tenderPlatform?.name }}</div>
+                  <div nz-col *ngIf="item" [routerLink]="['/purchases', item.id]"><a>&nbsp; перейти к закупке</a></div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </nz-popover>
+      </div>
+    </ng-container>
+  </nz-calendar>
+  </nz-spin>
+</div>

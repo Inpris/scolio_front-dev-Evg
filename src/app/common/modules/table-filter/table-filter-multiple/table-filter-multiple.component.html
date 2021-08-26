@@ -1,0 +1,26 @@
+<nz-dropdown [nzPlacement]="'bottomCenter'" nzTrigger="click" [nzClickHide]="false" [(nzVisible)]="visible">
+  <div nz-dropdown class="filter-icon-container">
+    <span class="filter-label" [ngClass]="{ 'filter-label__selected': !!value }">{{label}}</span>
+    <i class="anticon anticon-filter ant-table-filter-icon"
+    [ngClass]="{ 'ant-table-filter-selected': !!value }"></i>
+  </div>
+  <div class="filter-dropdown" *ngIf="visible">
+    <nz-input-group>
+      <nz-checkbox-wrapper #group>
+        <ng-template ngFor let-item [ngForOf]="filters">
+          <div>
+            <label nz-checkbox [nzChecked]="isSelected(item.id)" [nzValue]="item.id">{{item.name}}</label>
+          </div>
+        </ng-template>
+      </nz-checkbox-wrapper>
+    </nz-input-group>
+    <div class="ant-table-filter-dropdown-btns">
+      <a class="ant-table-filter-dropdown-link confirm" (click)="applyFilter(getSelection(group))">
+        <span>OK</span>
+      </a>
+      <a class="ant-table-filter-dropdown-link clear" (click)="resetFilter()">
+        <span>Сбросить</span>
+      </a>
+    </div>
+  </div>
+</nz-dropdown>

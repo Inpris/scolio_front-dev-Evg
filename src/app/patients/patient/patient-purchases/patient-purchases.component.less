@@ -1,0 +1,19 @@
+@import "variables";
+@import "mixins";
+
+.sl-infinity-table();
+
+.purchase__status {
+  opacity: 0.65;
+  padding: 3px;
+  border-radius: 3px;
+  span {
+    color: rgba(0,0,0,1);
+  }
+}
+
+:host ::ng-deep {
+  .ant-table-tbody > tr:hover > td {
+    background: none;
+  }
+}

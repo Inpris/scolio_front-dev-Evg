@@ -1,0 +1,108 @@
+<div [formGroup]="form">
+  <ng-container *ngIf="!readonly">
+    <div nz-row nzType="flex">
+      <label>Шаблон</label>
+    </div>
+    <div nz-row nzType="flex">
+      <ng-container *ngTemplateOutlet="templateSelection"></ng-container>
+    </div>
+    <nz-divider nzText="Настройка шаблона"></nz-divider>
+  </ng-container>
+  <div nz-row nzType="flex">
+    <div nz-col nzSpan="6">
+      <div nz-row>
+        <label class="form__required">Название шаблона</label>
+      </div>
+      <div class="act-mtk-template__name" nz-row>
+        <nz-form-control *ngIf="!readonly; else templateSelection">
+          <input formControlName="name" nz-input>
+        </nz-form-control>
+      </div>
+    </div>
+    <div nz-col nzSpan="17" nzOffset="1">
+      <div nz-row nzType="flex">
+        <div nz-col nzOffset="5" nzSpan="19">
+          <div nz-row nzType="flex">
+            <div nz-col nzSpan="10" class="form__required">Должность</div>
+            <div nz-col nzOffset="1" nzSpan="13" class="form__required">ФИО</div>
+          </div>
+        </div>
+      </div>
+      <div nz-row nzType="flex" formGroupName="comissionChairman">
+        <div nz-col nzSpan="4">Председатель:</div>
+        <div nz-col nzOffset="1" nzSpan="19">
+          <div nz-row nzType="flex">
+            <div nz-col nzSpan="10">
+              <nz-form-control><input formControlName="position" nz-input></nz-form-control>
+            </div>
+            <div nz-col nzOffset="1" nzSpan="10">
+              <nz-form-control><input formControlName="fio" nz-input></nz-form-control>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div nz-row nzType="flex" formArrayName="comissionMembers">
+        <div nz-col nzSpan="4">Комиссия:</div>
+        <div nz-col nzOffset="1" nzSpan="19">
+          <ng-template ngFor let-member let-i="index" [ngForOf]="comissionMembers.controls">
+            <div nz-row nzType="flex" [formGroupName]="i">
+              <div nz-col nzSpan="10">
+                <nz-form-control><input formControlName="position" nz-input></nz-form-control>
+              </div>
+              <div nz-col nzOffset="1" nzSpan="10">
+                <nz-form-control><input formControlName="fio" nz-input></nz-form-control>
+              </div>
+              <div nz-col nzOffset="1" nzSpan="1">
+                <button [nzSize]="'small'" nz-button nzType="danger" nzShape="circle" type="button"
+                        (click)="removeComissonMember(i)">
+                  <i class="anticon anticon-minus"></i>
+                </button>
+              </div>
+            </div>
+          </ng-template>
+          <div nz-row nzType="flex">
+            <div nz-col>
+              <button type="button" nzSize="small" nz-button nzType="dashed" (click)="addComissionMember()">+
+                Добавить
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div nz-row class="blank__main-text">
+    <nz-popover>
+      <label nz-popover class="form__required sl-detail-help">Шаблон текста бланка</label>
+      <ng-template #nzTemplate>
+        <b>Справка:</b>
+        <br>
+        Для автоматической подстановки председателя комисси используйте <b>$председатель$</b>
+        <br>
+        Для автоматической подстановки членов комисси используйте <b>$члены_комиссии$</b>
+        <br><br>
+        <b>Пример:</b>
+        <br>
+        <a (click)="pasteTemplate()" [innerHtml]="contentTemplate"></a>
+      </ng-template>
+    </nz-popover>
+    <div nz-col nzSpan="24">
+      <nz-form-control>
+        <textarea formControlName="content" nz-input></textarea>
+      </nz-form-control>
+    </div>
+  </div>
+</div>
+
+<ng-template #templateSelection>
+  <nz-select nzPlaceHolder="Выберите шаблон"
+             nzShowSearch
+             [(ngModel)]="selectedTemplate"
+             (ngModelChange)="templateHasSelected($event)"
+             [ngModelOptions]="{ standalone: true }"
+             nzDropdownClassName="qaaDropdownMtkTemplate"
+             qaaLocator="qaaSelectMtkTemplate">
+    <nz-option *ngIf="!readonly" [nzValue]="emptyTemplate" nzLabel="Создать новый шаблон"></nz-option>
+    <nz-option [nzValue]="item" [nzLabel]="item.name" *ngFor="let item of _templates"></nz-option>
+  </nz-select>
+</ng-template>

@@ -1,0 +1,154 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+  <nz-card class="form" [nzTitle]="title">
+    <nz-spin [nzSpinning]="isBusy">
+      <ng-template #title>
+        <div nz-row [nzType]="'flex'" nzJustify="space-between" class="form__title">
+          <div nz-col class="form__title__text">
+            Добавление посещения
+          </div>
+          <div nz-col>
+            <nz-switch formControlName="createNewDeal"></nz-switch>
+            <label>Новая сделка</label>
+          </div>
+          <i class="anticon anticon-close form__close" (click)="closeForm()"></i>
+        </div>
+      </ng-template>
+      <div *ngIf="hasPurchases" class="purchase-warning-message">
+        <label>У пациента есть открытые закупки</label>
+      </div>
+      <div nz-row nzType="flex" class="branches">
+        <label>Филиалы</label>
+        <nz-select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedBranch" (ngModelChange)="onSelectBranch($event)" nzPlaceHolder="<Не выбрано>">
+          <nz-option *ngFor="let option of branches" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+        </nz-select>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between" *ngIf="!form.value.createNewDeal">
+        <div nz-col [nzSpan]="hasPurchases ? 11 : 24">
+          <sl-control-selection title="Сделка:"
+                                [service]="getDeals"
+                                labelField="dealDisplayText"
+                                [control]="form.get('deal')"
+                                [dataFactory]="fromPaginationChunk"
+                                [pageParams]="{ pageSize: 500 }"
+                                nzDropdownClassName="qaaDropdownDeal"
+                                qaaLocator="qaaSelectDeal"></sl-control-selection>
+        </div>
+        <div nz-col [nzSpan]="11" *ngIf="hasPurchases">
+            <sl-control-selection title="Закупка:"
+                                  [control]="form.get('purchase')"
+                                  [options]="purchases"
+                                  [disabled]="!form.get('deal').value"
+                                  nzDropdownClassName="qaaDropdownDealPurchase"
+                                  qaaLocator="qaaSelectDealPurhcase"></sl-control-selection>
+        </div>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between" *ngIf="form.value.createNewDeal">
+        <div nz-col [nzSpan]="11">
+          <sl-control-selection title="Вид изделия/Услуга:"
+                                [options]="medicalServices"
+                                [control]="form.get('medicalService')"
+                                nzDropdownClassName="qaaDropdownMedicalService"
+                                qaaLocator="qaaSelectMedicalService"></sl-control-selection>
+        </div>
+        <div nz-col [nzSpan]="11">
+          <sl-control-selection title="Откуда узнали о клинике:"
+                                [service]="leadSourcesService"
+                                [control]="form.get('leadSource')"
+                                [pageParams]="{ pageSize: 500 }"
+                                nzDropdownClassName="qaaDropdownLeadSources"
+                                qaaLocator="qaaSelectLeadSource"></sl-control-selection>
+        </div>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between" *ngIf="form.value.createNewDeal">
+        <div nz-col [nzSpan]="hasPurchases ? 11 : 24">
+          <sl-control-selection title="Статус сделки:"
+                                [service]="dealStatusesService"
+                                [control]="form.get('dealStatus')"
+                                [dataFactory]="fromPaginationChunk"
+                                [pageParams]="{ pageSize: 500 }"
+                                nzDropdownClassName="qaaDropdownDealStatus"
+                                qaaLocator="qaaSelectDealStatus"></sl-control-selection>
+        </div>
+        <div nz-col [nzSpan]="11" *ngIf="hasPurchases">
+            <sl-control-selection title="Закупка:"
+                                  [control]="form.get('purchase')"
+                                  [options]="purchases"
+                                  nzDropdownClassName="qaaDropdownDealPurchase"
+                                  qaaLocator="qaaSelectDealPurhcase"></sl-control-selection>
+        </div>
+      </div>
+
+      <nz-divider></nz-divider>
+      <div nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col [nzSpan]="11">
+          <sl-control-selection title="Кабинет:"
+                                #roomSelection
+                                [options]="rooms"
+                                [control]="form.get('room')"
+                                nzDropdownClassName="qaaDropdownCabinetDeal"
+                                qaaLocator="qaaSelectCabinetDeal"></sl-control-selection>
+        </div>
+        <div nz-col [nzSpan]="11">
+          <sl-control-selection title="Специалист:"
+                                [service]="doctorServiceWrapper"
+                                [control]="form.get('doctor')"
+                                [dataFactory]="fromPaginationChunk"
+                                [pageParams]="{ pageSize: 500 }"
+                                nzDropdownClassName="qaaDropdownDoctorDeal"
+                                qaaLocator="qaaSelectDoctorDeal"></sl-control-selection>
+        </div>
+      </div>
+      <div nz-row nzType="flex" nzJustify="space-between">
+        <div nz-col [nzSpan]="11">
+          <sl-control-selection title="Цель посещения:"
+                                #reasonSelection
+                                [options]="reasons"
+                                [control]="form.get('visitReason')"
+                                nzDropdownClassName="qaaDropdownVisitReasonDeal"
+                                qaaLocator="qaaSelectVisitReasonDeal"></sl-control-selection>
+        </div>
+        <div nz-col [nzSpan]="11">
+          <div nz-row nzType="flex" nzJustify="space-between">
+            <div nz-col [nzSpan]="11">
+              <label>Дата посещения:</label>
+              <nz-form-control>
+                <sl-date-picker formControlName="dateTime" nzFormat="DD.MM.YYYY" nzPlaceHolder></sl-date-picker>
+              </nz-form-control>
+            </div>
+            <div nz-col [nzSpan]="11">
+              <label>Время:</label>
+              <nz-form-control>
+                <sl-time-picker formControlName="dateTime"
+                                [(ngModel)]="form.value.dateTime"
+                                [nzFormat]="'HH:mm'"
+                                [nzAllowEmpty]="false"
+                                [nzDisabled]="!form.value.dateTime"
+                                nzPlaceHolder="ЧЧ:MM"></sl-time-picker>
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div nz-row
+           class="form__body__btn"
+           nzType="flex"
+           nzJustify="center"
+           [nzGutter]="8">
+        <div nz-col>
+          <button type="submit" nz-button nzType="primary">
+            <i class="anticon anticon-save"></i>
+            <span>Сохранить</span>
+          </button>
+        </div>
+
+        <div nz-col>
+          <button type="button" nz-button (click)="closeForm()">
+            <i class="anticon anticon-close"></i>
+            <span>Отмена</span>
+          </button>
+        </div>
+      </div>
+    </nz-spin>
+  </nz-card>
+</form>

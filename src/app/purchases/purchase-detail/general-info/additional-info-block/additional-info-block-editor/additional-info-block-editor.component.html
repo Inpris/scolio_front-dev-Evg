@@ -1,0 +1,263 @@
+<div class="additional-info-block-editor">
+  <nz-spin [nzSpinning]="isBusy">
+  <form nz-form
+    #formEl
+    [formGroup]="additionalInfoForm"
+    novalidate (ngSubmit)="onSubmit(additionalInfoForm)"
+    slScrollToFirstInvalid
+    [slForm]="additionalInfoForm"
+  >
+    <nz-card nzNoHovering="true" [nzTitle]="title">
+      <ng-template #title>
+        <div>
+          Заказчик
+        </div>
+      </ng-template>
+
+      <div class="additional-info-block-editor__form-block additional-info-block-editor__form-block--separated" formGroupName="company">
+        <div nz-row class="additional-info-block-editor__form-block__row">
+          <div nz-col nzSpan="24" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item
+              class="additional-info-block-editor__form-block__row__item__custom-num-input"
+            >
+              <label>ИНН*</label>
+              <nz-form-control>
+                <input nz-input
+
+                  #innInput
+                  type="text"
+                  formControlName="inn"
+                  [nzAutocomplete]="auto"
+                  (input)="onSearchInn($event.target?.value)"
+                >
+                <nz-autocomplete  (selectionChange)="selectionChange()" #auto>
+                  <nz-auto-option *ngFor="let option of customerList" [nzValue]="option.company.inn">
+                    {{ option.company.inn }} / {{ option.company.name }}
+                  </nz-auto-option>
+                </nz-autocomplete>
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+        <div nz-row class="additional-info-block-editor__form-block__row">
+          <div nz-col nzSpan="24" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Наименование*</label>
+              <nz-form-control>
+                <textarea nz-input rows="2" formControlName="name"></textarea>
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+        <div nz-row class="additional-info-block-editor__form-block__row">
+          <div nz-col nzSpan="11" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Регион*</label>
+              <nz-form-control>
+                <nz-select
+                  formControlName="regionId"
+                  nzShowSearch
+                  nzAllowClear
+                  nzPlaceholder="Выберите регион"
+                  nzServerSearch="true"
+                  (nzOnSearch)="onSearch($event, 'region')"
+                  nzDropdownClassName="qaaDropdownRegion"
+                  qaaLocator="qaaSelectRegion"
+                >
+                  <nz-option
+                    *ngFor="let region of regionList"
+                    [nzLabel]="region.name"
+                    [nzValue]="region.id"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </div>
+          </div>
+          <div nz-col nzSpan="11" nzOffset="2" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Город</label>
+              <nz-form-control>
+                <nz-form-control>
+                  <nz-select
+                    formControlName="cityId"
+                    nzShowSearch
+                    nzAllowClear
+                    nzPlaceholder="Выберите город"
+                    nzServerSearch="true"
+                    (nzOnSearch)="onSearch($event, 'city')"
+                    nzDropdownClassName="qaaDropdownCity"
+                    qaaLocator="qaaSelectCity"
+                  >
+                    <nz-option
+                      *ngFor="let city of cityList"
+                      [nzLabel]="city.name"
+                      [nzValue]="city.id"
+                    ></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+        <div nz-row class="additional-info-block-editor__form-block__row">
+          <div nz-col nzSpan="24" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Адрес</label>
+              <nz-form-control>
+                <input nz-input formControlName="address">
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="additional-info-block-editor__form-block additional-info-block-editor__form-block--separated" formGroupName="director">
+        <div nz-row class="additional-info-block-editor__form-block__row">
+          <div nz-col nzSpan="24" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Директор (ФИО)</label>
+              <nz-form-control>
+                <input nz-input formControlName="fullName">
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+        <div nz-row class="additional-info-block-editor__form-block__row">
+          <div nz-col nzSpan="11" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Телефон</label>
+              <nz-form-control>
+                <input nz-input formControlName="phone" slPhoneFormatter>
+              </nz-form-control>
+            </div>
+          </div>
+          <div nz-col nzSpan="11" nzOffset="2" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Email</label>
+              <nz-form-control>
+                <input nz-input formControlName="email">
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="additional-info-block-editor__form-block additional-info-block-editor__form-block--separated" formGroupName="tenderDepartmentContact">
+        <div nz-row class="additional-info-block-editor__form-block__row">
+          <div nz-col nzSpan="24" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Отдел торгов (ФИО)</label>
+              <nz-form-control>
+                <input nz-input formControlName="fullName">
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+        <div nz-row class="additional-info-block-editor__form-block__row">
+          <div nz-col nzSpan="11" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Телефон</label>
+              <nz-form-control>
+                <input nz-input formControlName="phone" slPhoneFormatter>
+              </nz-form-control>
+            </div>
+          </div>
+          <div nz-col nzSpan="11" nzOffset="2" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Email</label>
+              <nz-form-control>
+                <input nz-input formControlName="email">
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="additional-info-block-editor__form-block additional-info-block-editor__form-block--separated" formGroupName="tsrDepartmentContact">
+        <div nz-row class="additional-info-block-editor__form-block__row">
+          <div nz-col nzSpan="24" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Отдел ТРС (ФИО)</label>
+              <nz-form-control>
+                <input nz-input formControlName="fullName">
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+        <div nz-row class="additional-info-block-editor__form-block__row">
+          <div nz-col nzSpan="11" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Телефон</label>
+              <nz-form-control>
+                <input nz-input formControlName="phone" slPhoneFormatter>
+              </nz-form-control>
+            </div>
+          </div>
+          <div nz-col nzSpan="11" nzOffset="2" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Email</label>
+              <nz-form-control>
+                <input nz-input formControlName="email">
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="additional-info-block-editor__form-block additional-info-block-editor__form-block--separated">
+        <div nz-row class="additional-info-block-editor__form-block__row">
+          <div nz-col nzSpan="11" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Разница во времени*</label>
+              <nz-form-control>
+                <nz-input-number formControlName="diffHours"></nz-input-number>
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="additional-info-block-editor__form-block">
+        <div nz-row class="additional-info-block-editor__form-block__row additional-info-block-editor__form-block__row--extra-margin">
+          <div nz-col nzSpan="24" class="additional-info-block-editor__form-block__row__item">
+            <div nz-form-item>
+              <label>Комментарии</label>
+              <nz-form-control>
+                <textarea nz-input rows="2" formControlName="comment"></textarea>
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+        <div nz-row class="additional-info-block-editor__form-block__row additional-info-block-editor__form-block__row--extra-margin">
+          <div nz-col nzSpan="24" class="additional-info-block-editor__form-block__row__item additional-info-block-editor__form-block__row__item--warning">
+            <div nz-form-item>
+              <label>
+                <i class="anticon anticon-info-circle-o"></i>
+                ВНИМАНИЕ
+              </label>
+              <nz-form-control>
+                <textarea nz-input rows="2" formControlName="warningText"></textarea>
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+        <div nz-row class="additional-info-block-editor__form-block__row">
+          <div nz-col nzSpan="10" class="additional-info-block-editor__form-block__row__item additional-info-block-editor__form-block__row__item--info">
+            <div nz-form-item>
+              <label>
+                <i class="anticon anticon-medicine-box"></i>
+                Стационар
+              </label>
+            </div>
+          </div>
+          <div nz-col nzSpan="6" class="additional-info-block-editor__form-block__row__checkbox">
+            <div nz-form-item>
+              <label nz-checkbox formControlName="isStacionar">Да</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nz-card>
+  </form>
+  </nz-spin>
+</div>

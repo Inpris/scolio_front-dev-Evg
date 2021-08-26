@@ -1,0 +1,31 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="order-measurement">
+    <div class="order-measurement__labels">
+      <label class="circle">Окружность</label>
+      <label class="profile">Фас</label>
+    </div>
+    <div class="order-measurement__item" *ngFor="let row of [1,2,3,4,5]" nz-row>
+      <nz-form-control>
+        <nz-input-number [nzDisabled]="readonly" nzSize="small" [formControl]="form.get('circle' + row)"
+                         [nzMin]="0" [nzMax]="999" [nzParser]="measurementParser"></nz-input-number>
+      </nz-form-control>
+      <nz-form-control>
+        <nz-input-number [nzDisabled]="readonly" nzSize="small" [formControl]="form.get('fas' + row)"
+                         [nzMin]="0" [nzMax]="999" [nzParser]="measurementParser" class="right-column-label"></nz-input-number>
+      </nz-form-control>
+    </div>
+  </div>
+  <div class="order-measurement__hips">
+    <h4>Окружность бедер:</h4>
+    <div nz-row>
+      <div nz-col [nzSpan]="16">Правая:
+        <nz-input-number [nzDisabled]="readonly" nzSize="small" formControlName="hipsCirculRight"
+                         [nzMin]="0" [nzMax]="999" [nzParser]="measurementParser"></nz-input-number>
+      </div>
+      <div nz-col [nzSpan]="8">Левая:
+        <nz-input-number [nzDisabled]="readonly" nzSize="small" formControlName="hipsCirculLeft"
+                         [nzMin]="0" [nzMax]="999" [nzParser]="measurementParser"></nz-input-number>
+      </div>
+    </div>
+  </div>
+</form>

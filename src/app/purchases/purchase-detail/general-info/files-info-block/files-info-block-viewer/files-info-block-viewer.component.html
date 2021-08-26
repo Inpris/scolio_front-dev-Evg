@@ -1,0 +1,51 @@
+<nz-card nzNoHovering="true" class="files-info-block-viewer" [nzTitle]="title" [nzExtra]="extra">
+  <ng-template #title>
+    <div>
+      Файлы
+    </div>
+  </ng-template>
+  <ng-template #extra>
+    <button class="files-info-block-viewer__extra-button" (click)="toEditMode()">
+      Изменить
+    </button>
+  </ng-template>
+  <ng-container *ngIf="purchaseData.documents; then body"></ng-container>
+  <ng-template #body>
+    <div class="files-info-block-viewer__list">
+      <div *ngIf="!purchaseData.documents.length">Файлы отсутсвуют</div>
+      <div class="files-info-block-viewer__list__item" *ngFor="let file of purchaseData.documents; let i = index;">
+        <div nz-row nzType="flex" class="files-info-block-viewer__list__item__info" nzJustify="space-between">
+      
+          <ng-container *ngIf="file.lastModifiedBy; else created">
+            <div>{{ file.lastModifiedDate | date: 'dd.MM.yyyy' }}</div>
+            <div>{{ file.lastModifiedBy?.name }}</div>
+          </ng-container>
+
+          <ng-template #created>
+            <div>{{ file.createdDate | date: 'dd.MM.yyyy' }}</div>
+            <div>{{ file.createdBy.name }}</div>
+          </ng-template>
+        </div>
+        <div nz-row nzGutter="24">
+          <div nz-col nzSpan="12" class="files-info-block-viewer__list__item__name">
+            <div 
+              class="files-info-block-viewer__list__item__name--wrapper"
+              *ngIf="file.documentType"
+              qaalocator="qaaDocumentType"
+            >
+              {{ file.documentType.name }}
+            </div>
+          </div>
+          <div nz-col nzSpan="12" class="files-info-block-viewer__list__item__file">
+            <div class="files-info-block-viewer__list__item__file--wrapper">
+              <a class="files-info-block-viewer__list__item__file--link" [attr.href]="'/api/v1.0/files/' + file.attachmentId"
+                 qaaLocator="qaaFileName">
+                {{ file.fileName }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</nz-card>

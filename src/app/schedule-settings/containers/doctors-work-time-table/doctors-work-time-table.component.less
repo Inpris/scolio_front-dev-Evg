@@ -1,0 +1,66 @@
+@import "../../../common/variables";
+@import "mixins";
+
+.sl-infinity-table();
+
+:host ::ng-deep {
+  .ant-table-thead > tr > th {
+    white-space: normal;
+  }
+
+  tr {
+    display: flex;
+    align-items: center;
+  }
+
+  th, td {
+    flex: 1;
+  }
+
+  nz-table .ant-table-fixed-header .ant-table-scroll .ant-table-header {
+    overflow: hidden !important;
+  }
+
+  .ant-table-fixed-header .ant-table-scroll .ant-table-header {
+    border-left: 1px solid #e8e8e8;
+  }
+
+  .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+    text-align: center;
+  }
+
+  .hasScroll {
+    .ant-table-fixed-header .ant-table-scroll .ant-table-header {
+      margin-bottom: 0 !important;
+    }
+  }
+}
+
+.doctor-work-table {
+  width: 100%;
+
+  &__filter {
+    &-name {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+
+    &-field {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+
+  &__table {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.save-button-container {
+  margin-top: 16px;
+}
+
+.clear-button {
+  margin-right: 16px;
+}

@@ -1,0 +1,39 @@
+@import "mixins";
+@import "variables";
+
+.sl-infinity-table();
+
+.actions .anticon {
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.4s ease;
+
+  &:hover {
+    &.anticon {
+      color: @blue-5;
+    }
+
+    &.anticon-lock {
+      color: @red-5;
+    }
+  }
+}
+
+.user__row {
+  .anticon-lock {
+    color: @red-5;
+  }
+  &-deleted {
+    opacity: 0.5;
+    background-color: @gray-2;
+
+    &:hover > td {
+      background-color: @gray-4;
+    }
+  }
+}
+
+.user__header {
+  margin-bottom: 8px;
+}
+

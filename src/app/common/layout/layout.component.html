@@ -1,0 +1,18 @@
+<nz-layout class="sl-root-layout">
+  <nz-sider class="sl-root-sidebar" nzWidth="60">
+    <sl-sidebar></sl-sidebar>
+  </nz-sider>
+  <nz-layout class="sl-root-container" (scroll)="onScroll($event)">
+    <nz-header class="sl-root-header">
+      <span>{{user.abbreviatedName}}</span>
+      <i class="anticon anticon-logout" title="Выйти" (click)="logout()"></i>
+    </nz-header>
+    <nz-content class="sl-root-content">
+      <router-outlet></router-outlet>
+    </nz-content>
+    <nz-footer class="sl-footer">
+      <img nz-col class="sl-footer__logo" src="/assets/logo-small.png">
+      <span nz-col>Scoliologic</span>
+    </nz-footer>
+  </nz-layout>
+</nz-layout>

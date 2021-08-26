@@ -1,0 +1,87 @@
+@import 'variables';
+
+.modal-close {
+  display: block;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.player {
+  position: relative;
+  overflow: hidden;
+  .play {
+    position: absolute;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    width: 76px;
+    height: 76px;
+    margin-top: -38px;
+    margin-left: -38px;
+    background: url('/assets/play-sprite.png') no-repeat 0 0;
+    background-size: cover;
+    cursor: pointer;
+    &:hover {
+      background-position: 0 -76px;
+    }
+  }
+  .playing {
+    background-image: url('/assets/pause-sprite.png');
+    &:hover {
+      background-position: 0 -76px;
+    }
+  }
+  .fullscreen {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    width: 24px;
+    height: 24px;
+    background: url('/assets/fullscreen-sprite.png') no-repeat 0 0;
+    background-size: cover;
+    cursor: pointer;
+    &:hover {
+      background-position: 0 -24px;
+    }
+  }
+}
+
+.icon-button {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  cursor: pointer;
+  width: 40px;
+  transition: all 0.2s ease-in-out;
+  background: #589bff;
+  border-radius: 6px;
+
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  i {
+    font-size: 15px;
+    color: white
+  }
+}
+
+.next {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.previous {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}

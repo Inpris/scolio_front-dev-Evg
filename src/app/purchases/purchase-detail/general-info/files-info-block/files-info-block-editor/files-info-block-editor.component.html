@@ -1,0 +1,58 @@
+<div class="files-info-block-editor">
+  <nz-spin [nzSpinning]="isBusy">
+  <nz-card nzNoHovering="true" [nzTitle]="title">
+    <ng-template #title>
+      <div>
+        Файлы
+      </div>
+    </ng-template>
+    <form #formEl nz-form [formGroup]="filesInfoForm" [slForm]="filesInfoForm" novalidate slScrollToFirstInvalid>
+      <div class="files-info-block-editor__list" formArrayName="files">
+        <div class="files-info-block-editor__list__item" *ngFor="let file of files.controls; let i=index" [formGroupName]="i" >
+          <div nz-row nzType="flex" nzAlign="middle" nzJustify="space-between">
+            <div class="files-info-block-editor__list__item__info">
+                {{ file.value.createdDate | date: 'dd.MM.yyyy' }}
+            </div>
+            <div class="files-info-block-editor__list__item__info">
+                {{ file.value.createdBy?.name }}
+            </div>
+          </div>
+          <div class="files-info-block-editor__list__item__name" nz-row nzType="flex" nzJustify="space-between" nzAlign="middle">
+            <div *ngIf="file.value.name" class="files-info-block-editor__list__item__name--wrapper" nz-col nzSpan="10">
+              <nz-form-control>
+                <nz-select formControlName="documentTypeId"
+                           nzSize="small"
+                           nzPlaceHolder="Тип файла..."
+                           nzDropdownClassName="qaaDropdownDocumentType"
+                           qaaLocator="qaaSelectDocumentType">
+                  <nz-option *ngFor="let option of fileTypes"
+                    [nzValue]="option.id"
+                    [nzLabel]="option.name"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </div>
+            <div nz-col nzSpan="12"
+                 class="files-info-block-editor__list__item__info">
+              {{ file.value.name }}
+            </div>
+            <div nz-col nzSpan="1" class="files-info-block-editor__list__item__file--wrapper">
+              <button type="button" class="files-info-block-editor__list__item__file--delete" (click)="removeItem(i)">
+                <i class="anticon anticon-close"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+        <div nz-row nzType="flex" nzJustify="end">
+          <nz-upload
+            [(nzFileList)]="fileList"
+            [nzBeforeUpload]="onFileChosen">
+            <button type="button" nz-button nzType="dashed">+ Файл
+            </button>
+          </nz-upload>
+        </div>
+      </div>
+    </form>
+  </nz-card>
+  </nz-spin>
+</div>

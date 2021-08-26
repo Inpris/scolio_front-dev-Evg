@@ -1,0 +1,84 @@
+<div [formGroup]="form">
+  <div>
+    <sl-company-search (companySelected)="onCompanyChange($event)" [company]="form.value.selected"></sl-company-search>
+  </div>
+  <h3>Контактное лицо</h3>
+  <fieldset [formGroup]="form.get('proxy')">
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col nzSpan="11">
+        <label>Фамилия*:</label>
+        <nz-form-control><input nz-input formControlName="lastName"></nz-form-control>
+      </div>
+      <div nz-col nzSpan="11">
+        <label>Имя*:</label>
+        <nz-form-control><input nz-input formControlName="firstName"></nz-form-control>
+      </div>
+    </div>
+
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col nzSpan="11">
+        <label>Отчество:</label>
+        <nz-form-control><input nz-input formControlName="secondName"></nz-form-control>
+      </div>
+    </div>
+  </fieldset>
+
+  <h3>Организация</h3>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="24">
+      <label>Название*:</label>
+      <nz-form-control><input nz-input formControlName="name"></nz-form-control>
+    </div>
+  </div>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="11">
+      <label>ИНН*:</label>
+      <nz-form-control><input nz-input formControlName="inn"></nz-form-control>
+    </div>
+    <div nz-col nzSpan="11">
+      <label>КПП*:</label>
+      <nz-form-control><input nz-input formControlName="kpp"></nz-form-control>
+    </div>
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="11">
+      <label>Телефон*:</label>
+      <nz-form-control><input nz-input formControlName="phone" slPhoneFormatter></nz-form-control>
+    </div>
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="24">
+      <label>Прочие реквизиты:</label>
+      <nz-form-control><textarea nz-input formControlName="otherDetails"></textarea></nz-form-control>
+    </div>
+  </div>
+
+  <h3>Адрес</h3>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="11">
+      <label>Индекс*:</label>
+      <nz-form-control>
+        <input nz-input formControlName="postalCode">
+      </nz-form-control>
+    </div>
+    <div nz-col nzSpan="11">
+      <sl-gias-region label="Регион*:" [form]="form"></sl-gias-region>
+    </div>
+  </div>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="11">
+      <sl-gias-city label="Город*:" [form]="form"></sl-gias-city>
+    </div>
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="24">
+      <label>Адрес*:</label>
+      <nz-form-control>
+        <input nz-input formControlName="address">
+      </nz-form-control>
+    </div>
+  </div>
+</div>

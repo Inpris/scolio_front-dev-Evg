@@ -1,0 +1,55 @@
+@import "variables";
+
+.date-item {
+  cursor: pointer;
+}
+
+:host ::ng-deep {
+  .ant-timeline-item {
+    padding: 0;
+  }
+  .ant-timeline-item-last .ant-timeline-item-content {
+    min-height: 0;
+  }
+  .selected {
+    .ant-timeline-item-head {
+      background-color: @blue-5;
+    }
+  }
+}
+
+.visit-item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  position: relative;
+  padding-right: 16px;
+  cursor: pointer;
+  &-marker {
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 100px;
+    border: 2px solid @blue-5;
+    color: @blue-5;
+    display: inline-block;
+    &.selected {
+      background-color: @blue-5;
+    }
+  }
+  &-delete {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    top: 4px;
+    font-size: 16px;
+    right: 0;
+    &:hover {
+      color: @red-6;
+    }
+  }
+  &:hover {
+    .visit-item-delete {
+      display: block;
+    }
+  }
+}

@@ -1,0 +1,54 @@
+@import "variables";
+@import "/styles/measurements-mixins";
+
+.form-item {
+  margin-bottom: 0px;
+}
+
+.delete-button {
+  border: none;
+  display: none;
+}
+
+.measurement-name {
+  .measurement-name-mixin;
+  margin-top: -10px;
+  font-weight: thin;
+  margin-bottom: 8px;
+}
+
+.measurement-list {
+  padding-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.measurement-value-input {
+  .measurement-value-input-mixin;
+}
+
+.measurement-select {
+  .measurement-select-mixin;
+}
+
+.measurement-torsia-input {
+  width: 60px;
+}
+
+.measurement-torsia-input {
+  width: 60px;
+}
+
+.measurement-row {
+  height: 24px;
+}
+
+.clear-angle-button {
+  .clear-angle-button-mixin;
+}
+
+.arc-list-form .measurement-torsia-button {
+  &.ant-btn {
+    padding-left: 6px;
+    padding-right: 7px;
+  }
+}

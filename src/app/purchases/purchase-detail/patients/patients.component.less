@@ -1,0 +1,73 @@
+@import "variables";
+@import "mixins";
+
+.sl-infinity-table();
+:host ::ng-deep {
+  .row-expanded {
+    td {
+      background: @blue-0;
+    }
+  }
+  .row-canceled {
+    td {
+      background: @red-0;
+    }
+    &:hover {
+      > td {
+        background: @red-1;
+      }
+    }
+  }
+  .ant-table-body {
+    border: 1px solid @gray-3;
+  }
+  .ant-table-pagination {
+    margin-right: 16px;
+  }
+  .ant-table-row.ant-table-expanded-row {
+    &:hover {
+      > td {
+        background: none;
+      }
+    }
+  }
+  @media (max-width: @sl-media-1600px) {
+    .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+      padding: 16px 8px;
+      font-size: 12px;
+    }
+  }
+}
+
+.device__action {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.device__actions {
+  width: 120px;
+}
+
+.patients {
+  margin-top: 24px;
+  ::ng-deep {
+    td {
+      word-break: break-word;
+    }
+  }
+}
+
+.infinity-container:hover {
+  td {
+    background: none;
+  }
+}
+
+.appointment-table {
+  width: 520px;
+  td {
+    padding: 0;
+    border-bottom: none;
+    word-break: break-word;
+  }
+}

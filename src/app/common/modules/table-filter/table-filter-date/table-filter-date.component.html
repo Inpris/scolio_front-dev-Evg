@@ -1,0 +1,21 @@
+<nz-dropdown [nzPlacement]="'bottomCenter'" nzTrigger="click" [nzClickHide]="false" [(nzVisible)]="visible" (nzVisibleChange)="visibleChange($event)">
+  <div nz-dropdown class="filter-icon-container">
+    <span class="filter-label" [ngClass]="{ 'filter-label__selected': !!value }">{{label}}</span>
+    <i class="anticon anticon-filter ant-table-filter-icon"
+    [ngClass]="{ 'ant-table-filter-selected': !!value }"></i>
+  </div>
+  <div class="filter-dropdown" *ngIf="visible">
+    <nz-input-group>
+      <sl-date-picker #datepicker
+        [ngModel]="value" nzFormat="DD.MM.YYYY" [nzDropdownClassName]="isPickerUp ? 'sl-date-picker-up' : ''"></sl-date-picker>
+    </nz-input-group>
+    <div class="ant-table-filter-dropdown-btns">
+      <a class="ant-table-filter-dropdown-link confirm" (click)="applyFilter(datepicker.nzValue.nativeDate)">
+        <span>OK</span>
+      </a>
+      <a class="ant-table-filter-dropdown-link clear" (click)="resetFilter()">
+        <span>Сбросить</span>
+      </a>
+    </div>
+  </div>
+</nz-dropdown>

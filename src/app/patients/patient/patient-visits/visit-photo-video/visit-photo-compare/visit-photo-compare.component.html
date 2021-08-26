@@ -1,0 +1,8 @@
+<ng-template ngFor let-photo [ngForOf]="photos">
+  <div class="photo" [style.backgroundImage]="'url('+ photo.contentURI +')'" [style.maxWidth]="maxWidth">
+    <div class="photo__name" [title]="photo.fileName">{{photo.fileName}}</div>
+  </div>
+</ng-template>
+<span class="modal-close" (click)="close()">
+      <i class="anticon anticon-close"></i>
+</span>

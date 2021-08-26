@@ -1,0 +1,60 @@
+<nz-spin [nzSpinning]="purchaseCreateInProcess">
+  <div class="purchase-create">
+    <div nz-row
+      class="purchase-create__header"
+      [nzType]="'flex'"
+      [nzAlign]="'middle'"
+    >
+      <div nz-col class="purchase-create__header__title">
+        <h2 class="sl-breadcrumb" nz-row nzType="flex">
+          <span class="sl-breadcrumb-item">Закупки</span>
+          <span class="sl-breadcrumb-item">
+            <span class="sl-breadcrumb-item-link" [routerLink]="['/purchases/']">
+              Реестр закупок
+            </span>
+          </span>
+          <span class="sl-breadcrumb-item">Создание закупки</span>
+        </h2>
+      </div>
+    </div>
+    <div nz-row nzType="flex" nzGutter="18">
+      <div nz-col nzSpan="14">
+        <sl-purchase-info-block-editor
+        #purchaseBlock
+        (changeMode)="onChangeModeInfoBlock($event)"
+        (loadEis)="onLoadEis($event)"
+        [componentType]="componentType"
+        [responsible]="responsible"
+        ></sl-purchase-info-block-editor>
+      </div>
+      <div nz-col nzSpan="10">
+        <sl-additional-info-block-editor
+          #additional
+          (changeMode)="onChangeModeAdditionalBlock($event)"
+          (changeResponsible)="onChangeResponsible($event)"
+          [componentType]="componentType"
+          [eis]="eis"
+        ></sl-additional-info-block-editor>
+        <sl-files-info-block-editor
+          #filesBlock
+          [componentType]="componentType"
+          (changeMode)="onChangeFilesBlock($event)"
+        ></sl-files-info-block-editor>
+      </div>
+    </div>
+
+    <div nz-row
+      nzType="flex"
+      nzJustify="center"
+      class="purchase-create__btn"
+    >
+      <button nz-button nzType="primary" nzSize="large" (click)="saveData()">
+        <i class="anticon anticon-save"></i>
+        Сохранить
+      </button>
+      <button nz-button nzType="default" nzSize="large" [routerLink]="['/purchases']">
+        Отмена
+      </button>
+    </div>
+  </div>
+</nz-spin>

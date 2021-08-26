@@ -1,0 +1,63 @@
+<h2>Таблица рабочего времени докторов</h2>
+<div nz-row nzType="flex" [style.height]="'100%'" nzGutter="16" class="doctor-work-table">
+  <div nz-col nzSpan="5">
+    <nz-card nzTitle="Фильтры" [style.minHeight]="'20%'" [style.marginBottom]="'20px'">
+      <div class="doctor-work-table__filter-name">Доктор</div>
+      <nz-select
+        class="doctor-work-table__filter-field"
+        nzPlaceHolder="Выберите доктора"
+        [(ngModel)]="selectedDoctor"
+        (ngModelChange)="loadSchedule()"
+      >
+        <nz-option *ngFor="let doctor of doctors" [nzLabel]="doctor.name" [nzValue]="doctor"></nz-option>
+      </nz-select>
+      <div class="doctor-work-table__filter-name">Дата</div>
+      <div class="doctor-work-table__filter-field">
+        <nz-range-picker [(ngModel)]="selectedRange" (ngModelChange)="loadSchedule()"></nz-range-picker>
+      </div>
+    </nz-card>
+  </div>
+  <div nz-col nzSpan="19">
+    <nz-card nzTitle="Расписание">
+      <div class="products">
+        <div class="table-info">
+          <div nz-col class="table-info__total">Всего: {{ fullData.length }}</div>
+        </div>
+        <nz-table
+          #table
+          [nzData]="data"
+          [ngClass]="{ hasScroll: scrollBarPadding, 'no-data': fullData.length == 0 }"
+          [nzScroll]="{ y: 'calc(93vh - 350px)' }"
+          [nzLoading]="false"
+          [nzShowPagination]="false"
+          [nzFrontPagination]="false"
+        >
+          <thead>
+            <tr>
+              <th nzShowSort (nzSortChange)="sort('branchName', $event)">Филиал</th>
+              <th nzShowSort (nzSortChange)="sort('roomName', $event)">Кабинет</th>
+              <th nzShowSort (nzSortChange)="sort('dateTimeStart', $event)">Дата</th>
+              <th>Период</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-template ngFor let-item let-i="index" [ngForOf]="table.data">
+              <tr>
+                <td>{{ item.branchName }}</td>
+                <td>{{ item.roomName }}</td>
+                <td>{{ item.dateTimeStart | date: 'dd.MM.yyyy' }}</td>
+                <td>{{ item.dateTimeStart | date: 'H:mm' }} - {{ item.dateTimeEnd | date: 'H:mm' }}</td>
+              </tr>
+            </ng-template>
+            <tr *ngIf="fullData.length && pageParams.page <= pageParams.pageCount - 1">
+              <td [attr.colspan]="4">
+                <sl-infinity-scroll [rootContainer]="table.tableBodyElement.nativeElement"
+                                    (loadCallback)="getData()"></sl-infinity-scroll>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </nz-card>
+  </div>
+</div>

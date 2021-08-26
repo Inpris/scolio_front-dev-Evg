@@ -1,0 +1,6 @@
+<nz-radio-group [(ngModel)]="productionTime" (ngModelChange)="onSelect($event)">
+  <label nz-radio-button [nzValue]="orderTerm.STANDARD">Стандарт</label>
+  <label nz-radio-button [nzValue]="orderTerm.ONEDAY">Однодневка</label>
+  <label nz-radio-button [nzValue]="orderTerm.TWODAYS">Двухдневка</label>
+  <label nz-radio-button [nzValue]="orderTerm.THREEDAYS">Трехдневка</label>
+</nz-radio-group>

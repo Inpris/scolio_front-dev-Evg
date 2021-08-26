@@ -1,0 +1,21 @@
+<nz-dropdown [nzPlacement]="'bottomCenter'" nzTrigger="click" [nzClickHide]="false" [(nzVisible)]="visible" (nzVisibleChange)="visibleChange($event)">
+  <div nz-dropdown class="filter-icon-container">
+    <span class="filter-label" [ngClass]="{ 'filter-label__selected': !!filterQuery.value }">{{title}}</span>
+    <i class="anticon anticon-filter ant-table-filter-icon"
+       [ngClass]="{ 'ant-table-filter-selected': !!filterQuery.value }"></i>
+  </div>
+  <div class="filter-dropdown" *ngIf="visible">
+    <nz-input-group nzSuffixIcon="anticon anticon-search">
+      <input #input type="text" nz-input [placeholder]="placeholder" [ngModel]="filterQuery.value"
+             (keyup.enter)="applyFilter(input.value)">
+    </nz-input-group>
+    <div class="ant-table-filter-dropdown-btns">
+      <a class="ant-table-filter-dropdown-link confirm" (click)="applyFilter(input.value)">
+        <span>OK</span>
+      </a>
+      <a class="ant-table-filter-dropdown-link clear" (click)="resetFilter()">
+        <span>Сбросить</span>
+      </a>
+    </div>
+  </div>
+</nz-dropdown>

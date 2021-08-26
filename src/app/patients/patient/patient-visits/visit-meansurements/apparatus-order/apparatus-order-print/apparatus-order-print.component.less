@@ -1,0 +1,107 @@
+@media print {
+  .hidden-on-print {
+    display: none;
+  }
+}
+
+nz-layout {
+  display: block !important;
+}
+
+.table-row {
+  padding: 4px;
+  min-height: 29px;
+}
+
+.form__actions {
+  float: right;
+  position: absolute;
+  top: 10px;
+  left: 556px;
+}
+
+.print-form {
+  -webkit-print-color-adjust: exact !important;
+  color-adjust: exact !important;
+
+  &__header {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 8px;
+    margin-top: -16px;
+  }
+
+  &__row {
+    padding-bottom: 16px;
+  }
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table, th, td {
+  border: 1px solid black;
+  font-weight: normal;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-bottom: 8px;
+}
+
+.print_table {
+  &__hidden-border {
+    border: none;
+  }
+}
+
+.page-break {
+  page-break-after: always
+}
+
+.after-break {
+  margin-top: 32px;
+}
+
+.info-table {
+  tr {
+    vertical-align: top;
+  }
+  &__image-col {
+    border: none;
+  }
+
+  &__param-col {
+    vertical-align: top;
+    border: none;
+  }
+}
+
+.withot_border {
+  border: none;
+}
+
+.left-align {
+  text-align: left;
+}
+
+.center-align {
+  text-align: center;
+}
+
+.apparatus-kontr-angle-table {
+  text-align: center;
+}
+
+.manufactoring-table {
+  text-align: left;
+}
+
+.apparat-measurements-table {
+  &__header {
+    font-weight: bold;
+  }
+}
+
+

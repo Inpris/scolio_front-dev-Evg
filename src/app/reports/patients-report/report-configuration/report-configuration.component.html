@@ -1,0 +1,14 @@
+<div class="sl-preloader" *ngIf="loading">
+  <nz-spin nzSize="large"></nz-spin>
+</div>
+<div [formGroup]="form" class="report-configuration">
+  <label>Столбцы</label>
+  <nz-select formControlName="columns" nzMode="multiple" nzAllowClear nzPlaceHolder="<Не выбрано>">
+    <nz-option *ngFor="let column of columns" [nzLabel]="column.name" [nzValue]="column.sysName"></nz-option>
+  </nz-select>
+  <input nz-input formControlName="templateName">
+  <button (click)="save()" [disabled]="form.invalid" class="ant-btn ant-btn-primary">
+    <i class="anticon anticon-save"></i>
+    <span>Сохранить</span>
+  </button>
+</div>

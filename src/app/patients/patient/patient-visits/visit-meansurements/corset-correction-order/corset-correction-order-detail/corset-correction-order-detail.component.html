@@ -1,0 +1,61 @@
+<form [formGroup]="form" slScrollToFirstInvalid [slForm]="form" slScrollContainer=".ant-modal-wrap">
+  <nz-card [nzTitle]="title" [nzExtra]="extra">
+    <ng-template #title>
+      <div nz-row [nzType]="'flex'" [nzGutter]="8" class="form__title">
+        <div nz-col class="form__title__icon">
+          <i class="anticon anticon-schedule"></i>
+        </div>
+        <div nz-col class="form__title__text">
+          Коррекция корсета <span *ngIf="device.number">№ {{device.number}}</span>
+        </div>
+        <i class="anticon anticon-close form__close" (click)="closeForm()"></i>
+      </div>
+    </ng-template>
+    <ng-template #extra>
+      <div>
+        Дата приема: {{ visitsManager.selected.dateTime | date : 'dd.MM.yyyy' }}
+      </div>
+      <div>
+        Принял: {{ visitsManager.selected.doctor?.name  || '-' }}
+      </div>
+    </ng-template>
+    <nz-spin [nzSpinning]="isBusy">
+      <div nz-row class="form">
+        <div nz-col [nzSpan]="11">
+          <ng-container [ngSwitch]="device.productType.sysName">
+            <sl-corset-device-measurement *ngSwitchCase="'Corset'"
+              formControlName="measurementData" [readonly]="true"></sl-corset-device-measurement>
+            <sl-swosh-device-measurement *ngSwitchCase="'Swosh'"
+              formControlName="measurementData" [readonly]="true">
+            </sl-swosh-device-measurement>
+          </ng-container>
+        </div>
+        <div nz-col [nzSpan]="13">
+          <sl-corset-correction-order
+            formControlName="orderData" [products]="products" [device]="device" [visitsManager]="visitsManager"></sl-corset-correction-order>
+        </div>
+      </div>
+      <div class="growth">Рост: {{visitsManager.selected.growth || '-'}} см</div>
+    </nz-spin>
+  </nz-card>
+  <nz-spin [nzSpinning]="isBusy">
+    <nz-card>
+      <sl-corset-correction formControlName="correction"></sl-corset-correction>
+      <nz-form-control>
+        <label>Комментарий</label>
+        <textarea nz-input formControlName="comment"></textarea>
+      </nz-form-control>
+    </nz-card>
+    <nz-card>
+      <sl-order-issue (deviceIssuedEvent)="deviceIssuedEventHandler($event)"
+        formControlName="issueData">
+      </sl-order-issue>
+    </nz-card>
+    <nz-card>
+      <div class="form__actions">
+        <button [nzSize]="'large'" nzType="primary" nz-button (click)="save()">Сохранить</button>
+        <button type="button" [nzSize]="'large'" nzType="default" nz-button (click)="closeForm()">Отмена</button>
+      </div>
+    </nz-card>
+  </nz-spin>
+</form>

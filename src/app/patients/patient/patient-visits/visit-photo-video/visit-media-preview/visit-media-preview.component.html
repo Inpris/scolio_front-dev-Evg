@@ -1,0 +1,20 @@
+<div class="preview">
+  <span class="preview__name" [title]="media.fileName">{{media.fileName}}</span>
+  <img class="preview__image" [src]="media.thumbnailURI">
+  <span class="preview__actions" (click)="preview(media, $event)">
+    <span class="preview__action">
+      <i class="anticon" [ngClass]="{
+      'anticon-eye-o': media.type === mediaType.PHOTO,
+      'anticon-video-camera':  media.type === mediaType.VIDEO
+      }"></i>
+    </span>
+    <span *ngIf="!readonly" class="preview__action delete" (click)="delete(media, $event)">
+      <i class="anticon anticon-delete"></i>
+    </span>
+  </span>
+  <span class="preview__select" *ngIf="media.type === mediaType.PHOTO">
+    <label nz-checkbox nzSize="large"
+           [(ngModel)]="media.selected"
+           (nzCheckedChange)="select(media, $event)"></label>
+  </span>
+</div>

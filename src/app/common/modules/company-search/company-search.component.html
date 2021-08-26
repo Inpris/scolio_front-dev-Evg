@@ -1,0 +1,30 @@
+<form nz-form [formGroup]="searchForm" novalidate>
+  <label>Поиск по ИНН:</label>
+  <nz-form-control>
+    <nz-select formControlName="company"
+               nzAllowClear
+               nzNotFoundContent
+               nzPlaceHolder
+               nzShowSearch
+               nzServerSearch="true"
+               (nzOnSearch)="onSearch($event)"
+               [nzDisabled]="disabled"
+               nzDropdownClassName="qaaDropdownCompany"
+               qaaLocator="qaaSelectCompany">
+      <ng-container *ngIf="notFound; then notFoundTemplate else contactsTemplate"></ng-container>
+      <ng-template #contactsTemplate>
+        <nz-option
+          *ngFor="let company of companies"
+          nzLabel="{{company.inn}} {{company.name}}"
+          [nzValue]="company">
+        </nz-option>
+      </ng-template>
+      <ng-template #notFoundTemplate>
+        <nz-option
+          nzLabel="Компании не найдены, создать новую компанию"
+          [nzValue]="searchForm.value.searchTerm">
+        </nz-option>
+      </ng-template>
+    </nz-select>
+  </nz-form-control>
+</form>

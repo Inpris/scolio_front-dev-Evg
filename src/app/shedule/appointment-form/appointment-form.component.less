@@ -1,0 +1,99 @@
+@import "variables";
+
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+p {
+  margin: 0;
+}
+
+.new {
+  &_phone {
+    margin-top: 10px !important;
+  }
+
+  &_email {
+    margin-bottom: 10px !important;
+  }
+}
+
+.appointment-margin {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.appointment-info {
+  background: @blue-5;
+  border-radius: 3px;
+  color: @white;
+  display: inline-flex;
+  flex-flow: row nowrap;
+  height: 72px;
+  padding: 8px;
+  width: 120px;
+
+  i {
+    display: flex;
+    font-size: @font-size-xl;
+    padding: 0 8px 0 0;
+  }
+}
+
+.appointment-time {
+  display: flex;
+  flex-flow: column nowrap;
+  font-size: @font-size-xs;
+  font-weight: bold;
+  text-align: center;
+  line-height: 15px;
+}
+
+.appointment-reason {
+  text-align: center;
+  font-weight: 600;
+}
+
+.appointment-doctor-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  height: 100%;
+  .ant-row {
+    margin-top: 3px;
+  }
+  .ant-row-flex {
+    margin-top: 3px;
+  }
+}
+
+nz-input ::ng-deep textarea {
+  max-height: 118px;
+  min-height: 46px;
+  resize: vertical;
+}
+
+.sl-form-checkboxes {
+  margin: 12px 0 16px;
+
+  ::ng-deep .ant-form-item-control {
+    line-height: 24px;
+  }
+}
+
+.ant-form-item-control-wrapper {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+:host ::ng-deep .ant-calendar-picker {
+  width: 100%;
+}

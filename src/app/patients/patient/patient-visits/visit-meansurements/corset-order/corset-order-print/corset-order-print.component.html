@@ -1,0 +1,84 @@
+<div [formGroup]="form" nzType="flex" class="print-form">
+  <div nz-row nzAlign="middle"  class="print-form__header">Бланк заказа корсета № {{device?.number}}</div>
+  <div nz-row class="print-form__row">
+    <div nz-col [nzSpan]="12" >
+      <div nz-row [nzGutter]="8">
+        <div nz-col [nzSpan]="6">
+          <div nz-row class="table-row">Фамилия:</div>
+          <div nz-row class="table-row">Имя:</div>
+          <div nz-row class="table-row">Отчество:</div>
+        </div>
+        <div nz-col [nzSpan]="18">
+          <div nz-row class="table-row">{{ contact?.lastName }}</div>
+          <div nz-row class="table-row">{{ contact?.firstName }}</div>
+          <div nz-row class="table-row">{{ contact?.secondName }}</div>
+        </div>
+      </div>
+   </div>
+    <div nz-col [nzSpan]="12">
+        <div nz-row>
+          <div nz-col [nzSpan]="8">
+            <div nz-row nz-row class="table-row">Принял:</div>
+            <div nz-row nz-row class="table-row">Дата приема:</div>
+          </div>
+          <div nz-col [nzSpan]="16">
+            <div nz-row nz-row class="table-row">{{ visit?.doctor?.name  || '-' }}</div>
+            <div nz-row nz-row class="table-row">{{ visit?.dateTime | date : 'dd.MM.yyyy' }}</div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div nz-row class="print-form__row" nzJustify="center" nzAlign="middle" >
+    <sl-corset-device-measurement  formControlName="measurementData"></sl-corset-device-measurement>
+  </div>
+  <div nz-row>
+      <div nz-col [nzSpan]="10" >
+        <div nz-row [nzGutter]="8">
+          <div nz-col [nzSpan]="8">
+            <div nz-row class="table-row">Тип корсета:</div>
+            <div nz-row class="table-row">Тип пластика: </div>
+            <div nz-row class="table-row">Цвет корсета: </div>
+            <div nz-row class="table-row">Дата выдачи:</div>
+          </div>
+          <div nz-col [nzSpan]="16">
+            <div nz-row class="table-row">{{ corsetData?.corsetType?.name }}</div>
+            <div nz-row class="table-row">{{ corsetData?.plasticType?.name }}</div>
+            <div nz-row class="table-row">{{ corsetData?.color }}</div>
+            <div nz-row class="table-row">{{ corsetData?.dateOfIssue | date : 'dd.MM.yyyy' }}</div>
+          </div>
+        </div>
+      </div>
+      <div nz-col [nzSpan]="14">
+          <div nz-row>
+            <div nz-col [nzSpan]="8">
+              <div nz-row class="table-row">Исполнитель:</div>
+              <div nz-row class="table-row">Блоковка:</div>
+              <div nz-row class="table-row">Спиливание:</div>
+              <div nz-row class="table-row">Обточка:</div>
+              <div nz-row class="table-row">Уст.креплений:</div>
+              <div nz-row class="table-row">Выдал:</div>
+            </div>
+            <div nz-col [nzSpan]="8">
+              <div nz-row class="table-row table-row__name">{{ manufacturingData?.carcassExecutor1?.name }}</div>
+              <div nz-row class="table-row table-row__name">{{ manufacturingData?.blockingExecutor1?.name }}</div>
+              <div nz-row class="table-row table-row__name">{{ manufacturingData?.cuttingExecutor1?.name }}</div>
+              <div nz-row class="table-row table-row__name">{{ manufacturingData?.turningExecutor1?.name }}</div>
+              <div nz-row class="table-row table-row__name">{{ manufacturingData?.fastenersInstallExecutor1?.name }}</div>
+              <div nz-row class="table-row table-row__name">{{ issueData?.issuer1?.name }}</div>
+            </div>
+            <div nz-col [nzSpan]="8">
+                <div nz-row class="table-row table-row__name">{{ manufacturingData?.carcassExecutor2?.name }}</div>
+                <div nz-row class="table-row table-row__name">{{ manufacturingData?.blockingExecutor2?.name }}</div>
+                <div nz-row class="table-row table-row__name ">{{ manufacturingData?.cuttingExecutor2?.name }}</div>
+                <div nz-row class="table-row table-row__name">{{ manufacturingData?.turningExecutor2?.name }}</div>
+                <div nz-row class="table-row table-row__name">{{ manufacturingData?.fastenersInstallExecutor2?.name }}</div>
+                <div nz-row class="table-row table-row__name">{{ issueData?.issuer2?.name }}</div>
+              </div>
+          </div>
+      </div>
+      <div nz-row>
+        <div nz-col [nzSpan]="4">Комментарий:</div>
+        <div nz-col [nzSpan]="20">{{ manufacturingData?.comment }}</div>
+      </div>
+  </div>
+</div>

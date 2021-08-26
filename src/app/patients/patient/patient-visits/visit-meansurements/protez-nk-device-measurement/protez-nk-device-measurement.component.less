@@ -1,0 +1,30 @@
+@import "variables";
+
+.protez-nk-measurement {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0 0 0;
+  box-sizing: border-box;
+
+  &__row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    & > *:first-child {
+      margin-bottom: 7px;
+    }
+  }
+}

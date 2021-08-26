@@ -1,0 +1,36 @@
+<form [formGroup]="form" (ngSubmit)="saveTemplate()" novalidate>
+  <nz-card class="form" [nzTitle]="title">
+
+    <ng-template #title>
+      <div nz-row [nzType]="'flex'" nzJustify="space-between" class="form__title">
+        <div nz-col class="form__title__text">
+          Создание шаблона комиссии
+        </div>
+        <i class="anticon anticon-close form__close" (click)="closeForm()"></i>
+      </div>
+    </ng-template>
+    <nz-spin [nzSpinning]="isBusy">
+      <sl-mtk-comission [form]="form" [templates]="templates" (templateSelected)="selectedTemplate = $event"></sl-mtk-comission>
+
+      <div nz-row
+           class="form__body__btn"
+           nzType="flex"
+           nzJustify="center"
+           [nzGutter]="8">
+        <div nz-col>
+          <button type="submit" nz-button nzType="primary">
+            <i class="anticon anticon-save"></i>
+            <span>Сохранить</span>
+          </button>
+        </div>
+
+        <div nz-col>
+          <button type="button" nz-button (click)="closeForm()">
+            <i class="anticon anticon-close"></i>
+            <span>Закрыть</span>
+          </button>
+        </div>
+      </div>
+    </nz-spin>
+  </nz-card>
+</form>

@@ -1,0 +1,47 @@
+import { PurchaseResponsible } from '../models/purchase-responsible';
+
+export interface PurchaseCreate {
+  purchaseStatusId: string;
+  documents;
+  noticeNumber: string;
+  purchaseTypeId: string;
+  contractNumber: string;
+  tenderPlatformId: string;
+  purchaseUrl: string;
+  purchaseCode: string;
+  registryNumber: string;
+  serviceDeliveryDate: string;
+  serviceDeliveryPlace: string;
+  purchaseObject: string;
+  deadline: string;
+  contractExecutionDate: string;
+  startMaxContractPrice: number;
+  contractPriceDeclineSum: number;
+  contractPriceDeclinePercent: number;
+  bidDateTimeEnd: string;
+  bidReviewDateTimeEnd: string;
+  auctionDate: string;
+  auctionDateLocal: string;
+  finalContractPrice: number;
+  contractProvision: number;
+  paymentOrderNumber: string;
+  paymentDate: string;
+  returnDate: string;
+  returnProvisionNotificationDate: string;
+  isReturnProvision: boolean;
+  organizationRequisites: string;
+  responsible: PurchaseResponsible;
+  note: string;
+  includeResidenceCompensationMaxDays: number;
+  includeResidenceCompensationMaxSum: number;
+  includeResidenceCompensationSum: number;
+  contractDate: string;
+  contractCompleteDate: string;
+  isWin: boolean;
+  penalties: string;
+  changeStatusDateTime: string;
+  customerId: string;
+  tempAttachmentIds: string[];
+  patients: string[];
+  purchaseChapterIds: string[];
+}

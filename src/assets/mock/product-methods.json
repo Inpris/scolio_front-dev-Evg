@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1",
+    "name": "Робот с блоковкой",
+    "sysName": "RobotWithBlocking"
+  },
+  {
+    "id": "2",
+    "name": "Слепок",
+    "sysName": "Mold"
+  },
+  {
+    "id": "3",
+    "name": "Робот с ламинированием",
+    "sysName": "RobotWithLamination"
+  }
+]

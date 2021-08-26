@@ -1,0 +1,226 @@
+<nz-card nzNoHovering="true" class="form marlo-main" nzTitle="Заполнение бланка для измерений МАРЛО" [nzExtra]="saveButton">
+  <ng-template #saveButton>
+    <i class="anticon anticon-printer printer" (click)="print()"></i>
+    <button nz-button type="button" nzType="primary" nzSize="small" (click)="save()">Сохранить</button>
+  </ng-template>
+  <nz-spin [nzSpinning]="loading$ | async">
+    <div [formGroup]="form" class="marlo">
+      <nz-card class="marlo__card">
+        <div class="marlo__part">
+          <div class="marlo__field">
+            <span class="large-label">ФИО:</span>
+            <input nz-input [value]="contact.fullName || ''" class="marlo__input" />
+          </div>
+          <div class="marlo__field">
+            <span class="large-label">Интервал замера окружностей:</span>
+            <nz-input-number [nzMax]="9999" formControlName="interval" class="marlo__input"></nz-input-number>
+          </div>
+        </div>
+      </nz-card>
+      <nz-card class="marlo__card">
+        <div class="marlo__table">
+          <div class="marlo__table-header">
+            <div class="marlo__table-number">№</div>
+            <div class="marlo__table-td">Объём</div>
+            <div class="marlo__table-td">% Сокращение</div>
+          </div>
+          <div *ngFor="let row of rows;" class="marlo__table-row">
+            <div class="marlo__table-number">{{ row }}</div>
+            <div class="marlo__table-td">
+              <nz-input-number [nzMax]="9999" [formControlName]="'circumferences_' + row" class="marlo__table-input"></nz-input-number>
+            </div>
+            <div class="marlo__table-td">
+              <nz-input-number [nzMax]="9999" [formControlName]="'reduction_' + row" class="marlo__table-input"></nz-input-number>
+            </div>
+          </div>
+        </div>
+      </nz-card>
+      <nz-card class="marlo__card">
+        <div class="marlo__part">
+          <div class="marlo__field">
+            <span>Сторона:</span>
+            <nz-radio-group class="marlo__input" formControlName="side">
+              <label nz-radio-button [nzValue]="'л'"><span>Левая</span></label>
+              <label nz-radio-button [nzValue]="'п'"><span>Правая</span></label>
+            </nz-radio-group>
+          </div>
+          <div class="marlo__field">
+            <span>Принятые меры:</span>
+            <nz-radio-group class="marlo__input" formControlName="measures_taken">
+              <label nz-radio-button [nzValue]="'к'"><span>На кожу</span></label>
+              <label nz-radio-button [nzValue]="'л'"><span>На лайнер</span></label>
+            </nz-radio-group>
+          </div>
+        </div>
+      </nz-card>
+      <nz-card class="marlo__card">
+        <div class="marlo__part">
+          <img class="marlo__image" src=" /assets/marlo_1.JPG">
+          <div class="marlo__field">
+            <span>Диагональ:</span>
+            <nz-input-number [nzMax]="9999" formControlName="diagonal" class="marlo__input"></nz-input-number>
+          </div>
+          <div class="marlo__field">
+            <span>Длина до вертела:</span>
+            <nz-input-number [nzMax]="9999" formControlName="trc_anter" class="marlo__input"></nz-input-number>
+          </div>
+          <div class="marlo__field">
+            <span>Длина до тубера:</span>
+            <nz-input-number [nzMax]="9999" formControlName="ischium" class="marlo__input"></nz-input-number>
+          </div>
+          <div class="marlo__field">
+            <span>Длина культи:</span>
+            <nz-input-number [nzMax]="9999" formControlName="stump" class="marlo__input"></nz-input-number>
+          </div>
+        </div>
+      </nz-card>
+      <nz-card class="marlo__card">
+        <div class="marlo__part">
+          <img class="marlo__image" src=" /assets/marlo_2.JPG">
+          <div class="marlo__field">
+            <span>AP AL:</span>
+            <nz-input-number [nzMax]="9999" formControlName="ap_al" class="marlo__input"></nz-input-number>
+          </div>
+          <div class="marlo__field">
+            <span>AP RF:</span>
+            <nz-input-number [nzMax]="9999" formControlName="ap_rf" class="marlo__input"></nz-input-number>
+          </div>
+        </div>
+      </nz-card>
+      <nz-card class="marlo__card">
+        <div class="marlo__part">
+          <img class="marlo__image" src=" /assets/marlo_3.JPG">
+          <div class="marlo__field">AP AL:</div>
+          <div class="marlo__field">
+            <span>ML ADD:</span>
+            <nz-input-number [nzMax]="9999" formControlName="ml_add" class="marlo__input"></nz-input-number>
+          </div>
+        </div>
+      </nz-card>
+      <nz-card class="marlo__card">
+        <div class="marlo__part">
+          <img class="marlo__image" src=" /assets/marlo_4.JPG">
+          <div class="marlo__field">DIAGONAL:</div>
+          <div class="marlo__field">
+            <span>ANTERIOR:</span>
+            <nz-input-number [nzMax]="9999" formControlName="anterior" class="marlo__input"></nz-input-number>
+          </div>
+          <div class="marlo__field">
+            <span>ASIS:</span>
+            <nz-input-number [nzMax]="9999" formControlName="asis" class="marlo__input"></nz-input-number>
+          </div>
+        </div>
+      </nz-card>
+      <nz-card class="marlo__card">
+        <div class="marlo__part">
+          <img class="marlo__image" src=" /assets/marlo_5.JPG">
+          <div class="marlo__field">OSEOUS (ISCHIUM):</div>
+          <div class="marlo__field">
+            <span>ML INFRA:</span>
+            <nz-input-number [nzMax]="9999" formControlName="ml_infra" class="marlo__input"></nz-input-number>
+          </div>
+          <div class="marlo__field">
+            <span>ML SUPRA:</span>
+            <nz-input-number [nzMax]="9999" formControlName="ml_supra" class="marlo__input"></nz-input-number>
+          </div>
+        </div>
+      </nz-card>
+      <nz-card class="marlo__card">
+        <div class="marlo__part">
+          <img class="marlo__image" src=" /assets/marlo_6.JPG">
+          <div class="marlo__field">MUSCULAR (LEVEL 0):</div>
+          <div class="marlo__field">
+            <span>AP:</span>
+            <nz-input-number [nzMax]="9999" formControlName="ap" class="marlo__input"></nz-input-number>
+          </div>
+          <div class="marlo__field">
+            <span>ML:</span>
+            <nz-input-number [nzMax]="9999" formControlName="ml" class="marlo__input"></nz-input-number>
+          </div>
+        </div>
+      </nz-card>
+    </div>
+  </nz-spin>
+</nz-card>
+<iframe #iframeprint id="iframeprint" style="display: none;" (load)="onFrameLoad()"></iframe>
+
+<div #tablePrint class="m-print">
+  <div class="part-row">
+    <span>ФИО: {{ contact.fullName || '' }}</span>
+    <span class="large-label">Интервал замера окружностей: {{ form.get('interval').value || '-' }}</span>
+  </div>
+  <div class="part-row">
+    <span>Сторона: {{ printSide }}</span>
+    <span>Принятые меры: {{ measuresTaken }}</span>
+  </div>
+  <div class="table">
+    <div class="header">
+      <div class="number">№</div>
+      <div class="td">Объём</div>
+      <div class="td">% Сокращение</div>
+    </div>
+    <div *ngFor="let row of rows;" class="row">
+      <div class="number">{{ row }}</div>
+      <div class="td">
+        {{ form.get('circumferences_' + row).value || '-' }}
+      </div>
+      <div class="td">
+        {{ form.get('reduction_' + row).value || '-' }}
+      </div>
+    </div>
+  </div>
+  <div class="full-part">
+    <div class="part">
+      <img src="assets/marlo_1.JPG">
+      <div class="part-info">
+        <span>Диагональ: {{ form.get('diagonal').value || '-' }}</span>
+        <span class="info-title">Длина:</span>
+        <span>До вертела: {{ form.get('trc_anter').value || '-' }}</span>
+        <span>До тубера: {{ form.get('ischium').value || '-' }}</span>
+        <span>Культи: {{ form.get('stump').value || '-' }}</span>
+      </div>
+    </div>
+    <div class="part">
+      <img src="assets/marlo_2.JPG">
+      <div class="part-info">
+        <span>AP AL: {{ form.get('ap_al').value || '-' }}</span>
+        <span>AP RF: {{ form.get('ap_rf').value || '-' }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="full-part">
+    <div class="part">
+      <img src="assets/marlo_3.JPG">
+      <div class="part-info">
+        <span class="info-title">AP AL:</span>
+        <span>ML ADD: {{ form.get('ml_add').value || '-' }}</span>
+      </div>
+    </div>
+    <div class="part">
+      <img src="assets/marlo_4.JPG">
+      <div class="part-info">
+        <span class="info-title">DIAGONAL:</span>
+        <span>ANTERIOR: {{ form.get('anterior').value || '-' }}</span>
+        <span>ASIS: {{ form.get('asis').value || '-' }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="full-part">
+    <div class="part">
+      <img src="assets/marlo_5.JPG">
+      <div class="part-info">
+        <span class="info-title">OSEOUS (ISCHIUM):</span>
+        <span>ML INFRA: {{ form.get('ml_infra').value || '-' }}</span>
+        <span>ML SUPRA: {{ form.get('ml_supra').value || '-' }}</span>
+      </div>
+    </div>
+    <div class="part">
+      <img src="assets/marlo_6.JPG">
+      <div class="part-info">
+        <span class="info-title">MUSCULAR (LVL 0):</span>
+        <span>AP: {{ form.get('ap').value || '-' }}</span>
+        <span>ML: {{ form.get('ml').value || '-' }}</span>
+      </div>
+    </div>
+  </div>
+</div>

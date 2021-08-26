@@ -1,0 +1,73 @@
+<nz-tabset [nzSelectedIndex]="selectedTabIndex" (nzSelectedIndexChange)="onTabChange($event)">
+  <nz-tab nzTitle="Пациенты">
+    <div class="patients-list">
+      <div nz-row nzType="flex" nzJustify="space-between" class="patients-list-header">
+        <div nz-col>
+          <h2>Список пациентов</h2>
+        </div>
+        <div nz-col>
+          <div class="branches_combo">
+            <label>Филиалы</label>
+            <nz-select [(ngModel)]="selectedBranch" nzAllowClear (ngModelChange)="onSelectBranch()" nzPlaceHolder="<Не выбрано>">
+              <nz-option *ngFor="let option of branches" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+            </nz-select>
+          </div>
+          <button [disabled]="!table?.data" (click)="createPatient()" class="ant-btn ant-btn-primary">
+            <i class="anticon anticon-user-add"></i>
+            <span>+ Новый пациент</span>
+          </button>
+          <button [disabled]="!table?.data" (click)="resetFilters()" class="ant-btn ant-btn-primary">
+            <i class="anticon anticon-reload"></i>
+            <span>Сбросить все фильтры</span>
+          </button>
+        </div>
+      </div>
+      <sl-contacts-table [contactTypeSysNames]="['patient']" [filter]="filter" [sort]="sort">
+        <ng-template #header>
+          <th [style.width]="'25%'" nzShowSort [(nzSort)]="sortMap.fullName" (nzSortChange)="sortChanged($event, 'fullName')">
+            <sl-table-filter-text [placeholder]="'Фамилия Имя Отчество'" [(ngModel)]="filterMap.fullName" [label]="'ФИО Пациента'"
+                                  (ngModelChange)="filterChanged($event)"></sl-table-filter-text>
+          </th>
+          <th [style.width]="'15%'" nzShowSort [(nzSort)]="sortMap.birthDate" (nzSortChange)="sortChanged($event, 'birthDate')">
+            <sl-table-filter-date [(ngModel)]="filterMap.birthDate" [label]="'Дата рождения'"
+                                  (ngModelChange)="filterChanged($event)"></sl-table-filter-date>
+          </th>
+          <th [style.width]="'15%'" nzShowSort [(nzSort)]="sortMap.phone" (nzSortChange)="sortChanged($event, 'phone')">
+            <sl-table-filter-text [placeholder]="'Номер телефона'" [(ngModel)]="filterMap.phone" [label]="'Телефон'"
+                                  (ngModelChange)="filterChanged($event)"></sl-table-filter-text>
+          </th>
+          <th [style.width]="'20%'" nzShowSort [(nzSort)]="sortMap.email" (nzSortChange)="sortChanged($event, 'email')">
+            <sl-table-filter-text [placeholder]="'Email'" [(ngModel)]="filterMap.email" [label]="'Email'"
+                                  (ngModelChange)="filterChanged($event)"></sl-table-filter-text>
+          </th>
+          <th [style.width]="'20%'" nzShowSort [(nzSort)]="sortMap['address.region.name']" (nzSortChange)="sortChanged($event, 'address.region.name')">
+            <sl-table-filter-select
+                    [label]="'Регион'"
+                    [placeholder]="'Поиск по региону'"
+                    [(ngModel)]="filterMap.region"
+                    [filters]="regions"
+                    (filterChange)="filterChanged($event)"
+                    (searchValueChange)="onSearchRegion($event)"
+            ></sl-table-filter-select>
+          </th>
+          <th [style.width]="'5%'"></th>
+        </ng-template>
+        <ng-template #body let-data="data" let-i="i">
+          <td><a [routerLink]="['/patients/', data.id]">{{data.fullName}}</a></td>
+          <td>{{data.birthDate| date : 'dd.MM.yyyy'}}</td>
+          <td>{{data.phone}}</td>
+          <td>{{data.email}}</td>
+          <td>{{data.regionName || '-'}}</td>
+          <td class="actions">
+            <nz-tooltip nzTitle="Удалить" nzPlacement="top" *slIfHasAccess="[ROLES_USERS.ADMIN];">
+              <i nz-tooltip class="anticon anticon-delete" (click)="confirmRemove(data.id, i)"></i>
+            </nz-tooltip>
+          </td>
+        </ng-template>
+      </sl-contacts-table>
+    </div>
+  </nz-tab>
+  <nz-tab *ngIf="hasMainBranch" nzTitle="Запросы на доступ">
+    <sl-branch-accesses></sl-branch-accesses>
+  </nz-tab>
+</nz-tabset>

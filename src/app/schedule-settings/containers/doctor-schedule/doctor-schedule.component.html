@@ -1,0 +1,84 @@
+<h2>График работы докторов</h2>
+<div nz-row nzType="flex" [style.height]="'100%'" nzGutter="16" class="doctor-schedule">
+  <div nz-col nzSpan="5">
+    <nz-card nzTitle="Фильтры" [style.minHeight]="'20%'" [style.marginBottom]="'20px'">
+      <div class="doctor-schedule__filter-name">Филиал</div>
+      <nz-select
+        class="doctor-schedule__filter-field"
+        nzPlaceHolder="Выберите филиал"
+        [(ngModel)]="selectedBranch"
+        (ngModelChange)="onBranchSelect($event)"
+      >
+        <nz-option *ngFor="let option of branches" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+      </nz-select>
+      <ng-container *ngIf="selectedBranch">
+        <div class="doctor-schedule__filter-name">Доктор</div>
+        <nz-select
+          class="doctor-schedule__filter-field"
+          nzPlaceHolder="Выберите доктора"
+          [(ngModel)]="selectedDoctor"
+          (ngModelChange)="selectDoctor($event)"
+        >
+          <nz-option *ngFor="let doctor of doctors" [nzLabel]="doctor.name" [nzValue]="doctor"></nz-option>
+        </nz-select>
+      </ng-container>
+      <ng-container *ngIf="selectedBranch && selectedDoctor">
+        <div class="doctor-schedule__filter-name">Время начала работы (час)</div>
+        <nz-select class="doctor-schedule__filter-field" nzPlaceHolder="<Не выбрано>" [(ngModel)]="startTime">
+          <ng-container *ngFor="let hour of hours">
+            <nz-option *ngIf="hour < endTime" [nzLabel]="hour" [nzValue]="hour"></nz-option>
+          </ng-container>
+        </nz-select>
+        <div class="doctor-schedule__filter-name">Время завершения работы (час)</div>
+        <nz-select class="doctor-schedule__filter-field" nzPlaceHolder="<Не выбрано>" [(ngModel)]="endTime">
+          <ng-container *ngFor="let hour of hours">
+            <nz-option *ngIf="hour > startTime" [nzLabel]="hour" [nzValue]="hour"></nz-option>
+          </ng-container>
+        </nz-select>
+        <div class="doctor-schedule__filter-name">Временной интервал (минут)</div>
+        <nz-select class="doctor-schedule__filter-field" nzPlaceHolder="Please select" [(ngModel)]="interval">
+          <nz-option [nzLabel]="10" [nzValue]="10"></nz-option>
+          <nz-option [nzLabel]="15" [nzValue]="15"></nz-option>
+          <nz-option [nzLabel]="30" [nzValue]="30"></nz-option>
+          <nz-option [nzLabel]="45" [nzValue]="45"></nz-option>
+          <nz-option [nzLabel]="60" [nzValue]="60"></nz-option>
+        </nz-select>
+      </ng-container>
+    </nz-card>
+  </div>
+  <div nz-col nzSpan="19">
+    <div class="description" [class.description_hidden]="!(descriptionMode$ | async)">
+      <nz-card [nzTitle]="title">
+        <ng-template #title>
+          <div class="description__title" (click)="hideDescription()">Описание</div>
+        </ng-template>
+        <div class="description__body">
+          <div class="description__item">
+            <div class="description__enabled"></div>Рабочее время доктора
+          </div>
+          <div class="description__item">
+            <div class="description__disabled"></div>В данное время доктор не работает
+          </div>
+        </div>
+      </nz-card>
+    </div>
+    <nz-card nzTitle="Расписание">
+      <div *ngIf="timesByDayOriginal" class="doctor-schedule__table">
+        <sl-day-schedule
+          *ngFor="let day of daysOrder"
+          [day]="day"
+          [interval]="interval"
+          [startTime]="startTime"
+          [endTime]="endTime"
+          [time]="timesByDay[day]"
+          (changedPeriods)="changedPeriods($event, day)"
+        ></sl-day-schedule>
+      </div>
+      <div nz-row nzJustify="end" nzType="flex" class="save-button-container">
+        <button nz-button (click)="clearSchedule()" class="clear-button" [disabled]="!isChanged">Сбросить изменения</button>
+        <button nz-button nzType="primary" (click)="saveSchedule()" [disabled]="!isChanged">Сохранить расписание</button>
+      </div>
+    </nz-card>
+  </div>
+</div>
+

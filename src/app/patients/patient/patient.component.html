@@ -1,0 +1,35 @@
+<ng-template #person>
+  {{ contact?.fullName }}<span *ngIf="contact.birthDate">, {{ contact.birthDate | date : 'dd.MM.yyyy'}} г.р.</span>
+  <span i18n *ngIf="contact.birthDate">
+    ({{contact.birthDate | age}} {contact.birthDate|age, plural, one {год} few {года} many {лет} other {лет}})
+  </span>
+</ng-template>
+<div class="patient-info">
+  <nz-affix [nzTarget]="scrollContainerHeader">
+    <div class="nz-affix-wrap">
+      <div nz-col>
+        <h2 class="sl-breadcrumb" nz-row nzType="flex">
+          <span class="sl-breadcrumb-item">
+              <span class="sl-breadcrumb-item-link" [routerLink]="['/patients/']">
+                Список пациентов
+              </span>
+            </span>
+          <span class="sl-breadcrumb-item">
+            <ng-container *ngTemplateOutlet="person"></ng-container>
+          </span>
+        </h2>
+      </div>
+
+
+      <div class="tabs">
+        <div class="tab" [routerLinkActive]="'active'" [routerLink]="['/patients', contact.id, 'info']">Общая информация</div>
+        <div class="tab" [routerLinkActive]="'active'" [routerLink]="['/patients', contact.id, 'visits']">Посещения</div>
+        <div class="tab" [routerLinkActive]="'active'" [routerLink]="['/patients', contact.id, 'purchases']">Закупки</div>
+        <div class="tab" [routerLinkActive]="'active'" [routerLink]="['/patients', contact.id, 'representatives']">Представители</div>
+      </div>
+    </div>
+  </nz-affix>
+
+  <router-outlet></router-outlet>
+
+</div>

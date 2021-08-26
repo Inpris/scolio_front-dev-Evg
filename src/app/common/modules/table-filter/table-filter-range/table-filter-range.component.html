@@ -1,0 +1,27 @@
+<nz-dropdown [nzPlacement]="'bottomCenter'" nzTrigger="click" [nzClickHide]="false" [(nzVisible)]="visible" (nzVisibleChange)="visibleChange($event)">
+  <div nz-dropdown class="filter-icon-container">
+    <span class="filter-label" [ngClass]="{ 'filter-label__selected': !!value }">{{label}}</span>
+    <i class="anticon anticon-filter ant-table-filter-icon"
+    [ngClass]="{ 'ant-table-filter-selected': !!value }"></i>
+  </div>
+  <div class="filter-dropdown" *ngIf="visible">
+    <nz-input-group>
+      <nz-input-number #from [nzAutoFocus]="true" placeholder="'От'" #from [ngModel]="value?.from" [nzStep]="100000"
+                      (keyup.enter)="applyFilter({ from: from.value, to: to.value})"></nz-input-number>
+      <span>-</span>
+      <nz-input-number #to placeholder="'До'" #to [ngModel]="value?.to" [nzStep]="100000"
+                       (keyup.enter)="applyFilter({ from: from.value, to: to.value})"></nz-input-number>
+    </nz-input-group>
+    <div class="ant-table-filter-dropdown-btns">
+      <a class="ant-table-filter-dropdown-link confirm" (click)="applyFilter({
+        from: from.value,
+        to: to.value
+      })">
+        <span>OK</span>
+      </a>
+      <a class="ant-table-filter-dropdown-link clear" (click)="resetFilter()">
+        <span>Сбросить</span>
+      </a>
+    </div>
+  </div>
+</nz-dropdown>

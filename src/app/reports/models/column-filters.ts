@@ -1,0 +1,6 @@
+export enum REPORT_COLUMN_FILTERS {
+  EXACT_STRING,
+  DATE,
+  DICTIONARY,
+  NUMBER,
+}

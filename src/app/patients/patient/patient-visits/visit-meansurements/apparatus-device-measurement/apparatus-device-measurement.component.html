@@ -1,0 +1,41 @@
+<div nz-row nzType="flex">
+  <div nz-col nzSpan="12" class="measurement-block">
+    <div nz-row class="measurement-header">
+      <div nz-col nzSpan="12" class="circle-header">Окружность</div>
+      <div nz-col nzSpan="4" style="min-width: 70px; text-align: center;">Правая</div>
+      <div nz-col nzSpan="4" style="min-width: 70px; text-align: center;">Левая</div>
+    </div>
+    <ng-container *ngTemplateOutlet="row; context: { rows: schema.round }"></ng-container>
+    <div nz-row class="measurement-header size-header">Поперечный размер</div>
+    <ng-container *ngTemplateOutlet="row; context: { rows: schema.transverse }"></ng-container>
+  </div>
+  <div nz-col nzSpan="12" class="measurement-block">
+    <div nz-row class="measurement-header">
+      <div nz-col nzSpan="12" class="height-header">Высота</div>
+      <div nz-col nzSpan="4" class="measurement-header__variation" style="min-width: 70px; text-align: center;">Правая</div>
+      <div nz-col nzSpan="4" class="measurement-header__variation" style="min-width: 70px; text-align: center;">Левая</div>
+    </div>
+      <ng-container *ngTemplateOutlet="row; context: { rows: schema.height }"></ng-container>
+    <div nz-row> </div>
+    <div nz-row class="measurement-header angle-header">Угол</div>
+    <ng-container *ngTemplateOutlet="row; context: { rows: schema.angle }"></ng-container>
+  </div>
+</div>
+
+<ng-template let-rows="rows" #row >
+  <ng-template ngFor let-row let-i="index" [ngForOf]="rows">
+    <div [formGroup]="form"
+         nz-row nzType="flex" nzJustify="start" style="text-align: start;"
+         slFocusCapture
+         (blurred)="row.focused = false"
+         (focused)="row.focused = true">
+      <div nz-col nzSpan="12" class="measurement-row__label" [ngClass]=" { focus : row.focused }">{{row.name}}</div>
+      <div nz-col nzSpan="4" style="min-width: 70px; text-align: center;">
+        <nz-input-number [nzDisabled]="readonly" [formControlName]="'right'+ row.field" nzSize="small" [nzMin]="0" [nzMax]="999" [nzParser]="measurementParser" ></nz-input-number>
+      </div>
+      <div nz-col nzSpan="4" style="min-width: 70px; text-align: center;">
+        <nz-input-number [nzDisabled]="readonly" [formControlName]="'left'+ row.field" nzSize="small" [nzMin]="0" [nzMax]="999" [nzParser]="measurementParser" ></nz-input-number>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>

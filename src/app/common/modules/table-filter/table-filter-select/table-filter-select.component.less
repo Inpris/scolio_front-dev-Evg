@@ -1,0 +1,32 @@
+@import "../table-filter";
+
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  .filter-dropdown-custom {
+    position: absolute;
+    left: -89px;
+    border-radius: 6px;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    z-index: 200;
+    nz-select {
+      padding: 8px;
+      width: 200px;
+      z-index: 200;
+    }
+  }
+  .ant-table-filter-dropdown-btns {
+    font-weight: 400;
+  }
+}
+
+.table-filter-select-bg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 1px solid red;
+}

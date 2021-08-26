@@ -1,0 +1,83 @@
+@import "variables";
+
+:host ::ng-deep .ant-calendar-picker {
+  width: 100%;
+}
+
+.form {
+  margin-top: 32px;
+  &__body {
+    &__info {
+      color: @gray-6;
+    }
+    &__btn {
+      margin-top: 20px;
+    }
+  }
+  &__close {
+    right: -10px;
+    top: -20px;
+    position: absolute;
+    cursor: pointer;
+  }
+}
+
+.order-measurement {
+  padding-top: 68px;
+  height: 375px;
+  width: 390px;
+  position: relative;
+  background: url('/assets/corset_measurements.png') no-repeat 100% 100%;
+  &__item {
+    position: absolute;
+    left: 18px;
+    &:nth-child(2) {
+      top: 104px;
+    }
+    &:nth-child(3) {
+      top: 144px;
+    }
+    &:nth-child(4) {
+      top: 224px;
+    }
+    &:nth-child(5) {
+      top: 260px;
+    }
+    &:nth-child(6) {
+      top: 314px;
+    }
+    nz-form-control {
+      margin-right: 24px;
+    }
+  }
+  &__labels {
+    label {
+      transform: rotate(-90deg);
+      position: absolute;
+      top: 30px;
+      font-size: 16px;
+      font-weight: 500;
+      width: 110px;
+    }
+    .circle {
+      left: -10px;
+    }
+    .profile {
+      left: 75px;
+    }
+  }
+}
+.order-params {
+  flex: 1;
+  &__number {
+    cursor: pointer;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    outline: none;
+    display: inline-block;
+    &:hover {
+      color: @blue-5;
+    }
+  }
+  margin-bottom: 24px;
+}

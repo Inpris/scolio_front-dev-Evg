@@ -1,0 +1,20 @@
+@import "variables";
+.select-product {
+  position: relative;
+  margin-top: 14px;
+  &__title {
+    i {
+      right: -10px;
+      top: -20px;
+      position: absolute;
+      cursor: pointer;
+    }
+  }
+  :host ::ng-deep .ant-form-item-label {
+    line-height: 16px;
+  }
+}
+
+.product__limit-error {
+  color: @red-5;
+}

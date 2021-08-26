@@ -1,0 +1,4 @@
+<div nz-row nzType="flex" nzJustify="center" class="actions" [hidden]="disabled">
+  <button type="submit" nzType="primary" nzSize="large" nz-button [disabled]="disabled" [nzLoading]="loading" (click)="save.next()">Сохранить</button>
+  <button type="button" nzType="danger" nzSize="large" nz-button [disabled]="disabled" (click)="reset.next()" [nzLoading]="loading">Отменить</button>
+</div>

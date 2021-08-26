@@ -1,0 +1,21 @@
+@import "variables";
+
+.purchases-page {
+  font-size: 14px;
+  /deep/ .ant-table-wrapper {
+    background-color: @gray-0;
+  }
+  &__header {
+    margin-bottom: 10px;
+  }
+
+  &__body {
+    &-cols > div {
+      align-self: stretch;
+    }
+    &__purchase {
+      margin-top: 16px;
+    }
+  }
+
+}

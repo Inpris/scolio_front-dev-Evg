@@ -1,0 +1,54 @@
+nz-input-number {
+  width: 60px;
+}
+
+.order-measurement {
+  padding-top: 68px;
+  height: 375px;
+  width: 390px;
+  position: relative;
+  background: url('/assets/corset_measurements.png') no-repeat 100% 100%;
+  &__item {
+    position: absolute;
+    left: 18px;
+    &:nth-child(2) {
+      top: 104px;
+    }
+    &:nth-child(3) {
+      top: 144px;
+    }
+    &:nth-child(4) {
+      top: 224px;
+    }
+    &:nth-child(5) {
+      top: 260px;
+    }
+    &:nth-child(6) {
+      top: 314px;
+    }
+    nz-form-control {
+      margin-right: 24px;
+    }
+  }
+  &__labels {
+    label {
+      transform: rotate(-90deg);
+      position: absolute;
+      top: 30px;
+      font-size: 16px;
+      font-weight: 500;
+      width: 110px;
+    }
+    .circle {
+      left: -10px;
+    }
+    .profile {
+      left: 75px;
+    }
+  }
+}
+
+.right-column-label {
+  left: 85px;
+  top: -39px;
+}

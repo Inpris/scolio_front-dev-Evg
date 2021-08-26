@@ -1,0 +1,68 @@
+@import "variables";
+
+:host {
+  text-align: center;
+  ::ng-deep {
+    .ant-row-flex {
+      margin: 8px 0;
+    }
+  }
+}
+.side {
+  text-align: right;
+}
+
+.header {
+  margin: 16px 0;
+}
+
+nz-input-number {
+  width: 60px;
+}
+
+.measurement-header {
+  font-weight: bold;
+  text-align: start;
+  margin-top: 16px;
+  &__lr {
+    margin-top: 0;
+  }
+}
+
+.circle-header {
+  color: @red-5;
+}
+
+.size-header {
+  color: @gold-5;
+}
+
+.height-header {
+  color: @green-5;
+}
+
+.angle-header {
+  color: @blue-5;
+}
+
+.measurement-row {
+  &__label {
+    padding: 1.5px 1.5px 1.5px 10px;
+    margin-left: -10px;
+    margin-right: 10px;
+    transition: background 0.3s ease;
+    &.focus {
+      background: #e8e8e8;
+    }
+  }
+}
+
+@media (max-width: @sl-media-1280px) {
+  .measurement-block {
+    min-width: 650px;
+    .measurement-header__variation {
+      display: none;
+    }
+  }
+}
+

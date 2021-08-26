@@ -1,0 +1,32 @@
+<div>
+  <h4>Выдал</h4>
+  <div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle">
+    <div nz-col nzSpan="11" nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col [nzSpan]="11">
+        <sl-control-selection [control]="form.get('issuer1')"
+                              [options]="users"
+                              nzDropdownClassName="qaaDropdownIssuer1"
+                              qaaLocator="qaaSelectIssuer1"></sl-control-selection>
+      </div>
+      <div nz-col [nzSpan]="11" [nzOffset]="1">
+        <sl-control-selection [control]="form.get('issuer2')"
+                              [options]="users"
+                              nzDropdownClassName="qaaDropdownIssuer2"
+                              qaaLocator="qaaSelectIssuer2"></sl-control-selection>
+      </div>
+    </div>
+    <div nz-col>
+      <div *ngIf="form.get('generalStatus').value != generalStatus.GIVEN; else deviceGiven">
+        <button nz-button type="button" nzType="primary"
+                (click)="setDeviceIssued()"
+                [disabled]="!form.get('issuer1').value">Выдано</button>
+      </div>
+        <ng-template #deviceGiven>
+          <div class="issue__issued">
+            <span>Изделие выдано</span>
+            <i class="anticon anticon-check-circle"></i>
+          </div>
+        </ng-template>
+    </div>
+  </div>
+</div>

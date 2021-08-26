@@ -1,0 +1,29 @@
+@import "variables";
+@import "mixins";
+
+.sl-infinity-table();
+.patients-list {
+  ::ng-deep .ant-table {
+    background: #ffffff;
+  }
+}
+
+.actions .anticon {
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.4s ease;
+
+  &:hover {
+    &.anticon {
+      color: @blue-5;
+    }
+  }
+}
+
+.branches_combo {
+  display: inline-block;
+
+  nz-select {
+    width: 300px;
+  }
+}

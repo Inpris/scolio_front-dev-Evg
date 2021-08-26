@@ -1,0 +1,19 @@
+<div nz-row class="crm-page">
+  <div class="crm-page__tabs">
+    <nz-tabset [nzSelectedIndex]="selectedTabIndex" (nzSelectedIndexChange)="onTabChange($event)">
+      <nz-tab nzTitle="Заявки">
+        <div nz-row>
+          <sl-leads></sl-leads>
+        </div>
+      </nz-tab>
+      <nz-tab nzTitle="Задачи">
+        <sl-tasks></sl-tasks>
+      </nz-tab>
+      <nz-tab nzTitle="Письма">
+        <div>
+          <sl-mails></sl-mails>
+        </div>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</div>

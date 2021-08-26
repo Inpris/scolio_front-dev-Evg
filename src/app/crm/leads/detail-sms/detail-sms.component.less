@@ -1,0 +1,42 @@
+@import "variables";
+
+.detail-sms {
+  &__head {
+    &__left {
+      i {
+        cursor: pointer;
+        font-size: 22px;
+      }
+    }
+    margin-bottom: 10px;
+  }
+  &__body {
+    i {
+      font-size: 22px;
+      margin-right: 10px
+    }
+    &__logo {
+      &__img {
+        width: 65px;
+      }
+      margin-bottom: 10px;
+    }
+    &__entity-link {
+      margin-bottom: 10px;
+    }
+    &__to {
+      border-bottom: 1px solid @divider;
+      padding-bottom: 10px;
+    }
+    &__title {
+      + nz-card {
+        height: 200px;
+        overflow: auto;
+      }
+      margin-bottom: 10px;
+    }
+    &__message {
+      white-space: pre-line;
+    }
+  }
+}

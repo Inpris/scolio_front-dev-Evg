@@ -1,0 +1,218 @@
+<div [formGroup]="form">
+  <div *ngIf="isContract">
+    <sl-representative-search 
+      [patientId]="patientId"
+      (contact)="onContactChange($event)"
+    ></sl-representative-search>
+    <h3>Заказчик</h3>
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="11">
+      <label>Фамилия*:</label>
+      <nz-form-control>
+        <nz-popover [nzPlacement]="'right'" [(nzVisible)]="lastNameVisible" [nzTrigger]="null">
+          <input nz-input (input)="searchContacts('lastName', $event)" (keydown.Tab)="closeAllPopap()" nz-popover
+            formControlName="lastName">
+          <ng-template #nzTemplate>
+            <p>совпадений по</p>
+            <span>ФИ найдено </span><a (click)='openModalContacts()'>({{ contactCount }})</a>
+          </ng-template>
+        </nz-popover>
+
+      </nz-form-control>
+    </div>
+    <div nz-col nzSpan="11">
+      <label>Имя*:</label>
+      <nz-form-control><input nz-input formControlName="firstName"></nz-form-control>
+    </div>
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="11">
+      <label>Отчество:</label>
+      <nz-form-control><input nz-input formControlName="secondName"></nz-form-control>
+    </div>
+    <div nz-col nzSpan="11">
+      <label>Дата рождения:</label>
+      <nz-form-control>
+        <sl-date-picker nzFormat="DD.MM.YYYY" formControlName="birthDate"></sl-date-picker>
+      </nz-form-control>
+    </div>
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="11">
+      <label>Пол*</label>
+      <nz-form-control>
+        <nz-select formControlName="gender" nzPlaceHolder="Выберите пол">
+          <nz-option *ngFor="let gender of genderDictionary" [nzValue]="gender.id" [nzLabel]="gender.name"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+  </div>
+
+  <h3>Контактная информация</h3>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="11">
+      <label class="contact-label">Основной телефон</label>
+    </div>
+    <div nz-col nzSpan="11">
+      <button [nzSize]="'small'" nz-button nzType="default" nzShape="circle" type="button" class="contact-add"
+        (click)="addContactRow('phone')">
+        <i class="anticon anticon-plus"></i>
+      </button>
+      <nz-form-item>
+        <nz-form-control>
+          <input nz-input slPhoneFormatter formControlName="phone">
+          <nz-form-explain *ngIf="form.get('phone').dirty && form.get('phone').errors">
+            <ng-container *ngIf="form.get('phone').hasError('phoneRequired')">
+              Поле не должно быть пустым
+            </ng-container>
+            <ng-container *ngIf="form.get('phone').hasError('phoneMinLength')">
+              Номер введен не полностью
+            </ng-container>
+            <ng-container *ngIf="form.get('phone').hasError('phoneMaxLength')">
+              Некорректное количество символов
+            </ng-container>
+            <ng-container *ngIf="form.get('phone').hasError('phoneNan')">
+              Номер должен состоять только из цифр
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <sl-additional-contacts [form]="form" [communicationType]="communicationTypes['phone']" type="phone">
+  </sl-additional-contacts>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="11">
+      <label class="contact-label">Основной Email</label>
+    </div>
+    <div nz-col nzSpan="11">
+      <button [nzSize]="'small'" nz-button nzType="default" nzShape="circle" type="button" class="contact-add"
+        (click)="addContactRow('email')">
+        <i class="anticon anticon-plus"></i>
+      </button>
+      <nz-form-item>
+        <nz-form-control>
+          <input nz-input formControlName="email">
+          <nz-form-explain *ngIf="form.get('email').dirty && form.get('phone').errors">
+            <ng-container *ngIf="form.get('email').hasError('required')">
+              Поле не должно быть пустым
+            </ng-container>
+            <ng-container *ngIf="form.get('email').hasError('email')">
+              Не верный формат email
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <sl-additional-contacts [form]="form" [communicationType]="communicationTypes['email']" type="email">
+  </sl-additional-contacts>
+
+  <nz-collapse>
+    <nz-collapse-panel nzHeader="Адрес">
+      <fieldset [formGroup]="form.get('address')">
+        <div nz-row nzType="flex" nzJustify="space-between">
+          <div nz-col nzSpan="11">
+            <sl-gias-region label="Регион:" [form]="form.get('address')"></sl-gias-region>
+          </div>
+          <div nz-col nzSpan="11">
+            <sl-gias-city label="Город:" [form]="form.get('address')"></sl-gias-city>
+          </div>
+        </div>
+        <div nz-row nzType="flex" nzJustify="space-between">
+          <div nz-col nzSpan="24">
+            <label>Улица:</label>
+            <nz-form-control>
+              <input nz-input formControlName="street">
+            </nz-form-control>
+          </div>
+        </div>
+
+        <div nz-row nzType="flex" nzJustify="space-between">
+          <div nz-col nzSpan="11">
+            <label>Дом:</label>
+            <nz-form-control>
+              <input nz-input formControlName="house">
+            </nz-form-control>
+          </div>
+          <div nz-col nzSpan="11">
+            <label>Квартира:</label>
+            <nz-form-control>
+              <input nz-input formControlName="flat">
+            </nz-form-control>
+          </div>
+        </div>
+      </fieldset>
+    </nz-collapse-panel>
+  </nz-collapse>
+
+<nz-form-item>
+  <nz-collapse>
+    <nz-collapse-panel nzHeader="Паспорт">
+      <fieldset [formGroup]="form.get('passport')">
+        <div nz-row nzType="flex" nzJustify="space-between">
+          <div nz-col nzSpan="24" [ngClass]="{'has-error': form.get('passport').dirty && form.get('passport').errors && !form.get('passport').value['serialNumber']}">
+            <label>Серия и Номер*:</label>
+            <nz-form-control><input nz-input formControlName="serialNumber"></nz-form-control>
+          </div>
+        </div>
+
+        <div nz-row nzType="flex" nzJustify="space-between">
+          <div nz-col nzSpan="24" [ngClass]="{'has-error': form.get('passport').dirty && form.get('passport').errors && !form.get('passport').value['issueBy']}">
+            <label>Выдан кем*:</label>
+            <nz-form-control><input nz-input formControlName="issueBy"></nz-form-control>
+          </div>
+        </div>
+
+        <div nz-row nzType="flex" nzJustify="space-between">
+          <div nz-col nzSpan="11" [ngClass]="{'has-error': form.get('passport').dirty && form.get('passport').errors && !form.get('passport').value['issueDate']}">
+            <label>Выдан когда*:</label>
+            <nz-form-control>
+              <sl-date-picker nzFormat="DD.MM.YYYY" formControlName="issueDate"></sl-date-picker>
+            </nz-form-control>
+          </div>
+        </div>
+      </fieldset>
+    </nz-collapse-panel>
+  </nz-collapse>
+  <nz-form-explain *ngIf="form.get('passport').dirty && form.get('passport').errors">
+    <ng-container *ngIf="form.get('passport').hasError('required')">
+      В блоке паспорт заполнены не все обязательные поля
+    </ng-container>
+  </nz-form-explain>
+</nz-form-item>
+
+  <h3>Дополнительная информация</h3>
+  <div nz-row nzJustify="space-between">
+    <div nz-col nzSpan="24">
+      <label>Комментарий</label>
+      <nz-form-control><textarea nz-input formControlName="comment" nzRows="4"></textarea></nz-form-control>
+    </div>
+  </div>
+
+  <div nz-row nzJustify="space-between">
+    <div nz-col nzSpan="24">
+      <label>Кем приходится пациенту</label>
+      <nz-form-control><input nz-input formControlName="patientAffiliation"></nz-form-control>
+    </div>
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="11">
+      <nz-form-control>
+        <label nz-checkbox formControlName="defaultAgent">
+          <span>По умолчанию</span>
+        </label>
+      </nz-form-control>
+    </div>
+  </div>
+</div>
+
+<ng-template #contactsModalContent>
+  <sl-contact-list [contacts]="contacts" (closeModal)="closeModalContacts($event)"></sl-contact-list>
+</ng-template>

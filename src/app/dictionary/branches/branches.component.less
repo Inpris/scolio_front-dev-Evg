@@ -1,0 +1,120 @@
+@import "src/app/common/variables";
+@import "src/app/common/mixins";
+
+.sl-infinity-table();
+
+:host ::ng-deep {
+  .row-expanded {
+    td {
+      background: @blue-0;
+    }
+  }
+
+  .ant-table-row {
+    th {
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }
+  }
+}
+
+.branches-card {
+  margin-top: 20px;
+}
+
+.branches {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    & > *:not(:last-child) {
+      margin-right: 20px;
+    }
+
+    & > *:last-child {
+      margin: 10px 0 0 0;
+    }
+  }
+
+  &__filter {
+    flex: 1;
+    margin-bottom: 10px;
+
+    &-name {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+
+    &-field {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+
+  &__table {
+    margin-bottom: 10px;
+  }
+
+  &__icon {
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:active {
+      transform: translateY(2px);
+    }
+  }
+
+  &__buttons {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    & > *:first-child {
+      margin-right: 10px;
+    }
+  }
+}
+
+td {
+  .device__actions {
+    width: 120px;
+  }
+
+  .device__action {
+    font-size: 18px;
+    cursor: pointer;
+  }
+}
+
+:host ::ng-deep {
+  .ant-table-thead > tr > th {
+    white-space: normal;
+  }
+
+  nz-table:not(.no-data) .ant-table-fixed-header .ant-table-scroll .ant-table-header {
+    overflow: hidden !important;
+  }
+
+  .ant-table-header {
+    margin-bottom: -20px !important;
+    padding-bottom: 20px !important;
+  }
+
+  .ant-table-fixed-header .ant-table-scroll .ant-table-header {
+    border-left: 1px solid #e8e8e8;
+  }
+
+  .hasScroll {
+    .ant-table-fixed-header .ant-table-scroll .ant-table-header {
+      margin-bottom: 0 !important;
+    }
+  }
+}

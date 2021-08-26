@@ -1,0 +1,138 @@
+@import "variables";
+
+.additional-info-block-viewer {
+  color: @black;
+
+  &__extra-button{
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: @blue-5;
+    cursor: pointer;
+    outline: none;
+  }
+
+  &__subtitle{
+    background: @cyan-8;
+    padding: 5px 26px;
+    color: @white;
+    margin-bottom: 20px;
+    margin-top: 5px;
+  }
+
+  &__collapse{
+    /deep/ .ant-collapse{
+      margin-bottom: 20px;
+      margin-top: 10px;
+      border-radius: 0px;
+      border: 1px solid @gray-2;
+
+      .ant-collapse-item{
+        border-bottom: none;
+      }
+
+      .ant-collapse-header{
+        background: @gray-2;
+        border-radius: 0px;
+        padding: 3px 0 3px 22px;
+
+        .arrow{
+          left: 6px;
+          line-height: 30px;
+        }
+      }
+
+      .ant-collapse-content{
+        border-radius: 0px;
+        padding: 0px 26px;
+
+        .ant-collapse-content-box{
+          padding-top: 13px;
+          padding-bottom: 13px;
+        }
+      }
+    }
+
+    .additional-info-block-viewer__form{
+      color: @black;
+
+      .additional-info-block-viewer__form__row{
+        padding: 3px 0px;
+      }
+    }
+  }
+
+  &__form{
+    padding-bottom: 15px;
+
+    &--separated{
+      margin-bottom: 15px;
+      border-bottom: 1px solid @gray-2;
+    }
+
+    &--comment{
+      margin-bottom: 15px;
+    }
+
+    &--warning{
+      padding: 15px 25px;
+      border: 1px solid @red-5;
+      margin-bottom: 30px;
+
+      .additional-info-block-viewer__form__row__label{
+        color: @black;
+        padding-bottom: 10px;
+
+        .anticon{
+          color: @red-5;
+          font-size: 25px;
+          margin-right: 10px;
+        }
+      }
+    }
+
+    &--info{
+      padding: 15px 25px;
+      border: 1px solid @blue-5;
+
+      .additional-info-block-viewer__form__row__label{
+        color: @black;
+
+        .anticon{
+          color: @blue-5;
+          font-size: 25px;
+          margin-right: 10px;
+        }
+      }
+    }
+
+    &__row{
+      line-height: 25px;
+
+      &__label{
+        color: @gray-6;
+
+        &--icon-wrapper{
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      &__text-container{
+        white-space: pre-line;
+      }
+
+      &__icon-container{
+        display: flex;
+        align-items: center;
+        height: 30px;
+
+        .anticon{
+          color: @gray-6;
+          font-size: 19px;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}

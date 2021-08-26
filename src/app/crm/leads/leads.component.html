@@ -1,0 +1,32 @@
+<div nz-row class="lead-page">
+  <div class="lead-page__header"
+    nz-row
+    [nzType]="'flex'"
+    [nzAlign]="'middle'"
+  >
+    <div nz-col  class="lead-page__header__title"><h2>CRM/<b>Заявки</b></h2></div>
+    <sl-user-filter (filterChanged)="filterChanged($event)" [selectedUserId]="selectedUserId"></sl-user-filter>
+  </div>
+
+  <div *ngIf="leadData.statusesList.length <= 6; then scrollOff else scrollOn"></div> 
+  <ng-template #scrollOn>
+    <div class="scroll">
+      <sl-column nz-col
+        *ngFor="let status of leadData.statusesList; let i = index"
+        class="lead-page__col col-width"
+        [statusNum]="i"
+      ></sl-column>
+    </div>
+  </ng-template>
+
+  <ng-template #scrollOff>
+    <div nz-row>
+      <sl-column nz-col
+        [nzSpan]="24 / leadData.statusesList.length"
+        *ngFor="let status of leadData.statusesList; let i = index"
+        class="lead-page__col"
+        [statusNum]="i"
+      ></sl-column>
+    </div>
+  </ng-template>
+</div>

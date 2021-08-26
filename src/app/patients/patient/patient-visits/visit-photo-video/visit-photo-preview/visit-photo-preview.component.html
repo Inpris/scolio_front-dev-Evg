@@ -1,0 +1,29 @@
+<div class="photo" *ngIf="!xrayVisible" [style.backgroundImage]="'url('+ media.contentURI +')'">
+  <div *ngIf="showPrevious" class="icon-button previous" (click)="previous()">
+    <i class="anticon anticon-double-left"></i>
+  </div>
+  <div *ngIf="showNext" class="icon-button next" (click)="next()">
+    <i class="anticon anticon-double-right"></i>
+  </div>
+</div>
+<div class="actions" *ngIf="!xrayVisible">
+  <span class="action">
+    <button nz-button *ngIf="!xrayVisible && !readonly" (click)="showXray()" nzType="primary">Расчертить</button>
+  </span>
+  <span class="action">
+    <a [href]="media.contentURI" download target="_blank" nz-button nzType="primary"><i class="anticon anticon-download"></i> Скачать</a>
+  </span>
+</div>
+<div class="xray-container" *ngIf="xrayVisible">
+  <sl-xray-photo [media]="media"
+                 [measurements]="measurements"
+                 [visitId]="visitId"
+                 (saveXray)="saveXray($event)"
+                 (updateXrayChanged)="updateXrayChanged($event)"></sl-xray-photo>
+</div>
+<span class="modal-close">
+  <button type="button" class="close-button" nz-button (click)="close()" nzSize="small">
+    <i class="anticon anticon-close"></i>
+    <span>Закрыть</span>
+  </button>
+</span>

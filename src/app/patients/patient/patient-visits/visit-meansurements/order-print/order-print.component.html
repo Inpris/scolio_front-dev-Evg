@@ -1,0 +1,21 @@
+<div class="order-container">
+  <sl-corset-order-print *ngIf="orderType === 'Corset'"
+    [contact]="contact"
+    [visit]="visit"
+    [device]="device"></sl-corset-order-print>
+  <sl-swosh-order-print *ngIf="orderType === 'Swosh'"
+    [contact]="contact"
+    [visit]="visit"
+    [device]="device"></sl-swosh-order-print>
+  <sl-apparatus-order-print *ngIf="orderType === 'Apparatus'"
+    [contact]="contact"
+    [visit]="visit"
+    [device]="device"></sl-apparatus-order-print>
+  <sl-protez-nk-order-print
+    *ngIf="orderType === 'ProsthesisNk'"
+    [contact]="contact"
+    [visit]="visit"
+    [device]="device"
+    [users]="users"
+  ></sl-protez-nk-order-print>
+</div>

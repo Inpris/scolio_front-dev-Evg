@@ -1,0 +1,52 @@
+<nz-dropdown [nzPlacement]="'bottomCenter'" nzTrigger="click" [nzClickHide]="false" [(nzVisible)]="visible" (nzVisibleChange)="visibleChange($event)">
+  <div nz-dropdown class="filter-icon-container">
+    <span class="filter-label" [ngClass]="{ 'filter-label__selected': !!(filterQueryFrom.value !== null || filterQueryTo.value !== null)}">{{title}}</span>
+    <i class="anticon anticon-filter ant-table-filter-icon"
+       [ngClass]="{ 'ant-table-filter-selected': !!(filterQueryFrom.value !== null || filterQueryTo.value !== null) }"></i>
+  </div>
+  <div class="filter-dropdown" *ngIf="visible">
+    <nz-input-group>
+      <nz-input-number #from
+                       [nzDisabled]="queryType === queryTypes.TO"
+                       [nzAutoFocus]="true" placeholder="'От'" #from [ngModel]="filterQueryFrom.value" [nzStep]="100000"
+                       (keyup.enter)="applyFilter(from.value, to.value)"></nz-input-number>
+      <span>-</span>
+      <nz-input-number #to placeholder="'До'"
+                       [nzDisabled]="[queryTypes.FROM, queryTypes.EXACT].indexOf(queryType) >= 0"
+                       #to [ngModel]="filterQueryTo.value" [nzStep]="100000"
+                       (keyup.enter)="applyFilter(from.value, to.value)"></nz-input-number>
+    </nz-input-group>
+    <div class="query__type-buttons">
+      <nz-radio-group [(ngModel)]="queryType" (ngModelChange)="changeType($event)" nzSize="small">
+        <label nz-radio-button [nzValue]="queryTypes.FROM">
+          <nz-tooltip nzTitle="От">
+            <i nz-tooltip class="anticon anticon-verticle-right"></i>
+          </nz-tooltip>
+        </label>
+        <label nz-radio-button [nzValue]="queryTypes.TO">
+          <nz-tooltip nzTitle="До">
+            <i nz-tooltip class="anticon anticon-verticle-left"></i>
+          </nz-tooltip>
+        </label>
+        <label nz-radio-button [nzValue]="queryTypes.EXACT">
+          <nz-tooltip nzTitle="Точное значение">
+            <i nz-tooltip class="anticon anticon-schedule"></i>
+          </nz-tooltip>
+        </label>
+        <label nz-radio-button [nzValue]="queryTypes.RANGE">
+          <nz-tooltip nzTitle="Интервал">
+            <i nz-tooltip class="anticon anticon-swap"> </i>
+          </nz-tooltip>
+        </label>
+      </nz-radio-group>
+    </div>
+    <div class="ant-table-filter-dropdown-btns">
+      <a class="ant-table-filter-dropdown-link confirm" (click)="applyFilter(from.value, to.value)">
+        <span>OK</span>
+      </a>
+      <a class="ant-table-filter-dropdown-link clear" (click)="resetFilter()">
+        <span>Сбросить</span>
+      </a>
+    </div>
+  </div>
+</nz-dropdown>
