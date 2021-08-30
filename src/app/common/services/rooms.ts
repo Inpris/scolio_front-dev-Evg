@@ -90,4 +90,21 @@ export class RoomsService {
 
     return this.http.post<boolean>(`/api/v1/rooms/${roomId}/real-weekly-worked-time/${doctorId}/${day}`, workedTimeUpdate);
   }
+
+  copyRealRoomWorkTimes(request: ICopy): Observable<{ result: string; }> {
+    return this.http.post<{ result: string; }>(`/api/v1/rooms/weekly-worked-time-copy`, request);
+  }
+}
+
+export interface ICopy {
+  roomId: string;
+  date: string;
+  doctorTo: string;
+  roomTo: string;
+  timeFromTo: string;
+  timeToTo: string;
+  visitTimeTo: number;
+  visitTimeIncrementTo: number;
+  dateTo: string;
+  userId: string;
 }
